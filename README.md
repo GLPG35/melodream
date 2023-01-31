@@ -5,7 +5,7 @@ align="right" width="200px" height="auto" />
 
 E-commerce app for the sell of music albums, made with Vite, TypeScript, React, Express and MongoDB
 
-(This app is for project purposes only, the product showed here is not real, and it was made for the CODERHOUSE academy)
+(This app is for educational purposes only, made for the CODERHOUSE academy. All the products showed here are not real)
 
 ## How to run this project
 
@@ -19,7 +19,7 @@ Now open your favorite terminal and type these commands:
     git clone https://github.com/GLPG35/melodream.git
     cd melodream
     npm i --dev
-That will install all the requirements for the project and the dev dependencies like TypeScript.
+That will install all the requirements for the project and the dev dependencies such as TypeScript.
 
 Once everything is installed you can:
 
