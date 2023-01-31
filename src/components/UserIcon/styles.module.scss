@@ -1,0 +1,9 @@
+.userIcon {
+	color: var(--accent-color);
+	transition: 0.2s ease-out;
+
+	&:hover {
+		cursor: pointer;
+		color: var(--accent-color-dark);
+	}
+}

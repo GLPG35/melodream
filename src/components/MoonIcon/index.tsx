@@ -1,0 +1,21 @@
+import { SVGProps } from "react"
+
+const MoonIcon = (props: SVGProps<SVGSVGElement>) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    data-name="Capa 1"
+    viewBox="0 0 923.4 944.3"
+    width="1em"
+    height="1em"
+    {...props}
+  >
+    <path
+      d="M869 618A423 423 0 1 1 353 59c20-6 35 18 21 34a341 341 0 0 0-92 233c0 189 153 342 342 342a340 340 0 0 0 213-74c17-13 40 4 32 24Z"
+      style={{
+        fill: "var(--accent-color )",
+      }}
+    />
+  </svg>
+)
+
+export default MoonIcon
