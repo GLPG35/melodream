@@ -19,18 +19,19 @@ Now open your favorite terminal and type these commands:
     git clone https://github.com/GLPG35/melodream.git
     cd melodream
     npm i --dev
+    npm i -g turbo
 That will install all the requirements for the project and the dev dependencies such as TypeScript.
 
 Once everything is installed you can:
 
   - Run in developer mode:
   
-        npm run dev
+        turbo dev
         
   - Build the project and see the preview:
   
-        npm run build
-        npm run preview
+        turbo build lint
+        turbo preview
         
 ## Links
 
