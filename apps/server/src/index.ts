@@ -9,5 +9,3 @@ app.get('/', (_req, res) => {
 })
 
 app.listen(PORT)
-
-module.exports = app
