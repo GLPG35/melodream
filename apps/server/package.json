@@ -1,11 +1,11 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "0.1.8",
+  "version": "0.2.0",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch src/index.ts",
-    "build": "esbuild src/index.ts --bundle --platform=node --outfile=dist/index.js --external:express",
+    "dev": "tsx watch src",
+    "build": "node esbuild.config.js",
     "start": "node dist/index.js",
     "lint": "tsc"
   },
