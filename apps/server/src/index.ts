@@ -4,6 +4,7 @@ import carts from './routes/carts'
 import image from './routes/image'
 import crypto from 'crypto'
 import multer from 'multer'
+import cors from 'cors'
 
 const app = express()
 const PORT = process.env.PORT || 3000
@@ -26,6 +27,7 @@ app.use(express.json())
 app.use(urlencoded({ extended: true }))
 app.use('/static', express.static(actualDir !== 'dist' ? __dirname + '/public' : __dirname))
 
+app.use(cors())
 app.use(upload)
 
 app.use('/api/products', products)
