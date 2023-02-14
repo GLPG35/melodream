@@ -1,3 +1,7 @@
+export type AlertIcon = 'success' | 'error' | 'warn'
+
+export type NotFoundIcon = 'notfound' | ''
+
 export interface Product {
 	id: number,
 	code: string,
@@ -9,16 +13,4 @@ export interface Product {
 	category: string,
 	subCategory: string,
 	status: boolean
-}
-
-export type AddProduct = Omit<Product, 'id'>
-
-export interface CartProduct {
-	id: number,
-	quantity: number
-}
-
-export interface Cart {
-	id: number,
-	products: CartProduct[]
 }

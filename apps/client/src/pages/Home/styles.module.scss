@@ -30,7 +30,7 @@
 
 	.hero {
 		width: 100%;
-		height: 100vh;
+		height: calc(100vh - 5em);
 		display: flex;
 		align-items: center;
 		justify-content: center;
@@ -42,7 +42,6 @@
 			text-transform: uppercase;
 			font-size: 7vw;
 			letter-spacing: 0.5em;
-			color: var(--accent-color);
 			z-index: 2;
 		}
 
@@ -51,7 +50,6 @@
 			font-size: 1.5vw;
 			letter-spacing: 1.5vw;
 			z-index: 2;
-			color: var(--accent-color);
 		}
 
 		.bigSearchBar {
@@ -67,7 +65,6 @@
 
 			.searchIcon {
 				position: absolute;
-				color: var(--accent-color);
 				right: 1em;
 
 				&:hover {
@@ -83,7 +80,6 @@
 				padding-inline: 2em;
 				font-size: 1em;
 				font-family: 'Montserrat', sans-serif;
-				color: var(--accent-color);
 				background-color: var(--bg-color);
 			}
 		}

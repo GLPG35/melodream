@@ -2,9 +2,15 @@
 
 :root {
 	--bg-color: #ffe6f9;
+	--bg-color-dark: #fbdef4;
+	--bg-color-dark-op: #fbdef4bd;
 	--bg-color-op: #ffe6f9bd;
+	--bg-color-op-2: #ffe6f930;
 	--text-color: #0c0c0c;
+	--accent-color-op: #4f349930;
 	--accent-color: #4f3499;
+	--accent-color-darkish: #3d2483;
+	--accent-color-light: #4f349965;
 	--accent-color-dark: #2b1664;
 	--secondary-color: #a9f637;
 }
@@ -30,5 +36,5 @@ body {
 	font-family: 'Montserrat', sans-serif;
 	font-weight: 500;
 	background-color: var(--bg-color);
-	color: var(--text-color);
+	color: var(--accent-color);
 }

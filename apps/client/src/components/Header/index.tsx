@@ -2,18 +2,21 @@ import CartIcon from '../CartIcon'
 import MelodreamIcon from '../MelodreamIcon'
 import UserIcon from '../UserIcon'
 import styles from './styles.module.scss'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Header = () => {
+	const navigate = useNavigate()
+
 	return (
 		<div className={styles.header}>
 			<div className={styles.innerHeader}>
-				<div className={styles.icon}>
+				<div className={styles.icon} onClick={() => navigate('/')}>
 					<MelodreamIcon className={styles.melodreamIcon} />
 				</div>
 				<nav>
 					<ul>
 						<li>
-							<a href="#">Home</a>
+							<Link to={'/'}>Home</Link>
 						</li>
 						<li>
 							<a href="#">Categories</a>

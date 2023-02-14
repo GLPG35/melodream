@@ -1,0 +1,59 @@
+[
+	{
+		"id": 1,
+		"code": "bp01",
+		"title": "Square One",
+		"price": "14.99",
+		"thumbnails": [
+			"/static/images/34f668585dfe7e5969190536b9219425.jpg"
+		],
+		"description": "Square One is the debut digital single album by BLACKPINK. It was released on August 8, 2016 by YG Entertainment and distributed by KT Music.",
+		"stock": "17",
+		"category": "K-Pop",
+		"subCategory": "Modern generation",
+		"status": true
+	},
+	{
+		"id": 2,
+		"code": "bp02",
+		"title": "Square Two",
+		"price": "14.99",
+		"thumbnails": [
+			"/static/images/51698c6527b0113abc64364a38b918d1.jpg"
+		],
+		"description": "Square Two is the second digital single album by South Korean girl group BLACKPINK. It was released on November 1, 2016 by YG Entertainment and distributed by KT Music.",
+		"stock": "10",
+		"category": "K-Pop",
+		"subCategory": "Modern generation",
+		"status": true
+	},
+	{
+		"id": 3,
+		"code": "bp03",
+		"title": "Square Up",
+		"price": "14.99",
+		"thumbnails": [
+			"/static/images/c1a7ed3f090681e358ed9583b70034a6.jpg",
+			"/static/images/35665ea1562771d4716e823250ba7b71.jpg"
+		],
+		"description": "Square Up is the first Korean mini-album by BLACKPINK. It is available in two versions and contains 4 tracks, with \"Ddu-Du Ddu-Du\" and \"Forever Young\" serving as the album's double title tracks.",
+		"stock": "6",
+		"category": "K-Pop",
+		"subCategory": "Modern generation",
+		"status": true
+	},
+	{
+		"id": 4,
+		"code": "bp04",
+		"title": "SOLO",
+		"price": "19.99",
+		"thumbnails": [
+			"/static/images/13bc534c3cf8628a8c51e8e5ab68d580.jpg"
+		],
+		"description": "SOLO is the solo debut single album by Jennie of BLACKPINK. The single was released digitally on November 12, 2018, along with its music video.",
+		"stock": "23",
+		"category": "K-Pop",
+		"subCategory": "Modern generation",
+		"status": true
+	}
+]
