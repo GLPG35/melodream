@@ -85,9 +85,7 @@ export const manageProduct: ManageProduct = (id?: number | {}, body?: any, metho
 		options.body = JSON.stringify(typeof id !== 'number' ? id : body)
 	}
 
-	const route = process.env.ROUTE || '/api'
-
-	return fetch(`${route}/products/${typeof id !== 'number' ? '' : id}`, options)
+	return fetch(`/api/products/${typeof id !== 'number' ? '' : id}`, options)
 	.then(res => {
 		if (res.ok) {
 			return res.json()
