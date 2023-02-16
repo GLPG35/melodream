@@ -1,6 +1,6 @@
 {
   "name": "melodream",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "E-commerce app for the sell of music albums, made with Vite, TypeScript, React, Express and MongoDB",
   "main": "index.js",
   "scripts": {
