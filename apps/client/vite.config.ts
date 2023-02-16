@@ -7,11 +7,11 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: !process.env.PORT ? 'http://localhost:3000/' : 'https://melodream-server.onrender.com/',
+        target: 'http://localhost:3000/',
         changeOrigin: true
       },
       '/static': {
-        target: !process.env.PORT ? 'http://localhost:3000/' : 'https://melodream-server.onrender.com/',
+        target: 'http://localhost:3000/',
         changeOrigin: true
       }
     }
