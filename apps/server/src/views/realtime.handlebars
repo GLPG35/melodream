@@ -1,0 +1,78 @@
+<div class="container">
+	<form>
+		<div class="topBar">
+			<div class="title">Add Product</div>
+			<button type="submit" disabled>Add</button>
+		</div>
+		<div class="productInfo">
+			<div class="property">
+				<label for="inputTitle">Title</label>
+				<input type="text" name="inputTitle" id="inputTitle" required>
+			</div>
+			<div class="property">
+				<label for="code">Code</label>
+				<input type="text" name="code" id="code"
+				maxlength="10" pattern="[A-Za-z0-9]+"
+				title="Code must not contain whitespaces" required>
+			</div>
+			<div class="property">
+				<label for="price">Price</label>
+				<input type="number" name="price" id="price"
+				min="0" max="9999" step=".01" required>
+			</div>
+			<div class="property">
+				<label for="stock">Stock</label>
+				<input type="number" name="stock" id="stock"
+				min="0" max="99999" required>
+			</div>
+			<div class="property">
+				<label htmlFor="category">Category</label>
+				<div class="selectWrapper">
+					<select name="category" id="category" required>
+						<option value="default" selected disabled>Select one category</option>
+						<option value="classic">Classic</option>
+						<option value="kpop">K-Pop</option>
+						<option value="metal">Metal</option>
+						<option value="pop">Pop</option>
+						<option value="rock">Rock</option>
+					</select>
+					<div class="arrow">
+						<i class="ti ti-chevron-left"></i>
+					</div>
+				</div>
+			</div>
+			<div class="property">
+				<label for="subCategory">Sub Category</label>
+				<input type="text" name="subCategory" id="subCategory" required>
+			</div>
+			<div class="property">
+				<label for="description">Description</label>
+				<textarea name="description" id="description"></textarea>
+			</div>
+		</div>
+	</form>
+	<div class="productsList">
+		{{#each productsData}}
+		<div class="product">
+			<div class="pic">
+				<img src="{{this.thumbnails.[0]}}" alt="">
+			</div>
+			<div class="info">
+				<div class="title">
+					{{this.title}}
+				</div>
+				<div class="extraInfo">
+					<div class="price">
+						<i class="ti ti-currency-dollar"></i> {{this.price}}
+					</div>
+					<div class="stock">
+						<i class="ti ti-package"></i> {{this.stock}}
+					</div>
+				</div>
+			</div>
+		</div>
+		{{/each}}
+	</div>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<script src="/static/js/index.js"></script>

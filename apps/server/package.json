@@ -1,7 +1,7 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "1.0.2",
+  "version": "1.1.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src",
@@ -23,11 +23,14 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
-    "multer": "^1.4.5-lts.1"
+    "express-handlebars": "^6.0.7",
+    "multer": "^1.4.5-lts.1",
+    "socket.io": "^4.6.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.16",
+    "@types/express-handlebars": "^6.0.0",
     "@types/multer": "^1.4.7",
     "esbuild": "^0.17.5",
     "esbuild-copy-static-files": "^0.1.0",

@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+:root {
+	--bg-color: #ffe6f9;
+	--bg-color-dark: #fbdef4;
+	--bg-color-dark-op: #fbdef4bd;
+	--bg-color-op: #ffe6f9bd;
+	--bg-color-op-2: #ffe6f930;
+	--text-color: #0c0c0c;
+	--accent-color-op: #4f349930;
+	--accent-color: #4f3499;
+	--accent-color-darkish: #3d2483;
+	--accent-color-light: #4f349965;
+	--accent-color-dark: #2b1664;
+	--secondary-color: #a9f637;
+}
+
+*,
+*::before,
+*::after {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+::-webkit-scrollbar {
+	width: 0.25em;
+}
+
+::-webkit-scrollbar-thumb {
+	border-radius: 50vh;
+	background-color: var(--accent-color-dark);
+}
+
+body {
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 500;
+	background-color: var(--bg-color-dark);
+	color: var(--accent-color);
+}
+
+.ti {
+	font-size: 1.4em;
+}
+
+.productsList {
+	width: 100%;
+	min-height: 100vh;
+	padding: 2em;
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+	grid-auto-rows: max-content;
+	padding: 2em;
+	gap: 2em;
+}
+
+.productsList .product {
+	width: 100%;
+	height: max-content;
+	display: flex;
+	align-items: center;
+	gap: 2em;	
+	background-color: var(--bg-color);
+	border-radius: 15px;
+	padding: 1em;
+}
+
+.productsList .product .pic {
+	width: 3em;
+	height: 3em;
+	border-radius: 5px;
+	overflow: hidden;
+}
+
+.productsList .product .pic img {
+	width: 100%;
+	height: 100%;
+}
+
+.productsList .product .info {
+	display: flex;
+	flex-direction: column;
+	gap: 0.2em;
+}
+
+.productsList .product .info .title {
+	font-weight: 600;
+}
+
+.productsList .product .info .extraInfo {
+	display: flex;
+	gap: 1em;
+	font-size: 0.8em;
+	align-items: center;
+}
+
+.productsList .product .info .extraInfo > div {
+	height: max-content;
+	display: flex;
+	align-items: center;
+}
+
+.container {
+	width: 100%;
+	height: max-content;
+	display: flex;
+}
+
+form {
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+}
+
+form .topBar {
+	width: 100%;
+	height: max-content;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-right: 2em;
+}
+
+form .topBar .title {
+	font-weight: 800;
+	font-size: 1.5em;
+}
+
+form .topBar button {
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	padding: 1em 1.5em;
+	font-size: 1em;
+	font-weight: 600;
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	border: 3px solid var(--accent-color);
+	transition: 0.2s ease-out;
+}
+
+form .topBar button:hover:not(:disabled) {
+	cursor: pointer;
+	background-color: var(--accent-color);
+	color: var(--bg-color);
+}
+
+form .topBar button:disabled {
+	opacity: 0.5;
+	cursor: not-allowed;
+}
+
+form .productInfo {
+	width: 100%;
+	height: max-content;
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(20em, 1fr));
+	gap: 2em;
+}
+
+form .productInfo .property {
+	width: 100%;
+	height: max-content;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+}
+
+form .productInfo .property:has(textarea) {
+	grid-column: 1 / -1;
+}
+
+form .productInfo label {
+	font-weight: 700;
+	font-size: 1.2em;
+}
+
+form .productInfo input {
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	font-size: 1em;
+	color: var(--accent-color);
+	font-weight: 600;
+	padding: 1em 1.5em;
+	width: 100%;
+	background-color: var(--bg-color);
+	font-family: 'Montserrat', sans-serif;
+}
+
+form .productInfo .selectWrapper {
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+	position: relative;
+	display: flex;
+	align-items: center;
+}
+
+form .productInfo .selectWrapper select {
+	width: 100%;
+	height: 100%;
+	border-radius: 15px;
+	border: none;
+	outline: none;
+	font-size: 1em;
+	padding: 1em 1.5em;
+	font-weight: 600;
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	appearance: none;
+}
+
+form .productInfo .selectWrapper .arrow {
+	position: absolute;
+	right: 1em;
+	font-size: 1em;
+	transition: 0.2s cubic-bezier(0.65,0.05,0.36,1);
+	aspect-ratio: 1 / 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+form .productInfo .selectWrapper .arrow.active {
+	transform: rotate(-90deg);
+}
+
+form .productInfo textarea {
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	font-size: 1em;
+	color: var(--accent-color);
+	font-family: 'Montserrat', sans-serif;
+	font-weight: 600;
+	padding: 1.5em;
+	background-color: var(--bg-color);
+	width: 100%;
+	height: 15em !important;
+	resize: none;
+}

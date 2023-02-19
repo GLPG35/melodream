@@ -1,12 +1,19 @@
 import express, { urlencoded } from 'express'
+import home from './routes'
+import realtime from './routes/realtimeproducts'
 import products from './routes/products'
 import carts from './routes/carts'
 import image from './routes/image'
 import crypto from 'crypto'
 import multer from 'multer'
 import cors from 'cors'
+import http from 'http'
+import { Server } from 'socket.io'
+import { engine } from 'express-handlebars'
 
 const app = express()
+const server = http.createServer(app)
+const io = new Server(server)
 const PORT = process.env.PORT || 3000
 
 const actualDir = __dirname.split('/').pop()
@@ -23,6 +30,11 @@ const upload = multer({ storage: multer.diskStorage({
 	}
 })}).single('thumb')
 
+app.engine('handlebars', engine())
+app.set('view engine', 'handlebars')
+app.set('views', __dirname + '/views')
+app.set('socketio', io)
+
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
 app.use('/static', express.static(actualDir !== 'dist' ? __dirname + '/public' : __dirname))
@@ -30,8 +42,10 @@ app.use('/static', express.static(actualDir !== 'dist' ? __dirname + '/public' :
 app.use(cors())
 app.use(upload)
 
+app.use('/', home)
+app.use('/realtimeproducts', realtime)
 app.use('/api/products', products)
 app.use('/api/carts', carts)
 app.use('/api/image', image)
 
-app.listen(PORT)
+server.listen(PORT)
