@@ -16,11 +16,9 @@ const server = http.createServer(app)
 const io = new Server(server)
 const PORT = process.env.PORT || 3000
 
-const actualDir = __dirname.split('/').pop()
-
 const upload = multer({ storage: multer.diskStorage({
 	destination: (_req, _file, cb) => {
-		cb(null, actualDir !== 'dist' ? __dirname + '/public/images/' : __dirname + '/images')
+		cb(null, __dirname + '/public/images/')
 	},
 	filename: (_req, _file, cb) => {
 		const name = new Date().getTime().toString() + (Math.random() + 1).toString(36).substring(10)
@@ -37,7 +35,7 @@ app.set('socketio', io)
 
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
-app.use('/static', express.static(actualDir !== 'dist' ? __dirname + '/public' : __dirname))
+app.use('/static', express.static(__dirname + '/public'))
 
 app.use(cors())
 app.use(upload)

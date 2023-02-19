@@ -5,7 +5,7 @@ import CartManager from '../../cartManager'
 const router = express.Router()
 
 const actualDir = __dirname.split('/').pop()
-const carts = new CartManager(actualDir !== 'dist' ? `${__dirname}/../../public/carts.json` : `${__dirname}/carts.json`)
+const carts = new CartManager(actualDir !== 'dist' ? `${__dirname}/../../public/carts.json` : `${__dirname}/public/carts.json`)
 
 router.post('/', (_req, res) => {
 	carts.addCart()

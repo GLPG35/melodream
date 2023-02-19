@@ -4,11 +4,18 @@ require('esbuild').build({
 	platform: 'node',
 	external: ['express', 'multer'],
 	outfile: "dist/index.js",
-	plugins: [require('esbuild-copy-static-files')({
-		src: 'src/public',
-		dest: 'dist/',
-		recursive: true
-	})]
+	plugins: [
+		require('esbuild-copy-static-files')({
+			src: 'src/public',
+			dest: 'dist/public',
+			recursive: true
+		}),
+		require('esbuild-copy-static-files')({
+			src: 'src/views',
+			dest: 'dist/views',
+			recursive: true
+		})
+	]
 }).then(() => {
 	console.log('⚡ Done')
 }).catch(() => {

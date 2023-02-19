@@ -4,7 +4,7 @@ import CartManager from '../../cartManager'
 const router = express.Router({ mergeParams: true })
 
 const actualDir = __dirname.split('/').pop()
-const carts = new CartManager(actualDir !== 'dist' ? `${__dirname}/../../public/carts.json` : `${__dirname}/carts.json`)
+const carts = new CartManager(actualDir !== 'dist' ? `${__dirname}/../../public/carts.json` : `${__dirname}/public/carts.json`)
 
 router.post('/:pid', (req, res) => {	
 	const { cid, pid } = req.params as { cid: string, pid: string }
