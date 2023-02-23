@@ -20,6 +20,8 @@ router.get('/', async (req, res) => {
 	res.render('realtime', body)
 
 	io.on('connection', socket => {
+		console.log('Cliente conectado')
+
 		socket.on('add product', product => {
 			products.addProduct(product)
 			.then(() => {
