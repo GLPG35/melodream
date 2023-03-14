@@ -2,7 +2,7 @@ require('esbuild').build({
 	entryPoints: ["src/index.ts"],
 	bundle: true,
 	platform: 'node',
-	external: ['express', 'multer', 'cors', 'socket.io', 'compression', 'express-handlebars'],
+	external: ['express', 'multer', 'cors', 'socket.io', 'compression', 'express-handlebars', 'mongoose'],
 	outfile: "dist/index.js",
 	plugins: [
 		require('esbuild-copy-static-files')({

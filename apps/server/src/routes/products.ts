@@ -1,21 +1,48 @@
 import express from 'express'
 import ProductManager from '../productManager'
+import { dbConnect, dbDisconnect } from '../db'
+import Product from '../db/Product'
 
 const router = express.Router()
 
 const actualDir = __dirname.split('/').pop()
 const products = new ProductManager(actualDir !== 'dist' ? `${__dirname}/../public/products.json` : `${__dirname}/public/products.json`)
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
 	const { limit } = req.query
 
-	products.getProducts(limit ? +limit : undefined)
-	.then(product => {
-		return res.send(product)
+	await dbConnect()
+	
+	if (limit) {
+		return Product.find({}).limit(+limit)
+		.then(products => {
+			res.send(products)
+
+			return dbDisconnect()
+		}).catch(err => {
+			res.status(400).send({ success: false, message: err.message })
+
+			return dbDisconnect()
+		})
+	}
+
+	return Product.find({})
+	.then(products => {
+		res.send(products)
+
+		return dbDisconnect()
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		res.status(400).send({ success: false, message: err.message })
+
+		return dbDisconnect()
 	})
 
+	// products.getProducts(limit ? +limit : undefined)
+	// .then(product => {
+	// 	return res.send(product)
+	// }).catch(err => {
+	// 	return res.status(400).send({ success: false, message: err.message })
+	// })
 })
 
 router.get('/:pid', (req, res) => {

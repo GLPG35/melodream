@@ -246,3 +246,167 @@ form .productInfo textarea {
 	height: 15em !important;
 	resize: none;
 }
+
+.chatContainer {
+	width: 100%;
+	height: 100vh;
+	overflow-y: auto;
+	position: relative;
+	display: grid;
+	grid-template-rows: 1fr 3em;
+	gap: 2em;
+	padding: 2em 0;
+}
+
+.chatContainer .nameContainer {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: var(--bg-color);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.chatContainer .nameContainer .nameSelector {
+	border-radius: 15px;
+	background-color: var(--bg-color-dark);
+	padding: 4em 2em;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	width: 80%;
+	height: max-content;
+}
+
+.chatContainer .nameContainer .nameSelector h3 {
+	font-size: 2em;
+	font-weight: 800;
+}
+
+.chatContainer .nameContainer .nameSelector .wrapper {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	height: max-content;
+	gap: 2em;
+	flex-wrap: wrap;
+}
+
+.chatContainer .nameContainer .nameSelector .wrapper input {
+	flex-grow: 1;
+	min-width: 13em;
+	font-size: 1em;
+	padding: 1em 1.5em;
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	font-weight: 600;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.chatContainer .nameContainer .nameSelector .wrapper button {
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	padding: 1em 1.5em;
+	font-size: 1em;
+	font-weight: 600;
+	font-family: 'Montserrat', sans-serif;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	border: 3px solid var(--accent-color);
+	transition: 0.2s ease-out;
+}
+
+.chatContainer .nameContainer .nameSelector .wrapper button:hover {
+	cursor: pointer;
+	background-color: var(--accent-color);
+	color: var(--bg-color);
+}
+
+.chatContainer .messages {
+	width: 100%;
+	height: 100%;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	margin-bottom: 1em;
+	padding-inline: 2em;
+}
+
+.chatContainer .messages .messageWrapper {
+	width: max-content;
+	max-width: 40%;
+	height: max-content;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	border-radius: 15px;
+	padding: 1em;
+	gap: 0.5em;
+}
+
+.chatContainer .messages .messageWrapper.current {
+	align-self: flex-end;
+	background-color: var(--accent-color);
+	color: var(--bg-color);
+}
+
+.chatContainer .messages .messageWrapper.current .name {
+	display: none;
+}
+
+.chatContainer .messages .messageWrapper .name {
+	font-weight: 700;
+}
+
+.chatContainer .sendMessage {
+	width: 100%;
+	height: 100%;
+	padding: 0;
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: 1em;
+	padding-inline: 2em;
+}
+
+.chatContainer .sendMessage input {
+	flex-grow: 1;
+	height: 100%;
+	border: none;
+	outline: none;
+	border-radius: 15px;
+	padding-inline: 1em;
+	background-color: var(--bg-color);
+	color: var(--accent-color);
+	font-weight: 600;
+	font-family: 'Montserrat', sans-serif;
+}
+
+.chatContainer .sendMessage button {
+	border: none;
+	outline: none;
+	height: 100%;
+	width: auto;
+	aspect-ratio: 1 / 1;
+	border-radius: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--bg-color);
+	background-color: var(--accent-color);
+	transition: 0.2s ease-out;
+}
+
+.chatContainer .sendMessage button:hover {
+	cursor: pointer;
+	background-color: var(--accent-color-dark);
+}

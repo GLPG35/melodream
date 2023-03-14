@@ -53,24 +53,24 @@
 	</form>
 	<div class="productsList">
 		{{#each productsData}}
-		<div class="product">
-			<div class="pic">
-				<img src="{{this.thumbnails.[0]}}" alt="">
-			</div>
-			<div class="info">
-				<div class="title">
-					{{this.title}}
+			<div class="product">
+				<div class="pic">
+					<img src="{{this.thumbnails.[0]}}" alt="">
 				</div>
-				<div class="extraInfo">
-					<div class="price">
-						<i class="ti ti-currency-dollar"></i> {{this.price}}
+				<div class="info">
+					<div class="title">
+						{{this.title}}
 					</div>
-					<div class="stock">
-						<i class="ti ti-package"></i> {{this.stock}}
+					<div class="extraInfo">
+						<div class="price">
+							<i class="ti ti-currency-dollar"></i> {{this.price}}
+						</div>
+						<div class="stock">
+							<i class="ti ti-package"></i> {{this.stock}}
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 		{{/each}}
 	</div>
 </div>

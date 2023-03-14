@@ -1,6 +1,7 @@
 import express, { urlencoded } from 'express'
 import home from './routes'
 import realtime from './routes/realtimeproducts'
+import chat from './routes/chat'
 import products from './routes/products'
 import carts from './routes/carts'
 import image from './routes/image'
@@ -9,12 +10,15 @@ import multer from 'multer'
 import cors from 'cors'
 import compression from 'compression'
 import http from 'http'
-import { Server } from 'socket.io'
 import { engine } from 'express-handlebars'
+import { default404 } from './middlewares'
+import io from './socket'
 
 const app = express()
 const server = http.createServer(app)
-const io = new Server(server)
+
+io(server)
+
 const PORT = process.env.PORT || 3000
 
 const upload = multer({ storage: multer.diskStorage({
@@ -32,7 +36,6 @@ const upload = multer({ storage: multer.diskStorage({
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
 app.set('views', __dirname + '/views')
-app.set('socketio', io)
 
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
@@ -44,8 +47,11 @@ app.use(upload)
 
 app.use('/', home)
 app.use('/realtimeproducts', realtime)
+app.use('/chat', chat)
 app.use('/api/products', products)
 app.use('/api/carts', carts)
 app.use('/api/image', image)
+
+app.use(default404)
 
 server.listen(PORT)

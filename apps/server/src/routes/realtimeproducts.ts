@@ -1,6 +1,5 @@
 import { Router } from 'express'
 import { Server } from 'socket.io'
-import { DefaultEventsMap } from 'socket.io/dist/typed-events'
 import ProductManager from '../productManager'
 
 const router = Router()
@@ -10,7 +9,7 @@ const products = new ProductManager(actualDir !== 'dist' ? `${__dirname}/../publ
 
 router.get('/', async (req, res) => {
 	const productsData = await products.getProducts()
-	const io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap, any> = req.app.get('socketio')
+	const io: Server = req.app.get('socketio')
 
 	const body = {
 		title: 'Real Time Products',
