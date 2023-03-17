@@ -1,6 +1,6 @@
 import { Server } from 'socket.io'
 import http from 'http'
-import * as fs from 'fs/promises'
+import Message from './db/Message'
 
 const io = (httpServer: http.Server) => {
 	const io = new Server(httpServer, {
@@ -9,7 +9,7 @@ const io = (httpServer: http.Server) => {
 		}
 	})
 
-	const usersWriting: {id: number, user: string}[] = []
+	const usersWriting: {uid: number, user: string}[] = []
 	
 	io.on('connection', socket => {
 		let timer: NodeJS.Timeout
@@ -24,29 +24,25 @@ const io = (httpServer: http.Server) => {
 			const parsedMessage = message.replace(/<[\s\S]*?>/g, '')
 
 			if (parsedMessage.length) {
-				const messages = await fs.readFile(__dirname + '/public/messages.json', 'utf-8')
-					.then((data: any) => JSON.parse(data))
-					.catch(() => [])
-	
-				messages.push(msgData)
-		
 				io.emit('new message', msgData)
-		
-				fs.writeFile(__dirname + '/public/messages.json', JSON.stringify(messages, null, '\t'), 'utf-8')
-				.catch(console.error)
+
+				Message.create(msgData)
+				.catch(err => {
+					console.error(err.message)
+				})
 			}
 		})
 
 		// Check if user is writing
-		socket.on('start writing', ({ id, user }) => {
-			const findUser = usersWriting.find(x => x.id == id)
+		socket.on('start writing', ({ uid, user }) => {
+			const findUser = usersWriting.find(x => x.uid == uid)
 			
-			if (!findUser) usersWriting.push({id: +id, user})
+			if (!findUser) usersWriting.push({uid: +uid, user})
 
 			io.emit('user writing', usersWriting)
 
 			const endWriting = () => {
-				const findUser = usersWriting.findIndex(x => x.id == id)
+				const findUser = usersWriting.findIndex(x => x.uid == uid)
 
 				if (findUser != -1) usersWriting.splice(findUser, 1)
 
@@ -56,8 +52,8 @@ const io = (httpServer: http.Server) => {
 			debounce(endWriting, 3000)
 		})
 
-		socket.on('end writing', id => {
-			const findUser = usersWriting.findIndex(x => x.id == id)
+		socket.on('end writing', uid => {
+			const findUser = usersWriting.findIndex(x => x.uid == uid)
 
 			if (findUser != -1) usersWriting.splice(findUser, 1)
 

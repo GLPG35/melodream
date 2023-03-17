@@ -1,13 +1,12 @@
 import { Router } from 'express'
-import * as fs from 'fs/promises'
+import Message from '../db/Message'
 
 const router = Router()
-const actualDir = __dirname.split('/').pop()
 
 router.get('/', async (_req, res) => {
-	const messages = await fs.readFile(__dirname + `/${actualDir !== 'dist' ? '../' : ''}public/messages.json`, 'utf-8' )
-		.then(data => JSON.parse(data))
-		.catch(() => [])
+	const messages = await Message.find({}).lean()
+		.then(doc => doc)
+		.catch(err => { throw new Error(err.message) })
 
 	const body = {
 		title: 'Chat',

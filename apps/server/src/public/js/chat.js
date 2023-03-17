@@ -83,7 +83,7 @@ input.addEventListener('input', e => {
 	const username = localStorage.getItem('name')
 
 	if (e.target.value !== '') {
-		socket.emit('start writing', { id: uid, user: username })
+		socket.emit('start writing', { uid, user: username })
 	} else {
 		socket.emit('end writing', uid)
 	}
@@ -96,7 +96,7 @@ document.querySelector('.sendMessage').addEventListener('submit', e => {
 	const name = localStorage.getItem('name')
 
 	const newMsg = {
-		id: uid,
+		uid,
 		name,
 		message
 	}
@@ -107,7 +107,7 @@ document.querySelector('.sendMessage').addEventListener('submit', e => {
 	socket.emit('end writing', uid)
 })
 
-socket.on('new message', ({ id, name, message }) => {
+socket.on('new message', ({ uid: id, name, message }) => {
 	messages.insertAdjacentHTML('beforeend', `
 		<div class="messageWrapper ${id == uid ? 'current' : ''}" id="${id}">
 			<div class="name" style="color: #${randomSeedColor(id)}">
@@ -125,7 +125,7 @@ socket.on('new message', ({ id, name, message }) => {
 })
 
 socket.on('user writing', usersWriting => {
-	const mapUsers = usersWriting.filter(x => x.id !== uid).map(x => x.user)
+	const mapUsers = usersWriting.filter(x => x.uid !== uid).map(x => x.user)
 
 	if (mapUsers.length) {
 		const text = `${new Intl.ListFormat('en').format(mapUsers)} ${mapUsers.length > 1 ? 'are' : 'is'} writing...`
