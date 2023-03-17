@@ -1,11 +1,8 @@
-import { dbConnect, dbDisconnect } from '.'
 import { AddProduct } from '../types'
 import Product from './Product'
 
 class ProductManager {
 	addProducts = async ({ code, title, price, thumbnails, description, stock, category, subCategory }: AddProduct) => {
-		await dbConnect()
-
 		const exists = await this.getProductByCode(code)
 
 		if (exists) throw new Error('This product already exists!')
@@ -27,12 +24,8 @@ class ProductManager {
 	}
 
 	getProducts = async () => {
-		await dbConnect()
-
 		Product.find({})
 		.then(products => {
-			dbDisconnect()
-
 			return products
 		}).catch(err => {
 			throw new Error(err.message)
@@ -40,8 +33,6 @@ class ProductManager {
 	}
 
 	getProductByCode = async (code: string) => {
-		await dbConnect()
-
 		return Product.findOne({ code })
 		.then(product => product)
 		.catch(() => {

@@ -13,11 +13,13 @@ import http from 'http'
 import { engine } from 'express-handlebars'
 import { default404 } from './middlewares'
 import io from './socket'
+import { dbConnect } from './db'
 
 const app = express()
 const server = http.createServer(app)
 
 io(server)
+dbConnect()
 
 const PORT = process.env.PORT || 3000
 

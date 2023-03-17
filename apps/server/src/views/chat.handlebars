@@ -1,4 +1,15 @@
 <div class="chatContainer">
+	<div class="topBar">
+		<div class="pic">
+			<img src="https://cdn-icons-png.flaticon.com/512/552/552068.png" alt="">
+		</div>
+		<div class="infoWrapper">
+			<div class="title">
+				Uruguayan Group Chat
+			</div>
+			<div class="writingStatus"></div>
+		</div>
+	</div>
 	<div class="messages">
 		{{#each messages}}
 			<div class="messageWrapper" id="{{this.id}}">
@@ -7,8 +18,9 @@
 			</div>
 		{{/each}}
 	</div>
-	<form class="sendMessage">
-		<input type="text" name="message" required>
+	<form class="sendMessage" autocomplete="off">
+		<input class="inputMessage" type="text" name="message"
+		placeholder="Message" required>
 		<button type="submit">
 			<i class="ti ti-send"></i>
 		</button>

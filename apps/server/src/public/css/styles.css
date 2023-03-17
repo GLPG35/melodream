@@ -253,9 +253,52 @@ form .productInfo textarea {
 	overflow-y: auto;
 	position: relative;
 	display: grid;
-	grid-template-rows: 1fr 3em;
+	grid-template-rows: 4em 1fr 3em;
 	gap: 2em;
-	padding: 2em 0;
+	padding-bottom: 2em;
+}
+
+.chatContainer .topBar {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	gap: 1em;
+	padding-inline: 1em;
+}
+
+.chatContainer .topBar .pic {
+	height: 60%;
+	aspect-ratio: 1 / 1;
+	border-radius: 50vh;
+	overflow: hidden;
+}
+
+.chatContainer .topBar .pic img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.chatCOntainer .topBar .infoWrapper {
+	height: 80%;
+	width: max-content;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0.5em;
+}
+
+.chatContainer .topBar .infoWrapper .title {
+	font-size: 1em;
+	font-weight: 700;
+}
+
+.chatContainer .topBar .infoWrapper .writingStatus {
+	height: 1ch;
+	width: max-content;
+	color: var(--accent-color-dark);
+	font-size: 0.8em;
 }
 
 .chatContainer .nameContainer {
@@ -342,7 +385,7 @@ form .productInfo textarea {
 
 .chatContainer .messages .messageWrapper {
 	width: max-content;
-	max-width: 40%;
+	max-width: 45%;
 	height: max-content;
 	display: flex;
 	flex-direction: column;
@@ -363,8 +406,27 @@ form .productInfo textarea {
 	display: none;
 }
 
+.chatContainer .messages .messageWrapper.current .message a {
+	color: var(--secondary-color);
+}
+
 .chatContainer .messages .messageWrapper .name {
 	font-weight: 700;
+}
+
+.chatContainer .messages .messageWrapper .message {
+	word-wrap: break-word;
+}
+
+.chatContainer .messages .messageWrapper .message img {
+	width: 100%;
+	height: auto;
+	margin-top: 1em;
+	border-radius: 10px;
+}
+
+.chatContainer .messages .messageWrapper .message a {
+	color: var(--accent-color);
 }
 
 .chatContainer .sendMessage {

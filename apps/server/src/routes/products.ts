@@ -1,6 +1,5 @@
 import express from 'express'
 import ProductManager from '../productManager'
-import { dbConnect, dbDisconnect } from '../db'
 import Product from '../db/Product'
 
 const router = express.Router()
@@ -11,30 +10,20 @@ const products = new ProductManager(actualDir !== 'dist' ? `${__dirname}/../publ
 router.get('/', async (req, res) => {
 	const { limit } = req.query
 
-	await dbConnect()
-	
 	if (limit) {
 		return Product.find({}).limit(+limit)
 		.then(products => {
-			res.send(products)
-
-			return dbDisconnect()
+			return res.send(products)
 		}).catch(err => {
-			res.status(400).send({ success: false, message: err.message })
-
-			return dbDisconnect()
+			return res.status(400).send({ success: false, message: err.message })
 		})
 	}
 
 	return Product.find({})
 	.then(products => {
-		res.send(products)
-
-		return dbDisconnect()
+		return res.send(products)
 	}).catch(err => {
-		res.status(400).send({ success: false, message: err.message })
-
-		return dbDisconnect()
+		return res.status(400).send({ success: false, message: err.message })
 	})
 
 	// products.getProducts(limit ? +limit : undefined)
