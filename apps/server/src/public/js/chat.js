@@ -1,6 +1,7 @@
 const socket = io()
 const userName = localStorage.getItem('name') || undefined
 const uid = JSON.parse(localStorage.getItem('id')) || (localStorage.setItem('id', Date.now()), JSON.parse(localStorage.getItem('id')))
+const chatContainer = document.querySelector('.chatContainer')
 const messages = document.querySelector('.messages')
 const allMessages = messages.querySelectorAll('.messageWrapper')
 const input = document.querySelector('.inputMessage')
@@ -133,3 +134,10 @@ socket.on('user writing', usersWriting => {
 		writingStatus.innerHTML = text
 	} else writingStatus.innerHTML = ''
 })
+
+//Change window height for mobile
+if (window.innerWidth <= 700) {
+	chatContainer.style.height = `${window.innerHeight}px`
+} else {
+	if (chatContainer.hasAttribute('style')) chatContainer.removeAttribute('style')
+}
