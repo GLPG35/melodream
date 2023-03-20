@@ -1,4 +1,4 @@
-import { Cart, CartProduct } from './types'
+import { Cart, CartProduct } from '../../types'
 import * as fs from 'fs/promises'
 import ProductManager from './productManager'
 

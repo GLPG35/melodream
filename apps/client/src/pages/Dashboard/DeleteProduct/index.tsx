@@ -13,7 +13,7 @@ const DeleteProduct = () => {
 	const [loader, setLoader] = useState(false)
 	const [render, setRender] = useState(false)
 	const [products, setProducts] = useState<Product[]>()
-	const [selectedId, setSelectedId] = useState<number>()
+	const [selectedId, setSelectedId] = useState<string>()
 	const [selectedProduct, setSelectedProduct] = useState<Product>()
 	const { callAlert } = useContext(globalContext)
 
@@ -23,13 +23,13 @@ const DeleteProduct = () => {
 
 			manageProduct()
 			.then(products => {
-				setProducts(products.reverse())
+				setProducts(products)
 				setFinish(true)
 			})
 		}
 	}, [])
 
-	const handleSelectProduct = (id: number) => {
+	const handleSelectProduct = (id: string) => {
 		if (products) {
 			setSelectedId(id)
 			setSelectedProduct(products.find(x => x.id == id))

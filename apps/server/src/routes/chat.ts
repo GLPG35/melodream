@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import Message from '../db/Message'
+import Message from '../dao/db/models/Message'
 
 const router = Router()
 

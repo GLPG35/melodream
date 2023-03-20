@@ -1,4 +1,4 @@
-import { AddProduct, Product } from './types'
+import { AddProduct, Product } from '../../types'
 import * as fs from 'fs/promises'
 
 const isString = (string: any): boolean => {

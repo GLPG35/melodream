@@ -1,5 +1,5 @@
 export interface Product {
-	id: number,
+	id: string | number,
 	code: string,
 	title: string,
 	price: number,
@@ -14,11 +14,11 @@ export interface Product {
 export type AddProduct = Omit<Product, 'id'>
 
 export interface CartProduct {
-	id: number,
+	id: string | number,
 	quantity: number
 }
 
 export interface Cart {
-	id: number,
+	id: string | number,
 	products: CartProduct[]
 }

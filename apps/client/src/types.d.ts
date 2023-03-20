@@ -3,7 +3,7 @@ export type AlertIcon = 'success' | 'error' | 'warn'
 export type NotFoundIcon = 'notfound' | ''
 
 export interface Product {
-	id: number,
+	id: string,
 	code: string,
 	title: string,
 	price: number,

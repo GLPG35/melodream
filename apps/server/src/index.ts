@@ -2,9 +2,7 @@ import express, { urlencoded } from 'express'
 import home from './routes'
 import realtime from './routes/realtimeproducts'
 import chat from './routes/chat'
-import products from './routes/products'
-import carts from './routes/carts'
-import image from './routes/image'
+import api from './routes/api'
 import crypto from 'crypto'
 import multer from 'multer'
 import cors from 'cors'
@@ -13,7 +11,7 @@ import http from 'http'
 import { engine } from 'express-handlebars'
 import { default404 } from './middlewares'
 import io from './socket'
-import { dbConnect } from './db'
+import { dbConnect } from './dao/db'
 
 const app = express()
 const server = http.createServer(app)
@@ -47,12 +45,11 @@ app.use('/static', express.static(__dirname + '/public'))
 app.use(cors())
 app.use(upload)
 
+//Routes
 app.use('/', home)
 app.use('/realtimeproducts', realtime)
 app.use('/chat', chat)
-app.use('/api/products', products)
-app.use('/api/carts', carts)
-app.use('/api/image', image)
+app.use('/api', api)
 
 app.use(default404)
 

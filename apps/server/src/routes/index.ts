@@ -1,10 +1,9 @@
 import { Router } from 'express'
-import ProductManager from '../productManager'
+import ProductManager from '../dao/db/productManager'
 
 const router = Router()
 
-const actualDir = __dirname.split('/').pop()
-const products = new ProductManager(actualDir !== 'dist' ? `${__dirname}/../public/products.json` : `${__dirname}/public/products.json`)
+const products = new ProductManager()
 
 router.get('/', async (_req, res) => {
 	const productsData = await products.getProducts()

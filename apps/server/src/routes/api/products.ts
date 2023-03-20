@@ -1,43 +1,25 @@
 import express from 'express'
-import ProductManager from '../productManager'
-import Product from '../db/Product'
+import ProductManager from '../../dao/db/productManager'
 
 const router = express.Router()
 
-const actualDir = __dirname.split('/').pop()
-const products = new ProductManager(actualDir !== 'dist' ? `${__dirname}/../public/products.json` : `${__dirname}/public/products.json`)
+const products = new ProductManager()
 
 router.get('/', async (req, res) => {
 	const { limit } = req.query
 
-	if (limit) {
-		return Product.find({}).limit(+limit)
-		.then(products => {
-			return res.send(products)
-		}).catch(err => {
-			return res.status(400).send({ success: false, message: err.message })
-		})
-	}
-
-	return Product.find({})
-	.then(products => {
-		return res.send(products)
+	products.getProducts(limit ? +limit : undefined)
+	.then(data => {
+		return res.send(data)
 	}).catch(err => {
 		return res.status(400).send({ success: false, message: err.message })
 	})
-
-	// products.getProducts(limit ? +limit : undefined)
-	// .then(product => {
-	// 	return res.send(product)
-	// }).catch(err => {
-	// 	return res.status(400).send({ success: false, message: err.message })
-	// })
 })
 
 router.get('/:pid', (req, res) => {
 	const { pid } = req.params
 
-	products.getProductById(+pid)
+	products.getProductById(pid)
 	.then(product => {
 		return res.send(product)
 	}).catch(err => {
@@ -70,7 +52,7 @@ router.post('/', (req, res) => {
 router.put('/:pid', (req, res) => {
 	const { body, params: { pid } } = req
 
-	products.updateProduct(+pid, body)
+	products.updateProduct(pid, body)
 	.then(() => {
 		return res.send({ success: true, message: 'Product updated successfully' })
 	}).catch(err => {
@@ -81,7 +63,7 @@ router.put('/:pid', (req, res) => {
 router.delete('/:pid', (req, res) => {
 	const { pid } = req.params
 
-	products.deleteProduct(+pid)
+	products.deleteProduct(pid)
 	.then(() => {
 		return res.send({ success: true, message: 'Product deleted successfully' })
 	}).catch(err => {

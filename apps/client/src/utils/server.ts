@@ -67,13 +67,13 @@ export const uploadImages = (images: {id: number, thumb: File}[]) => {
 type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type ManageProduct = {
 	(): Promise<any>
-	(id: number): Promise<any>,
+	(id: string): Promise<any>,
 	(body: {}, method: Method): Promise<any>,
-	(id: number, method: Method): Promise<any>,
-	(id: number, body: {}, method: Method): Promise<any>
+	(id: string, method: Method): Promise<any>,
+	(id: string, body: {}, method: Method): Promise<any>
 }
 
-export const manageProduct: ManageProduct = (id?: number | {}, body?: any, method?: Method) => {
+export const manageProduct: ManageProduct = (id?: string | {}, body?: any, method?: Method) => {
 	const options: { method: Method, headers?: {}, body?: string } = { method: method || 'GET' }
 
 	if (typeof body !== 'object') {
@@ -82,10 +82,10 @@ export const manageProduct: ManageProduct = (id?: number | {}, body?: any, metho
 
 	if (options.method == 'POST' || options.method == 'PUT') {
 		options.headers = { 'Content-Type': 'application/json' }
-		options.body = JSON.stringify(typeof id !== 'number' ? id : body)
+		options.body = JSON.stringify(typeof id !== 'string' ? id : body)
 	}
 
-	return fetch(`/api/products/${typeof id !== 'number' ? '' : id}`, options)
+	return fetch(`/api/products/${typeof id !== 'string' ? '' : id}`, options)
 	.then(res => {
 		if (res.ok) {
 			return res.json()

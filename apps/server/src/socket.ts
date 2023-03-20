@@ -1,6 +1,7 @@
 import { Server } from 'socket.io'
 import http from 'http'
-import Message from './db/Message'
+import Message from './dao/db/models/Message'
+import ProductManager from './dao/db/productManager'
 
 const io = (httpServer: http.Server) => {
 	const io = new Server(httpServer, {
@@ -58,6 +59,21 @@ const io = (httpServer: http.Server) => {
 			if (findUser != -1) usersWriting.splice(findUser, 1)
 
 			io.emit('user writing', usersWriting)
+		})
+
+		//For realtimeproducts
+		const products = new ProductManager()
+
+		socket.on('add product', product => {
+			products.addProduct(product)
+			.then(() => {
+				products.getProducts()
+				.then(resProducts => {
+					io.emit('product added', resProducts.reverse())
+				})
+			}).catch(err => {
+				io.emit('product error', err.message)
+			})
 		})
 	})
 }

@@ -1,7 +1,7 @@
 import { Schema, model } from 'mongoose'
 
 const productSchema = new Schema({
-	code: String,
+	code: { type: String, unique: true },
 	title: String,
 	price: Number,
 	thumbnails: [String],
@@ -10,7 +10,7 @@ const productSchema = new Schema({
 	category: String,
 	subCategory: String,
 	status: Boolean
-})
+}, { timestamps: true })
 
 productSchema.set('toJSON', {
 	transform: (_document, returnedObject) => {

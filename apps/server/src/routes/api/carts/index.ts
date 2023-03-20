@@ -1,11 +1,10 @@
 import express from 'express'
 import product from './product'
-import CartManager from '../../cartManager'
+import CartManager from '../../../dao/db/cartManager'
 
 const router = express.Router()
 
-const actualDir = __dirname.split('/').pop()
-const carts = new CartManager(actualDir !== 'dist' ? `${__dirname}/../../public/carts.json` : `${__dirname}/public/carts.json`)
+const carts = new CartManager()
 
 router.post('/', (_req, res) => {
 	carts.addCart()
@@ -19,7 +18,7 @@ router.post('/', (_req, res) => {
 router.get('/:cid', (req, res) => {
 	const { cid } = req.params
 
-	carts.getCart(+cid)
+	carts.getCart(cid)
 	.then(products => {
 		return res.send(products)
 	}).catch(err => {
