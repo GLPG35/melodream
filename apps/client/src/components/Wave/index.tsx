@@ -5,8 +5,6 @@ const Wave = (props: SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     data-name="Capa 1"
     viewBox="0 0 1887 1008.8"
-    width="1em"
-    height="1em"
     {...props}
   >
     <path

@@ -7,6 +7,7 @@ import crypto from 'crypto'
 import multer from 'multer'
 import cors from 'cors'
 import compression from 'compression'
+import cookieParser from 'cookie-parser'
 import http from 'http'
 import { engine } from 'express-handlebars'
 import { default404 } from './middlewares'
@@ -40,6 +41,7 @@ app.set('views', __dirname + '/views')
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
 app.use(compression())
+app.use(cookieParser())
 app.use('/static', express.static(__dirname + '/public'))
 
 app.use(cors())

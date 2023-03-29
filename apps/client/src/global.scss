@@ -5,6 +5,7 @@
 	--bg-color-dark: #fbdef4;
 	--bg-color-dark-op: #fbdef4bd;
 	--bg-color-op: #ffe6f9bd;
+	--bg-color-low-op: #ffe6f9ae;
 	--bg-color-op-2: #ffe6f930;
 	--text-color: #0c0c0c;
 	--accent-color-op: #4f349930;
@@ -13,6 +14,8 @@
 	--accent-color-light: #4f349965;
 	--accent-color-dark: #2b1664;
 	--secondary-color: #a9f637;
+
+	scroll-behavior: smooth;
 }
 
 *,

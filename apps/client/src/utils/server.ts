@@ -100,3 +100,53 @@ export const manageProduct: ManageProduct = (id?: string | {}, body?: any, metho
 		})
 	})
 }
+
+export const productsPage = (page: number) => {
+	return fetch(`/api/products?page=${page}`)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				return res
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+type ManageCart = {
+	(): Promise<any>,
+	(cid: string): Promise<any>,
+	(cid: string, pid: string, body: {}): Promise<any>,
+	(cid: string, count: boolean): Promise<any>
+}
+
+export const manageCart: ManageCart = (cid?: string, pid?: string | boolean, body?: {}) => {
+	const options: { method: 'POST' | 'GET', headers?: {}, body?: string } = { method: (body || !cid) ? 'POST' : 'GET' }
+
+	if (options.method == 'POST') {
+		options.headers = { 'Content-Type': 'application/json' }
+		options.body = JSON.stringify(body)
+	}
+
+	return fetch(`/api/carts/${cid || ''}
+	${typeof pid === 'boolean' ? '?count=true' : ''}
+	${typeof pid == 'string' ? `/product/${pid}` : ''}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				return res
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}

@@ -69,7 +69,7 @@ const io = (httpServer: http.Server) => {
 			.then(() => {
 				products.getProducts()
 				.then(resProducts => {
-					io.emit('product added', resProducts.reverse())
+					io.emit('product added', resProducts.docs.reverse())
 				})
 			}).catch(err => {
 				io.emit('product error', err.message)

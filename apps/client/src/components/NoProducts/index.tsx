@@ -1,9 +1,10 @@
+import { CSSProperties } from 'react'
 import { TbFilesOff } from 'react-icons/tb'
 import styles from './styles.module.scss'
 
-const NoProducts = ({ title, message }: { title: string, message: string }) => {
+const NoProducts = ({ title, message, style }: { title: string, message: string, style?: CSSProperties }) => {
 	return (
-		<div className={styles.noProducts}>
+		<div className={styles.noProducts} style={style}>
 			<div className={styles.icon}>
 				<TbFilesOff />
 			</div>

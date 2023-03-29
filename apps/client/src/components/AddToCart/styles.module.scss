@@ -1,0 +1,84 @@
+.addToCart {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	gap: 1.5em;
+
+	.wrapper {
+		width: max-content;
+		height: max-content;
+		display: flex;
+		flex-direction: column;
+		gap: 1em;
+	
+		span {
+			font-weight: 600;
+		}
+	
+		.quantity {
+			width: max-content;
+			height: 3em;
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+			border: 3px solid var(--accent-color);
+			border-radius: 15px;
+			overflow: hidden;
+	
+			button {
+				height: 100%;
+				aspect-ratio: 1 / 1;
+				border-radius: 0 10px 10px 0;
+				border: none;
+				outline: none;
+				background-color: var(--bg-color);
+				color: var(--accent-color);
+				cursor: pointer;
+				transition: 0.2s ease-out;
+	
+				&.add {
+					border-radius: 10px 0 0 10px;
+				}
+	
+				&:hover {
+					background-color: var(--accent-color);
+					color: var(--bg-color);
+				}
+			}
+	
+			input {
+				height: 100%;
+				width: 8em;
+				padding-inline: 1em;
+				border: none;
+				outline: none;
+				background-color: var(--bg-color);
+				appearance: textfield;
+				text-align: center;
+				color: var(--accent-color);
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				font-size: 1em;
+	
+				&::-webkit-outer-spin-button,
+				&::-webkit-inner-spin-button {
+					display: none;
+				}
+			}
+		}
+	}
+	
+	.addProduct {
+		padding: 1.2em 1.5em;
+		border-radius: 20px;
+		background-color: var(--accent-color);
+		color: var(--bg-color);
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		font-weight: 600;
+		user-select: none;
+		cursor: pointer;
+	}
+}

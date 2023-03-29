@@ -12,9 +12,10 @@
 		display: flex;
 		padding-inline: 1em;
 		align-items: center;
+		justify-content: space-between;
 		background-color: var(--bg-color-op);
 		backdrop-filter: blur(10px);
-		border-radius: 50vh;
+		border-radius: 15px;
 
 		.icon {
 			height: 80%;
@@ -41,7 +42,6 @@
 		}
 		
 		nav {
-			margin-left: auto;
 			display: flex;
 			gap: 1em;
 	
@@ -55,12 +55,19 @@
 					transition: 0.2s ease-out;
 					outline: none;
 					color: var(--accent-color);
+					font-weight: 600;
 	
 					&:hover {
 						color: var(--accent-color-dark);
 					}
 				}
 			}
+		}
+
+		.userActions {
+			display: flex;
+			align-items: center;
+			gap: 1em;
 		}
 	}
 }

@@ -1,14 +1,13 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "2.0.0",
+  "version": "3.0.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src",
     "build": "node esbuild.config.js",
     "start": "node dist/index.js",
-    "lint": "tsc",
-    "test": "jest"
+    "lint": "tsc"
   },
   "keywords": [
     "api",
@@ -23,16 +22,19 @@
   "license": "MIT",
   "dependencies": {
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
     "express-handlebars": "^6.0.7",
     "mongoose": "^7.0.0",
+    "mongoose-paginate-v2": "^1.7.1",
     "multer": "^1.4.5-lts.1",
     "socket.io": "^4.6.0"
   },
   "devDependencies": {
     "@types/compression": "^1.7.2",
+    "@types/cookie-parser": "^1.4.3",
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.16",
     "@types/jest": "^29.4.0",

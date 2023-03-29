@@ -1,0 +1,13 @@
+.cart {
+	width: 100%;
+	height: calc(100vh - 5em);
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+
+	.title {
+		font-weight: 800;
+		font-size: 2em;
+	}
+}

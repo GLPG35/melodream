@@ -1,9 +1,26 @@
 .cartIcon {
 	color: var(--accent-color);
 	transition: 0.2s ease-out;
+	position: relative;
 
 	&:hover {
 		cursor: pointer;
 		color: var(--accent-color-dark);
+	}
+
+	.count {
+		width: 2em;
+		font-size: 0.7em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		aspect-ratio: 1 / 1;
+		border-radius: 50vh;
+		position: absolute;
+		top: 0;
+		right: 0;
+		translate: 50% -50%;
+		background-color: var(--accent-color);
+		color: var(--bg-color);
 	}
 }

@@ -25,9 +25,11 @@ const Header = () => {
 							<a href="#">Sales</a>
 						</li>
 					</ul>
+				</nav>
+				<div className={styles.userActions}>
 					<UserIcon />
 					<CartIcon />
-				</nav>
+				</div>
 			</div>
 		</div>
 	)

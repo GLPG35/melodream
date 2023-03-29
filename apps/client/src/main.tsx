@@ -10,6 +10,8 @@ import Login from './pages/Login'
 import AddProduct from './pages/Dashboard/AddProduct'
 import UpdateProduct from './pages/Dashboard/UpdateProduct'
 import DeleteProduct from './pages/Dashboard/DeleteProduct'
+import ViewProduct from './pages/ViewProduct'
+import Cart from './pages/Cart'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
       {
         path: '/',
         element: <Home />
+      },
+      {
+        path: '/product/:pid',
+        element: <ViewProduct />
+      },
+      {
+        path: '/cart',
+        element: <Cart />
       },
       {
         path: '/login',

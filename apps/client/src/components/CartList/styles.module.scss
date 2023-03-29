@@ -1,0 +1,11 @@
+.cartList {
+	width: 100%;
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	overflow-y: auto;
+	border-radius: 25px;
+	background-color: var(--bg-color-dark);
+	padding: 1.5em;
+}

@@ -1,12 +1,12 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { FormEvent, useContext, useEffect, useState } from 'react'
-import { TbArrowLeft, TbChevronLeft, TbCurrencyDollar, TbPackage } from 'react-icons/tb'
+import { TbArrowLeft, TbChevronLeft, TbChevronRight, TbCurrencyDollar, TbPackage } from 'react-icons/tb'
 import { globalContext } from '../../../App'
 import DropImages from '../../../components/DropImages'
 import NoProducts from '../../../components/NoProducts'
 import WaveLoader from '../../../components/WaveLoader'
 import { Product } from '../../../types'
-import { manageProduct, uploadImages } from '../../../utils/server'
+import { manageProduct, productsPage, uploadImages } from '../../../utils/server'
 import styles from './styles.module.scss'
 
 const UpdateProduct = () => {
@@ -18,6 +18,14 @@ const UpdateProduct = () => {
 	const [thumbs, setThumbs] = useState<{ id: number, thumb: File }[]>([])
 	const [selectedId, setSelectedId] = useState<string>()
 	const [selectedProduct, setSelectedProduct] = useState<Product>()
+	const [scroll, setScroll] = useState(0)
+	const [pages, setPages] = useState<{
+		totalPages: number,
+		page: number,
+		prevPage: number | null,
+		nextPage: number | null
+	}>()
+	const [selectedPage, setSelectedPage] = useState(1)
 	const { callAlert } = useContext(globalContext)
 	
 	useEffect(() => {
@@ -26,11 +34,29 @@ const UpdateProduct = () => {
 
 			manageProduct()
 			.then(products => {
-				setProducts(products)
+				const { totalPages, page, prevPage, nextPage } = products
+
+				setPages({ totalPages, page, prevPage, nextPage })
+
+				setProducts(products.docs)
 				setFinish(true)
 			})
+		} else if (pages && (pages.prevPage || pages.nextPage)) {
+			setLoader(true)
+
+			setTimeout(() => {
+				productsPage(selectedPage)
+				.then(products => {
+					const { totalPages, page, prevPage, nextPage } = products
+
+					setPages({ totalPages, page, prevPage, nextPage })
+
+					setProducts(products.docs)
+					setFinish(true)
+				})
+			}, 1500)
 		}
-	}, [])
+	}, [selectedPage])
 
 	const handleSelectProduct = (id: string) => {
 		if (products) {
@@ -58,7 +84,7 @@ const UpdateProduct = () => {
 		} = e.currentTarget
 
 		const mapInputs = Array.from([title, code, price, stock, category.value, subCategory, description])
-		.map(x => !x || x === 'default' ? undefined : x)
+		.map(x => (!x || x === 'default') ? undefined : x)
 
 		const [
 			upTitle,
@@ -69,6 +95,8 @@ const UpdateProduct = () => {
 			upSubCategory,
 			upDescription
 		] = mapInputs
+
+		console.log(upCategory)
 
 		const body: {
 			title: string,
@@ -85,7 +113,7 @@ const UpdateProduct = () => {
 			price: upPrice,
 			stock: upStock,
 			thumbnails: undefined,
-			category: upCategory || category.options[category.selectedIndex].text,
+			category: upCategory ? category.options[category.selectedIndex].text : undefined,
 			subCategory: upSubCategory,
 			description: upDescription
 		}
@@ -104,9 +132,9 @@ const UpdateProduct = () => {
 				setTimeout(() => {
 					resetSelectedProduct()
 
-					manageProduct()
+					productsPage(selectedPage)
 					.then(products => {
-						setProducts(products)
+						setProducts(products.docs)
 						setFinish(true)
 					})
 
@@ -159,7 +187,8 @@ const UpdateProduct = () => {
 			</div>
 			{loader && <WaveLoader end={finish} callback={setLoader} render={setRender} />}
 			{products && products.length > 0 ?
-				<div className={styles.productsList}>
+				<div className={styles.productsList} style={{ overflowY: selectedId ? 'hidden' : 'auto' }}
+				onScroll={e => setScroll(e.currentTarget.scrollTop)}>
 					{render &&
 						<>
 							{products.map(({ id, title, thumbnails, price, stock }) => {
@@ -185,9 +214,27 @@ const UpdateProduct = () => {
 									</motion.div>
 								)
 							})}
+							{pages && (pages.nextPage || pages.prevPage) &&
+								<div className={styles.pages}>
+									<div className={styles.arrows}>
+										<button className={styles.leftArrow} disabled={!pages.prevPage}
+										onClick={() => {pages.prevPage && setSelectedPage(pages.prevPage) }}>
+											<TbChevronLeft /> Prev
+										</button>
+										<div className={styles.totalPages}>
+											{pages.page} of {pages.totalPages}
+										</div>
+										<button className={styles.rightArrow} disabled={!pages.nextPage}
+										onClick={() => {pages.nextPage && setSelectedPage(pages.nextPage) }}>
+											Next <TbChevronRight />
+										</button>
+									</div>
+								</div>
+							}
 							<AnimatePresence>
 								{selectedId && selectedProduct &&
-									<motion.div layoutId={`${selectedId}`} className={styles.viewProduct}>
+									<motion.div layoutId={`${selectedId}`} className={styles.viewProduct}
+									style={{ top: scroll }}>
 										<form method='PUT' id='updateForm' onSubmit={handleSubmit}>
 											<DropImages images={thumbs} callback={setThumbs} />
 											<div className={styles.productInfo}>
@@ -217,8 +264,11 @@ const UpdateProduct = () => {
 														<select name="category" id="category" defaultValue="default"
 														onFocus={() => setArrow(true)} onBlur={() => setArrow(false)}>
 															<option value="default" disabled>Select one category</option>
+															<option value="classic">Classic</option>	
+															<option value="kpop">K-Pop</option>
+															<option value="metal">Metal</option>
 															<option value="pop">Pop</option>
-															<option value="Rock">Rock</option>
+															<option value="rock">Rock</option>
 														</select>
 														<motion.div animate={{ rotate: arrow ? -90 : 0 }} className={styles.arrow}>
 															<TbChevronLeft />

@@ -1,8 +1,8 @@
 import { FormEvent, useContext, useEffect, useState } from 'react'
-import { TbAlertTriangle, TbCurrencyDollar, TbPackage } from 'react-icons/tb'
+import { TbAlertTriangle, TbChevronLeft, TbChevronRight, TbCurrencyDollar, TbPackage } from 'react-icons/tb'
 import WaveLoader from '../../../components/WaveLoader'
 import { Product } from '../../../types'
-import { manageProduct } from '../../../utils/server'
+import { manageProduct, productsPage } from '../../../utils/server'
 import { AnimatePresence, motion } from 'framer-motion'
 import styles from './styles.module.scss'
 import { globalContext } from '../../../App'
@@ -15,6 +15,14 @@ const DeleteProduct = () => {
 	const [products, setProducts] = useState<Product[]>()
 	const [selectedId, setSelectedId] = useState<string>()
 	const [selectedProduct, setSelectedProduct] = useState<Product>()
+	const [scroll, setScroll] = useState(0)
+	const [pages, setPages] = useState<{
+		totalPages: number,
+		page: number,
+		prevPage: number | null,
+		nextPage: number | null
+	}>()
+	const [selectedPage, setSelectedPage] = useState(1)
 	const { callAlert } = useContext(globalContext)
 
 	useEffect(() => {
@@ -23,11 +31,29 @@ const DeleteProduct = () => {
 
 			manageProduct()
 			.then(products => {
-				setProducts(products)
+				const { totalPages, page, prevPage, nextPage } = products
+
+				setPages({ totalPages, page, prevPage, nextPage })
+
+				setProducts(products.docs)
 				setFinish(true)
 			})
+		} else if (pages && (pages.prevPage || pages.nextPage)) {
+			setLoader(true)
+
+			setTimeout(() => {
+				productsPage(selectedPage)
+				.then(products => {
+					const { totalPages, page, prevPage, nextPage } = products
+
+					setPages({ totalPages, page, prevPage, nextPage })
+
+					setProducts(products.docs)
+					setFinish(true)
+				})
+			}, 1500)
 		}
-	}, [])
+	}, [selectedPage])
 
 	const handleSelectProduct = (id: string) => {
 		if (products) {
@@ -52,9 +78,19 @@ const DeleteProduct = () => {
 				setTimeout(() => {
 					resetSelectedProduct()
 
-					manageProduct()
+					productsPage(selectedPage)
 					.then(products => {
-						setProducts(products)
+						const { totalPages, page, prevPage, nextPage } = products
+
+						if (!products.docs.length) {
+							setSelectedPage(prevPage)
+
+							return
+						}
+						
+						setPages({ totalPages, page, prevPage, nextPage })
+
+						setProducts(products.docs)
 						setFinish(true)
 					})
 
@@ -78,7 +114,8 @@ const DeleteProduct = () => {
 			</div>
 			{loader && <WaveLoader end={finish} callback={setLoader} render={setRender} />}
 			{products && products.length > 0 ?
-				<div className={styles.productsList}>
+				<div className={styles.productsList} style={{ overflowY: selectedId ? 'hidden' : 'auto' }}
+				onScroll={e => setScroll(e.currentTarget.scrollTop)}>
 					{render &&
 						<>
 							{products.map(({ id, title, thumbnails, price, stock }) => {
@@ -104,12 +141,29 @@ const DeleteProduct = () => {
 									</motion.div>
 								)
 							})}
+							{pages && (pages.nextPage || pages.prevPage) &&
+								<div className={styles.pages}>
+									<div className={styles.arrows}>
+										<button className={styles.leftArrow} disabled={!pages.prevPage}
+										onClick={() => {pages.prevPage && setSelectedPage(pages.prevPage) }}>
+											<TbChevronLeft /> Prev
+										</button>
+										<div className={styles.totalPages}>
+											{pages.page} of {pages.totalPages}
+										</div>
+										<button className={styles.rightArrow} disabled={!pages.nextPage}
+										onClick={() => {pages.nextPage && setSelectedPage(pages.nextPage) }}>
+											Next <TbChevronRight />
+										</button>
+									</div>
+								</div>
+							}
 							<AnimatePresence>
 								{selectedId && selectedProduct &&
 									<motion.form className={styles.productWrapper}
 									initial={{ opacity: 0 }} animate={{ opacity: 1 }}
 									exit={{ opacity: 0 }} onClick={resetSelectedProduct}
-									onSubmit={handleSubmit}>
+									onSubmit={handleSubmit} style={{ top: scroll }}>
 										<motion.div layoutId={`${selectedId}`}
 										className={styles.viewProduct} onClick={(e) => e.stopPropagation()}>
 											<div className={styles.productInfo}>

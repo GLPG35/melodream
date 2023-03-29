@@ -1,9 +1,10 @@
 import { AddProduct } from '../../types'
+import createURL from '../../utils/createURL'
 import Product from './models/Product'
 
 class ProductManager {
 	addProduct = async (product: AddProduct) => {
-		Product.create(product)
+		Product.create({ ...product, status: true })
 		.then(() => {
 			return true
 		}).catch(err => {
@@ -11,14 +12,26 @@ class ProductManager {
 		})
 	}
 
-	getProducts = async (limit?: number) => {
-		if (limit) {
-			if (isNaN(limit)) throw new Error('Limit is not a number!')
+	getProducts = async (limit?: any, page?: any, sort?: any, query?: any) => {
+		if (isNaN(limit) && limit !== undefined) throw new Error('Provide a valid limit')
+		if (limit <= 0) throw new Error('Provide a limit greater than 0')
+		if (isNaN(page) && page !== undefined) throw new Error('Provide a valid page')
+		if (typeof query !== 'object' && query !== undefined) throw new Error('Provide a valid query')
 
-			return Product.find({}).limit(limit).sort({ createdAt: 'desc' }).exec()
-		}
-
-		return Product.find({}).sort({ createdAt: 'desc' }).exec()
+		return Product.paginate(query || {}, {
+			limit: limit ? limit : 10,
+			page: page ? page : 1,
+			sort: typeof sort !== 'object' ?
+			{ createdAt: sort || 'desc' }
+			: sort,
+			query
+		}).then(data => {
+			return {
+				...data,
+				prevLink: data.prevPage ? createURL(data.prevPage) : null,
+				nextLink: data.nextPage ? createURL(data.nextPage) : null
+			}
+		})
 	}
 
 	getProductByCode = (code: string) => {
@@ -58,7 +71,7 @@ class ProductManager {
 	}
 
 	deleteProduct = (id: string) => {
-		return Product.findByIdAndDelete(id).exec()
+		return Product.findByIdAndUpdate(id, { status: false }).exec()
 		.then(() => {
 			return true
 		}).catch(() => {

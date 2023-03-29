@@ -1,16 +1,43 @@
 import Cart from './models/Cart'
 import ProductManager from './productManager'
+import { Types } from 'mongoose'
 
 class CartManager {
 	addCart = () => {
 		return Cart.create({ products: [] })
 	}
 
-	getCart = (id: string) => {
-		return Cart.findById(id).exec()
+	getCart = async (id: string, count?: any) => {
+		if (count) {
+			const cart = await Cart.findById(id)
+			
+			if (cart) {
+				const countProducts = cart.products.reduce((prev, curr) => (
+					prev + curr.quantity
+				), 0)
+
+				return {
+					count: countProducts
+				}
+			}
+
+			throw new Error('Cart not found')
+		}
+
+		return Cart.findOne({ _id: id }).populate('products.product')
+		.then(doc => {
+			if (!doc) throw new Error('Cart not found')
+
+			return doc
+		})
 	}
 
-	addProduct = async (cid: string, pid: string) => {
+	deleteCart = (cid: string) => {
+		return Cart.findByIdAndUpdate(cid, { products: [] }, { new: true })
+		.catch(err => { throw new Error(err.message) })
+	}
+
+	addProduct = async (cid: string, pid: string, quantity?: any) => {
 		const products = new ProductManager()
 
 		await products.getProductById(pid)
@@ -18,31 +45,66 @@ class CartManager {
 			throw new Error(err.message)
 		})
 
-		this.getCartById(cid)
-		.then(doc => {
-			if (!doc) throw new Error('Cart not found')
+		return Cart.findById(cid)
+		.then(data => {
+			if (!data) throw new Error('Cart not found')
 
-			const findProduct = doc.products.find(x => x.pid == pid)
+			return Cart.findOne({ _id: cid, 'products.product': pid })
+			.then(async doc => {
+				if (!doc) {
+					const newProducts = [...data.products, { product: pid, quantity: 1 }]
 
-			if (findProduct) {
-				const mapCart = doc.products.map(x => x.pid == pid ? { ...x, quantity: x.quantity + 1 } : x)
-				doc.products = mapCart
+					return Cart.findByIdAndUpdate(cid, { products: newProducts }, { new: true })
+					.then(cart => {
+						if (cart) {
+							const countProducts = cart.products.reduce((prev, curr) => (
+								prev + curr.quantity
+							), 0)
+			
+							return {
+								...cart,
+								count: countProducts
+							}
+						}
 
-				doc.save()
-			} else {
-				doc.products.push({ pid, quantity: 1 })
+						throw new Error('Cart not found')
+					}).catch(err => { throw new Error(err.message) })
+				} else {
+					const pQuantity = isNaN(+quantity) ? 1 : +quantity
 
-				doc.save()
-			}
+					return Cart.findOneAndUpdate(
+						{ _id: cid },
+						{ $inc: { 'products.$[p].quantity': pQuantity } },
+						{ arrayFilters: [{ 'p.product': new Types.ObjectId(pid) }], new: true }
+					).then(cart => {
+						if (cart) {
+							const countProducts = cart.products.reduce((prev, curr) => (
+								prev + curr.quantity
+							), 0)
 
-			return true
+							return {
+								...cart,
+								count: countProducts
+							}
+						}
+
+						throw new Error('Cart not found')
+					}).catch(err => { throw new Error(err.message) })
+				}
+			}).catch(err => {
+				throw new Error(err.message)
+			})
 		}).catch(err => {
 			throw new Error(err.message)
 		})
 	}
 
-	getCartById = (cid: string) => {
-		return Cart.findById(cid).exec()
+	deleteProduct = (cid: string, pid: string) => {
+		return Cart.updateOne(
+			{ _id: cid },
+			{ $pull: { 'products': { 'product': pid } } },
+			{ new: true }
+		).catch(err => { throw new Error(err.message) })
 	}
 }
 

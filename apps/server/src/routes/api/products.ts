@@ -6,11 +6,11 @@ const router = express.Router()
 const products = new ProductManager()
 
 router.get('/', async (req, res) => {
-	const { limit } = req.query
+	const { limit, page, sort, query } = req.query
 
-	products.getProducts(limit ? +limit : undefined)
+	products.getProducts(limit ? +limit : undefined, page ? +page : undefined, sort, query)
 	.then(data => {
-		return res.send(data)
+		return res.send({ ...data })
 	}).catch(err => {
 		return res.status(400).send({ success: false, message: err.message })
 	})

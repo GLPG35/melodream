@@ -10,7 +10,7 @@ router.get('/', async (_req, res) => {
 
 	const body = {
 		title: 'Real Time Products',
-		productsData: productsData
+		productsData: productsData.docs
 	}
 	
 	res.render('realtime', body)
