@@ -12,7 +12,10 @@ require('esbuild').build({
 		'mongoose',
 		'cookie-parser',
 		'dotenv',
-		'mongoose-paginate-v2'
+		'mongoose-paginate-v2',
+		'bcrypt',
+		'connect-mongo',
+		'express-session'
 	],
 	outfile: "dist/index.js",
 	plugins: [

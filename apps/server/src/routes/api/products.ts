@@ -39,9 +39,11 @@ router.get('/exists/:code', (req, res) => {
 })
 
 router.post('/', (req, res) => {
+	if (!req.session.user) return res.status(403).send({ success: false, message: 'User unauthorized' })
+	
 	const { body } = req
 
-	products.addProduct(body)
+	return products.addProduct(body)
 	.then(() => {
 		return res.send({ success: true, message: 'Product added successfully' })
 	}).catch(err => {
@@ -50,9 +52,11 @@ router.post('/', (req, res) => {
 })
 
 router.put('/:pid', (req, res) => {
+	if (!req.session.user) return res.status(403).send({ succes: false, message: 'User unauthorized' })
+
 	const { body, params: { pid } } = req
 
-	products.updateProduct(pid, body)
+	return products.updateProduct(pid, body)
 	.then(() => {
 		return res.send({ success: true, message: 'Product updated successfully' })
 	}).catch(err => {
@@ -61,9 +65,11 @@ router.put('/:pid', (req, res) => {
 })
 
 router.delete('/:pid', (req, res) => {
+	if (!req.session.user) return res.status(403).send({ succes: false, message: 'User unauthorized' })
+
 	const { pid } = req.params
 
-	products.deleteProduct(pid)
+	return products.deleteProduct(pid)
 	.then(() => {
 		return res.send({ success: true, message: 'Product deleted successfully' })
 	}).catch(err => {

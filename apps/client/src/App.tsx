@@ -1,19 +1,27 @@
 import Header from './components/Header'
 import { Outlet } from 'react-router-dom'
-import { createContext, useEffect, useState } from 'react'
-import { AlertIcon } from './types'
+import { createContext, Dispatch, SetStateAction, useEffect, useState } from 'react'
+import { AlertIcon, User } from './types'
 import Alert from './components/Alert'
 import { AnimatePresence } from 'framer-motion'
-import { manageCart } from './utils/server'
+import { manageCart, manageUser } from './utils/server'
 import { resolveCid, saveQuantity } from './utils/client'
 
 type globalContextType = {
 	callAlert: (icon: AlertIcon, text: string) => void,
 	updateCartCount: (count: number) => void,
-	cartCount: number | undefined
+	cartCount: number | undefined,
+	user: User | undefined,
+	setUser: Dispatch<SetStateAction<User | undefined>>
 }
 
-const globalContextState = {callAlert: () => {}, updateCartCount: () => {}, cartCount: undefined}
+const globalContextState = {
+	callAlert: () => {},
+	updateCartCount: () => {},
+	cartCount: undefined,
+	user: undefined,
+	setUser: () => {}
+}
 
 export const globalContext = createContext<globalContextType>(globalContextState)
 
@@ -21,6 +29,7 @@ function App() {
 	const [alert, setAlert] = useState(false)
 	const [alertData, setAlertData] = useState<{ icon: AlertIcon, text: string } | undefined>()
 	const [cartCount, setCartCount] = useState<number | undefined>()
+	const [user, setUser] = useState<User>()
 
 	useEffect(() => {
 		if (!cartCount) {
@@ -28,17 +37,22 @@ function App() {
 
 			if (count) {
 				setCartCount(+JSON.parse(count))
-
-				return
-			}
-
-			resolveCid()
-			.then(cid => {
-				manageCart(cid, true)
-				.then(res => {
-					saveQuantity(+res.count, setCartCount)
+			} else {
+				resolveCid()
+				.then(cid => {
+					manageCart(cid, true)
+					.then(res => {
+						saveQuantity(+res.count, setCartCount)
+					})
 				})
-			})
+			}
+		}
+
+		if (!user) {
+			manageUser()
+			.then(user => {
+				setUser(user)
+			}).catch(() => {})
 		}
 	}, [])
 
@@ -52,7 +66,7 @@ function App() {
 	}
 
 	return (
-		<globalContext.Provider value={{callAlert, updateCartCount, cartCount}}>
+		<globalContext.Provider value={{callAlert, updateCartCount, cartCount, user, setUser}}>
 			<Header />
 			<Outlet />
 			<AnimatePresence mode='wait'>

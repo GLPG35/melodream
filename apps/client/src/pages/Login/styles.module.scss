@@ -1,0 +1,99 @@
+.login {
+	width: 100%;
+	height: calc(100vh - 5em);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	.wrapper {
+		width: 30em;
+		max-width: 85%;
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+
+		h2 {
+			font-weight: 800;
+			font-size: 2.2em;
+		}
+
+		form {
+			height: max-content;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5em;
+
+			fieldset {
+				border: none;
+				outline: none;
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+
+				.groupWrapper {
+					display: flex;
+					gap: 1em;
+				}
+				
+				.group {
+					display: flex;
+					flex-direction: column;
+					gap: 0.5em;
+					padding-left: 0.5em;
+
+					label {
+						font-weight: 700;
+						font-size: 1.2em;
+					}
+
+					input {
+						border: none;
+						outline: none;
+						border-radius: 15px;
+						font-size: 1em;
+						color: var(--accent-color);
+						font-weight: 600;
+						padding: 1em 1.5em;
+						width: 100%;
+						background-color: var(--bg-color-dark);
+						font-family: 'Montserrat', sans-serif;
+					}
+				}
+			}
+
+			.action {
+				color: var(--accent-color);
+				font-size: 0.8em;
+				cursor: pointer;
+				padding: 0.5em;
+				width: max-content;
+
+				span {
+					font-weight: 700;
+				}
+			}
+
+			button {
+				border: none;
+				outline: none;
+				width: max-content;
+				padding: 1em 2em;
+				font-size: 1em;
+				border-radius: 15px;
+				background-color: var(--bg-color);
+				font-family: 'Montserrat', sans-serif;
+				font-weight: 600;
+				border: 3px solid var(--accent-color);
+				color: var(--accent-color);
+				transition: 0.2s ease-out;
+
+				&:hover {
+					cursor: pointer;
+					background-color: var(--accent-color);
+					color: var(--bg-color);
+				}
+			}
+		}
+	}
+}

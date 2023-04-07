@@ -150,3 +150,37 @@ export const manageCart: ManageCart = (cid?: string, pid?: string | boolean, bod
 		})
 	})
 }
+
+type ManageUser = {
+	(): Promise<any>,
+	(body: {
+		email: string,
+		name?: string,
+		password: string
+	}): Promise<any>,
+	(logout: true): Promise<any>
+}
+
+export const manageUser: ManageUser = (body?: {email: string, name?: string, password: string} | true) => {
+	const options: RequestInit = {
+		method: body ? 'POST' : 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	if (body !== true && options.method == 'POST') {
+		options.body = JSON.stringify(body)
+	}
+
+	return fetch(body === true ? '/api/logout' : `/api/${(body && body.name) ? 'register' : 'login'}`, options)
+	.then(res => {
+		if (res.ok) return res.json().then(res => res.message)
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}

@@ -14,3 +14,10 @@ export interface Product {
 	subCategory: string,
 	status: boolean
 }
+
+export interface User {
+	id: string,
+	email: string,
+	name: string,
+	userType: string
+}

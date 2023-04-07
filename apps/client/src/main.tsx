@@ -12,6 +12,7 @@ import UpdateProduct from './pages/Dashboard/UpdateProduct'
 import DeleteProduct from './pages/Dashboard/DeleteProduct'
 import ViewProduct from './pages/ViewProduct'
 import Cart from './pages/Cart'
+import AddUser from './pages/Dashboard/AddUser'
 
 const router = createBrowserRouter([
   {
@@ -49,6 +50,10 @@ const router = createBrowserRouter([
           {
             path: 'delete',
             element: <DeleteProduct />
+          },
+          {
+            path: 'addUser',
+            element: <AddUser />
           }
         ]
       }

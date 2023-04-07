@@ -1,3 +1,7 @@
+import dotenv from 'dotenv'
+
+dotenv.config()
+
 import express, { urlencoded } from 'express'
 import home from './routes'
 import realtime from './routes/realtimeproducts'
@@ -7,11 +11,12 @@ import crypto from 'crypto'
 import multer from 'multer'
 import cors from 'cors'
 import compression from 'compression'
-import cookieParser from 'cookie-parser'
 import http from 'http'
+import io from './socket'
+import MongoStore from 'connect-mongo'
+import session from 'express-session'
 import { engine } from 'express-handlebars'
 import { default404 } from './middlewares'
-import io from './socket'
 import { dbConnect } from './dao/db'
 
 const app = express()
@@ -41,7 +46,16 @@ app.set('views', __dirname + '/views')
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
 app.use(compression())
-app.use(cookieParser())
+app.use(session({
+	store: new MongoStore({
+		mongoUrl: process.env.DB_URI,
+		ttl: 24 * 60 * 60,
+		autoRemove: 'native'
+	}),
+	secret: `${process.env.SECRET}`,
+	resave: false,
+	saveUninitialized: false
+}))
 app.use('/static', express.static(__dirname + '/public'))
 
 app.use(cors())

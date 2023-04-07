@@ -22,3 +22,19 @@ export interface Cart {
 	id: string | number,
 	products: CartProduct[]
 }
+
+export interface User {
+	id: string,
+	email: string,
+	name: string,
+	password: string,
+	userType?: 'user' | 'admin'
+}
+
+type GetUser = Omit<User, password>
+
+export declare module 'express-session' {
+	interface SessionData {
+		user: GetUser
+	}
+}
