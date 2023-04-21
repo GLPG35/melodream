@@ -33,7 +33,7 @@ export const convertImage = (img: HTMLImageElement, name: string): Promise<File>
 	return undefined
 }
 
-export const uploadImages = (images: {id: number, thumb: File}[]) => {
+export const uploadImages = (images: {id: number, thumb: File}[], token: string) => {
 	return Promise.all(
 		images.map(({ thumb }) => {
 			const formData = new FormData()
@@ -42,6 +42,11 @@ export const uploadImages = (images: {id: number, thumb: File}[]) => {
 			return new Promise((res, rej) => {
 				return fetch('/api/image/upload', {
 					method: 'POST',
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json',
+						'Authorization': `Bearer ${token}`
+					},
 					body: formData
 				}).then(res => {
 					if (res.ok) {
@@ -68,20 +73,34 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type ManageProduct = {
 	(): Promise<any>
 	(id: string): Promise<any>,
-	(body: {}, method: Method): Promise<any>,
-	(id: string, method: Method): Promise<any>,
-	(id: string, body: {}, method: Method): Promise<any>
+	(body: {}, method: Method, token: string): Promise<any>,
+	(id: string, method: Method, token: string): Promise<any>,
+	(id: string, body: {}, method: Method, token: string): Promise<any>
 }
 
-export const manageProduct: ManageProduct = (id?: string | {}, body?: any, method?: Method) => {
-	const options: { method: Method, headers?: {}, body?: string } = { method: method || 'GET' }
+const methodDict = ['GET', 'POST', 'PUT', 'DELETE']
+
+export const manageProduct: ManageProduct = (id?: string | {}, body?: any, method?: string, token?: string) => {
+	const methodIsToken = () => {
+		if (token) return false
+
+		return methodDict.map(x => method !== x).every(x => x)
+	}
+
+	const options: RequestInit = {
+		method: method || 'GET',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${methodIsToken() ? method : token}`
+		},
+		credentials: 'include'
+	}
 
 	if (typeof body !== 'object') {
 		options.method = body
 	}
 
 	if (options.method == 'POST' || options.method == 'PUT') {
-		options.headers = { 'Content-Type': 'application/json' }
 		options.body = JSON.stringify(typeof id !== 'string' ? id : body)
 	}
 
@@ -156,16 +175,18 @@ type ManageUser = {
 	(body: {
 		email: string,
 		name?: string,
-		password: string
-	}): Promise<any>,
+		password: string,
+		userType?: 'admin' | 'user'
+	}, token?: string): Promise<any>,
 	(logout: true): Promise<any>
 }
 
-export const manageUser: ManageUser = (body?: {email: string, name?: string, password: string} | true) => {
+export const manageUser: ManageUser = (body?: { email: string, name?: string, password: string, userType?: 'admin' | 'user' } | true, token?: string) => {
 	const options: RequestInit = {
 		method: body ? 'POST' : 'GET',
 		headers: {
-			'Content-Type': 'application/json'
+			'Content-Type': 'application/json',
+			...(token) && { 'Authorization': `Bearer ${token}` }
 		},
 		credentials: 'include'
 	}

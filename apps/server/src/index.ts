@@ -15,6 +15,8 @@ import http from 'http'
 import io from './socket'
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
+import passport from 'passport'
+import initializePassport from './passport/config'
 import { engine } from 'express-handlebars'
 import { default404 } from './middlewares'
 import { dbConnect } from './dao/db'
@@ -56,6 +58,11 @@ app.use(session({
 	resave: false,
 	saveUninitialized: false
 }))
+
+initializePassport()
+app.use(passport.initialize())
+app.use(passport.session())
+
 app.use('/static', express.static(__dirname + '/public'))
 
 app.use(cors())

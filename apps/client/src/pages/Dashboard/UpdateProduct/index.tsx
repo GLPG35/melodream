@@ -26,7 +26,7 @@ const UpdateProduct = () => {
 		nextPage: number | null
 	}>()
 	const [selectedPage, setSelectedPage] = useState(1)
-	const { callAlert } = useContext(globalContext)
+	const { callAlert, user } = useContext(globalContext)
 	
 	useEffect(() => {
 		if (!products) {
@@ -73,6 +73,8 @@ const UpdateProduct = () => {
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
+		if (!user) return
+
 		const { 
 			inputTitle: { value: title },
 			code: { value: code },
@@ -95,8 +97,6 @@ const UpdateProduct = () => {
 			upSubCategory,
 			upDescription
 		] = mapInputs
-
-		console.log(upCategory)
 
 		const body: {
 			title: string,
@@ -121,13 +121,13 @@ const UpdateProduct = () => {
 		setLoader(true)
 
 		if (thumbs.length) {
-			await uploadImages(thumbs).then(thumbsURL => {
+			await uploadImages(thumbs, user.token).then(thumbsURL => {
 				body.thumbnails = thumbsURL
 			})
 		}
 
 		if (selectedId) {
-			manageProduct(selectedId, body, 'PUT')
+			manageProduct(selectedId, body, 'PUT', user.token)
 			.then(res => {
 				setTimeout(() => {
 					resetSelectedProduct()

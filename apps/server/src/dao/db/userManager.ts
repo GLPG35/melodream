@@ -1,9 +1,9 @@
-import { User as UserType } from '../../types'
+import { AddUser } from '../../types'
 import bcrypt from 'bcrypt'
 import User from './models/User'
 
 class UserManager {
-	addUser = async (user: UserType) => {
+	addUser = async (user: AddUser) => {
 		const { email, name, password, userType } = user
 
 		const passwordHash = await bcrypt.hash(password, 10)
@@ -16,17 +16,33 @@ class UserManager {
 		})
 	}
 
+	addSocialUser = async (user: any) => {
+		const { email, name, userType } = user
+
+		if (!email) throw new Error('Public verified email address not defined on this Github account')
+
+		return User.create({
+			email: email,
+			name,
+			userType
+		})
+	}
+
 	authUser = (email: string, password: string) => {
 		return User.findOne({ email })
 		.then(async user => {
-			if (!user) throw new Error('Invalid user or password')
+			if (!user) return null
+			
+			const passwordCorrect = await bcrypt.compare(password, user.passwordHash as string)
 
-			const passwordCorrect = await bcrypt.compare(password, user.passwordHash)
+			if (!passwordCorrect) return null
 
-			if (!passwordCorrect) throw new Error('Invalid user or password')
-
-			return user	
+			return user
 		})
+	}
+
+	getUser = (email: string) => {
+		return User.findOne({ email })
 	}
 }
 

@@ -1,5 +1,5 @@
 import { AddProduct } from '../../types'
-import createURL from '../../utils/createURL'
+import { createURL } from '../../utils'
 import Product from './models/Product'
 
 class ProductManager {
@@ -18,7 +18,7 @@ class ProductManager {
 		if (isNaN(page) && page !== undefined) throw new Error('Provide a valid page')
 		if (typeof query !== 'object' && query !== undefined) throw new Error('Provide a valid query')
 
-		return Product.paginate(query || {}, {
+		return Product.paginate({ status: true, ...query } || { status: true }, {
 			limit: limit ? limit : 10,
 			page: page ? page : 1,
 			sort: typeof sort !== 'object' ?

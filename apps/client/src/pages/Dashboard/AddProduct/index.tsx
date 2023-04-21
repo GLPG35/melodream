@@ -15,7 +15,7 @@ const AddProduct = () => {
 	const [submit, setSubmit] = useState(false)
 	const [loader, setLoader] = useState(false)
 	const [finish, setFinish] = useState(false)
-	const { callAlert } = useContext(globalContext)
+	const { callAlert, user } = useContext(globalContext)
 
 	const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -30,6 +30,8 @@ const AddProduct = () => {
 			description
 		} = e.currentTarget
 
+		if (!user) return
+
 		const productExists = await fetch(`/api/products/exists/${code.value}`)
 
 		if (productExists.ok) {
@@ -40,7 +42,8 @@ const AddProduct = () => {
 		if (thumbs.length) {
 			setLoader(true)
 
-			uploadImages(thumbs).then(thumbsURL => {
+			uploadImages(thumbs, user.token)
+			.then(thumbsURL => {
 				const body = {
 					title: inputTitle.value,
 					code: code.value,
@@ -52,7 +55,7 @@ const AddProduct = () => {
 					description: description.value
 				}
 	
-				manageProduct(body, 'POST')
+				manageProduct(body, 'POST', user.token)
 				.then(res => {
 					setTimeout(() => {
 						setFinish(true)

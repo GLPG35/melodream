@@ -10,10 +10,7 @@ const userSchema = new Schema({
 		type: String,
 		required: true
 	},
-	passwordHash: {
-		type: String,
-		required: true
-	},
+	passwordHash: String,
 	userType: {
 		type: String,
 		enum: ['admin', 'user'],

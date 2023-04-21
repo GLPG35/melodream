@@ -1,29 +1,41 @@
 import { Router } from 'express'
-import UserManager from '../../dao/db/userManager'
+import passport from 'passport'
 
 const router = Router()
 
-const users = new UserManager()
-
 router.get('/', (req, res) => {
-	if (req.session.user) return res.send({ success: true, message: req.session.user })
+	if (req.user) return res.send({ success: true, message: req.user })
 
 	return res.status(401).send({ success: false, message: 'User not logged in' })
 })
 
 router.post('/', (req, res) => {
-	const { email, password } = req.body
+	passport.authenticate('local-login', (err: Error, user: any) => {
+		if (!user) return res.status(401).send({ success: false, message: 'Wrong username or password' })
+		if (err) return res.status(500).send({ success: false, message: err.message })
+	
+		return res.send({ success: true, message: user })
+	})(req, res)
+})
 
-	if (req.session.user) return res.send({ success: true, message: req.session.user })
+router.get('/github', passport.authenticate('github', { scope: [ 'user:email' ] }))
 
-	return users.authUser(email, password)
-	.then(user => {
-		req.session.user = user
+router.get('/github/check', (req, res) => {
+	passport.authenticate('github', (err: Error) => {
+		if (err) return res.redirect(`https://melodream.vercel.app/login?error=${err.message}`)
 
-		return res.send({ success: true, message: req.session.user })
-	}).catch(err => {
-		return res.status(401).send({ success: false, message: err.message })
-	})
+		return res.redirect('https://melodream.vercel.app/')
+	})(req, res)
+})
+
+router.get('/spotify', passport.authenticate('spotify', { scope: ['user-read-email', 'user-read-private'] }))
+
+router.get('/spotify/check', (req, res) => {
+	passport.authenticate('spotify', (err: Error) => {
+		if (err) return res.redirect(`https://melodream.vercel.app/login?error=${err.message}`)
+
+		return res.redirect('https://melodream.vercel.app/')
+	})(req, res)
 })
 
 export default router

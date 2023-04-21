@@ -13,7 +13,7 @@ const AddUser = () => {
 	const [arrow, setArrow] = useState(false)
 	const [loader, setLoader] = useState(false)
 	const [finish, setFinish] = useState(false)
-	const { callAlert } = useContext(globalContext)
+	const { callAlert, user } = useContext(globalContext)
 
 	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
@@ -29,7 +29,7 @@ const AddUser = () => {
 
 		setLoader(true)
 
-		manageUser(body)
+		manageUser(body, user?.token)
 		.then(() => {
 			setTimeout(() => {
 				setFinish(true)

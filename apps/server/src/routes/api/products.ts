@@ -1,5 +1,7 @@
 import express from 'express'
 import ProductManager from '../../dao/db/productManager'
+import { checkToken } from '../../middlewares'
+import { verifyToken } from '../../utils'
 
 const router = express.Router()
 
@@ -38,8 +40,8 @@ router.get('/exists/:code', (req, res) => {
 	})
 })
 
-router.post('/', (req, res) => {
-	if (!req.session.user) return res.status(403).send({ success: false, message: 'User unauthorized' })
+router.post('/', checkToken, (req, res) => {
+	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ success: false, message: 'User unauthorized' })
 	
 	const { body } = req
 
@@ -51,8 +53,8 @@ router.post('/', (req, res) => {
 	})
 })
 
-router.put('/:pid', (req, res) => {
-	if (!req.session.user) return res.status(403).send({ succes: false, message: 'User unauthorized' })
+router.put('/:pid', checkToken, (req, res) => {
+	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { body, params: { pid } } = req
 
@@ -64,8 +66,8 @@ router.put('/:pid', (req, res) => {
 	})
 })
 
-router.delete('/:pid', (req, res) => {
-	if (!req.session.user) return res.status(403).send({ succes: false, message: 'User unauthorized' })
+router.delete('/:pid', checkToken, (req, res) => {
+	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { pid } = req.params
 

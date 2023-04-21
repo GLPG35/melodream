@@ -1,3 +1,5 @@
+import { Request } from 'express'
+
 export interface Product {
 	id: string | number,
 	code: string,
@@ -31,10 +33,32 @@ export interface User {
 	userType?: 'user' | 'admin'
 }
 
+export interface AddUser {
+	email: string,
+	name: string,
+	password: string,
+	userType?: 'user' | 'admin'
+}
+
 type GetUser = Omit<User, password>
 
 export declare module 'express-session' {
 	interface SessionData {
 		user: GetUser
+	}
+}
+
+declare global {
+	namespace Express {
+		interface Request {
+			token?: string
+		}
+
+		interface User {
+			email: string,
+			name: string,
+			userType: string,
+			token: string
+		}
 	}
 }

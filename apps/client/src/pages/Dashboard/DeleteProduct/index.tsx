@@ -23,7 +23,7 @@ const DeleteProduct = () => {
 		nextPage: number | null
 	}>()
 	const [selectedPage, setSelectedPage] = useState(1)
-	const { callAlert } = useContext(globalContext)
+	const { callAlert, user } = useContext(globalContext)
 
 	useEffect(() => {
 		if (!products) {
@@ -70,10 +70,12 @@ const DeleteProduct = () => {
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault()
 
+		if (!user) return
+
 		if (selectedId) {
 			setLoader(true)
 
-			manageProduct(selectedId, 'DELETE')
+			manageProduct(selectedId, 'DELETE', user.token)
 			.then(res => {
 				setTimeout(() => {
 					resetSelectedProduct()

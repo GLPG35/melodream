@@ -1,15 +1,24 @@
 import { FormEvent, useContext, useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { globalContext } from '../../App'
 import { manageUser } from '../../utils/server'
 import { motion, AnimatePresence } from 'framer-motion'
+import { TbBrandSpotify } from 'react-icons/tb'
 import styles from './styles.module.scss'
 
 const Login = () => {
 	const navigate = useNavigate()
 	const { user, setUser, callAlert } = useContext(globalContext)
 	const [register, setRegister] = useState(false)
+	const [queryParams] = useSearchParams()
+	const error = queryParams.get('error')
 
+	useEffect(() => {
+		if (error) {
+			callAlert('error', error)
+		}
+	}, [])
+	
 	useEffect(() => {
 		if (user) {
 			if (user.userType == 'admin') {
@@ -51,22 +60,29 @@ const Login = () => {
 
 		manageUser(body)
 		.then(user => {
-			console.log(user)
 			setUser(user)
 		}).catch(() => {})
+	}
+
+	const handleLoginSpotify = () => {
+		window.open('http://localhost:3000/api/login/spotify', '_self')
 	}
 
 	return (
 		<div className={styles.login}>
 			<div className={styles.wrapper}>
-				<h2>Welcome back to Melodream</h2>
+				<div className={styles.optional}>
+					<button className={styles.spotify} onClick={handleLoginSpotify}>
+						<TbBrandSpotify /> Login with Spotify
+					</button>
+				</div>
 				<AnimatePresence mode='wait' initial={false}>
 					{!register ?
 						<motion.form onSubmit={handleLogin}
 						initial={{ opacity: 0 }} animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }} key={1}>
 							<div className={styles.subtitle}>
-								Login right below
+								Or login right below
 							</div>
 							<fieldset>
 								<div className={styles.group}>
@@ -95,7 +111,7 @@ const Login = () => {
 						initial={{ opacity: 0 }} animate={{ opacity: 1 }}
 						exit={{ opacity: 0 }} key={2}>
 							<div className={styles.subtitle}>
-								Register right below
+								Or register right below
 							</div>
 							<fieldset>
 								<div className={styles.groupWrapper}>
