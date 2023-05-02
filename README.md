@@ -30,8 +30,7 @@ Once everything is installed you can:
         
   - Build the project and see the preview:
   
-        turbo build lint
-        turbo preview
+        turbo start
         
 ## Links
 
