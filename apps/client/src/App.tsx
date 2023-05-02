@@ -9,7 +9,7 @@ import { resolveCid, saveQuantity } from './utils/client'
 
 type globalContextType = {
 	callAlert: (icon: AlertIcon, text: string) => void,
-	updateCartCount: (count: number) => void,
+	updateCartCount: (count?: number) => void,
 	cartCount: number | undefined,
 	user: User | undefined,
 	setUser: Dispatch<SetStateAction<User | undefined>>
@@ -32,36 +32,38 @@ function App() {
 	const [user, setUser] = useState<User>()
 
 	useEffect(() => {
-		if (!cartCount) {
-			const count = localStorage.getItem('cartQtty')
+		if (!user) {
+			manageUser()
+			.then(user => {
+				setUser(user)
 
-			if (count) {
-				setCartCount(+JSON.parse(count))
-			} else {
-				resolveCid()
+				resolveCid(user)
 				.then(cid => {
 					manageCart(cid, true)
 					.then(res => {
 						saveQuantity(+res.count, setCartCount)
 					})
 				})
-			}
-		}
-
-		if (!user) {
-			manageUser()
-			.then(user => {
-				setUser(user)
 			}).catch(() => {})
 		}
 	}, [])
+
+	useEffect(() => {
+		resolveCid(user)
+		.then(cid => {
+			manageCart(cid, true)
+			.then(res => {
+				saveQuantity(+res.count, setCartCount)
+			})
+		})
+	}, [user])
 
 	const callAlert = (icon: AlertIcon, text: string) => {
 		setAlertData({icon, text})
 		setAlert(true)
 	}
 
-	const updateCartCount = (count: number) => {
+	const updateCartCount = (count?: number) => {
 		setCartCount(count)
 	}
 

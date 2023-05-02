@@ -19,4 +19,29 @@
 	.text {
 		font-size: 0.9em;
 	}
+
+	button {
+		margin-top: 1em;
+		border: none;
+		outline: none;
+		background-color: transparent;
+		font-family: 'Montserrat', sans-serif;
+		font-weight: 600;
+		color: var(--accent-color);
+		font-size: 1em;
+		padding: 0.8em 1.2em;
+		border: 3px solid var(--accent-color);
+		border-radius: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+		transition: 0.2s ease-out;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--bg-color);
+			background-color: var(--accent-color);
+		}
+	}
 }

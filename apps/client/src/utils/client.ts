@@ -1,13 +1,20 @@
+import { User } from '../types'
 import { manageCart } from './server'
 
-export const resolveCid = () => {
-	const jCid = localStorage.getItem('cart')
-
-	if (jCid) {
-		const cid = JSON.parse(jCid)
+export const resolveCid = (user?: User) => {
+	if (user) {
+		localStorage.setItem('cart', user.cart)
 
 		return new Promise((res: (value: any) => void, _rej) => {
-			res(cid)
+			res(user.cart)
+		})
+	}
+	
+	const guestCart = localStorage.getItem('guestCart')
+
+	if (guestCart) {
+		return new Promise((res: (value: any) => void, _rej) => {
+			res(guestCart)
 		})
 	}
 
@@ -15,7 +22,7 @@ export const resolveCid = () => {
 	.then(res => {
 		const cid = res.message
 
-		localStorage.setItem('cart', JSON.stringify(cid))
+		localStorage.setItem('guestCart', cid)
 
 		return cid
 	})

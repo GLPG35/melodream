@@ -3,7 +3,7 @@ import passport from 'passport'
 
 const router = Router()
 
-router.get('/', (req, res) => {
+router.get('/', passport.authenticate('jwt', { session: false }), (req, res) => {
 	if (req.user) return res.send({ success: true, message: req.user })
 
 	return res.status(401).send({ success: false, message: 'User not logged in' })
@@ -13,8 +13,10 @@ router.post('/', (req, res) => {
 	passport.authenticate('local-login', (err: Error, user: any) => {
 		if (!user) return res.status(401).send({ success: false, message: 'Wrong username or password' })
 		if (err) return res.status(500).send({ success: false, message: err.message })
+
+		const { token, ...parseUser } = user
 	
-		return res.send({ success: true, message: user })
+		return res.cookie('jwtToken', token, { maxAge: 48 * 60 * 60 * 1000 }).send({ success: true, message: parseUser })
 	})(req, res)
 })
 

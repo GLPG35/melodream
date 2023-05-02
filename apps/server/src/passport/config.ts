@@ -2,19 +2,23 @@ import passport, { DoneCallback } from 'passport'
 import { Strategy as LocalStrategy } from 'passport-local'
 import { Strategy as GithubStrategy } from 'passport-github2'
 import { Strategy as SpotifyStrategy } from 'passport-spotify'
+import { Strategy as JWTStrategy, ExtractJwt } from 'passport-jwt'
 import UserManager from '../dao/db/userManager'
-import { parseSessionUser } from '../utils'
+import { cookieExtractor, parseSessionUser } from '../utils'
 
 const users = new UserManager()
 
 const initialize = () => {
-	passport.serializeUser((user: any, done: any) => {
-		done(null, user)
-	})
-	
-	passport.deserializeUser((user: any, done: any) => {
-		done(null, user)
-	})
+	passport.use(new JWTStrategy({
+		jwtFromRequest: ExtractJwt.fromExtractors([cookieExtractor]),
+		secretOrKey: process.env.SECRET as string
+	}, (jwt_payload, done) => {
+		try {
+			done(null, jwt_payload)
+		} catch (err) {
+			done(err)
+		}
+	}))
 
 	passport.use(new SpotifyStrategy({
 		clientID: process.env.SPOTIFY_CLIENT_ID as string,
@@ -72,9 +76,9 @@ const initialize = () => {
 		passReqToCallback: true,
 		usernameField: 'email'
 	}, (req, _email, _password, done) => {
-		const { name, email, password, userType } = req.body
+		const { name, email, password, userType, cart } = req.body
 
-		return users.addUser({ email, name, password, userType })
+		return users.addUser({ email, name, password, userType, cart })
 		.then(user => {
 			return done(null, parseSessionUser(user))
 		}).catch(err => {

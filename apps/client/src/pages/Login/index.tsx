@@ -5,6 +5,7 @@ import { manageUser } from '../../utils/server'
 import { motion, AnimatePresence } from 'framer-motion'
 import { TbBrandSpotify } from 'react-icons/tb'
 import styles from './styles.module.scss'
+import { resolveCid } from '../../utils/client'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -47,16 +48,23 @@ const Login = () => {
 		})
 	}
 
-	const handleRegister = (e: FormEvent<HTMLFormElement>) => {
+	const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault()
 
 		const { email, password, nameInput } = e.currentTarget
 
+		localStorage.removeItem('cart')
+		localStorage.removeItem('cartQtty')
+
+		const cid = await resolveCid().then(cid => cid)
+
 		const body = {
 			email: email.value,
 			password: password.value,
-			name: nameInput.value
+			name: nameInput.value,
+			cart: cid
 		}
+
 
 		manageUser(body)
 		.then(user => {

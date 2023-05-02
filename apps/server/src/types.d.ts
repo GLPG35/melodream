@@ -37,7 +37,8 @@ export interface AddUser {
 	email: string,
 	name: string,
 	password: string,
-	userType?: 'user' | 'admin'
+	userType?: 'user' | 'admin',
+	cart?: string
 }
 
 type GetUser = Omit<User, password>

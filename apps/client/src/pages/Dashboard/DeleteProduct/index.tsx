@@ -75,7 +75,7 @@ const DeleteProduct = () => {
 		if (selectedId) {
 			setLoader(true)
 
-			manageProduct(selectedId, 'DELETE', user.token)
+			manageProduct(selectedId, 'DELETE')
 			.then(res => {
 				setTimeout(() => {
 					resetSelectedProduct()

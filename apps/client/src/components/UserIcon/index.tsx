@@ -23,6 +23,9 @@ const UserIcon = () => {
 		.then(() => {
 			setMenu(!menu)
 			setUser(undefined)
+
+			localStorage.removeItem('cart')
+			localStorage.removeItem('cartQtty')
 		})
 	}
 	

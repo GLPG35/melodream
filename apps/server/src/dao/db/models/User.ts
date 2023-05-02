@@ -15,6 +15,11 @@ const userSchema = new Schema({
 		type: String,
 		enum: ['admin', 'user'],
 		required: true
+	},
+	cart: {
+		type: Schema.Types.ObjectId,
+		ref: 'Cart',
+		required: true
 	}
 })
 

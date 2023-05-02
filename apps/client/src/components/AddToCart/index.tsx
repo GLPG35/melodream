@@ -8,7 +8,7 @@ import { resolveCid, saveQuantity } from '../../utils/client'
 
 const AddToCart = ({ id, stock }: { id: string, stock: number }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(1)
-	const { updateCartCount } = useContext(globalContext)
+	const { updateCartCount, user } = useContext(globalContext)
 
 	const checkStock = (qtty: number) => {
 		if (qtty > stock) return stock
@@ -29,7 +29,7 @@ const AddToCart = ({ id, stock }: { id: string, stock: number }) => {
 			quantity: selectedQuantity
 		}
 
-		resolveCid()
+		resolveCid(user)
 		.then(cid => {
 			manageCart(cid, id, body)
 			.then(res => {

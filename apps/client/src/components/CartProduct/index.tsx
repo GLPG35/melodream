@@ -4,7 +4,7 @@ import { Product } from '../../types'
 import { motion } from 'framer-motion'
 import styles from './styles.module.scss'
 
-const CartProduct = ({ product, quantity }: { product: Product, quantity: number }) => {
+const CartProduct = ({ product, quantity, delay }: { product: Product, quantity: number, delay: number }) => {
 	const [selectedQuantity, setSelectedQuantity] = useState(quantity)
 
 	const checkStock = (qtty: number) => {
@@ -22,7 +22,8 @@ const CartProduct = ({ product, quantity }: { product: Product, quantity: number
 	}
 
 	return (
-		<div className={styles.cartProduct}>
+		<motion.div className={styles.cartProduct}
+		initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay } }}>
 			<div className={styles.top}>
 				<div className={styles.pic}>
 					<img src={product.thumbnails[0]} alt="" />
@@ -50,7 +51,7 @@ const CartProduct = ({ product, quantity }: { product: Product, quantity: number
 					</motion.button>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 

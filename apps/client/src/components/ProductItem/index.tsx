@@ -5,10 +5,11 @@ import { globalContext } from '../../App'
 import { Product } from '../../types'
 import { resolveCid, saveQuantity } from '../../utils/client'
 import { manageCart } from '../../utils/server'
+import { motion } from 'framer-motion'
 import styles from './styles.module.scss'
 
-const ProductItem = ({ product }: { product: Product }) => {
-	const { updateCartCount } = useContext(globalContext)
+const ProductItem = ({ product, delay }: { product: Product, delay: number }) => {
+	const { updateCartCount, user } = useContext(globalContext)
 	const navigate = useNavigate()
 
 	const viewProduct = () => {
@@ -18,7 +19,7 @@ const ProductItem = ({ product }: { product: Product }) => {
 	const handleAddToCart = (e: MouseEvent<HTMLButtonElement>) => {
 		e.stopPropagation()
 
-		resolveCid()
+		resolveCid(user)
 		.then(cid => {
 			manageCart(cid, product.id, { quantity: 1 })
 			.then(res => {
@@ -28,7 +29,8 @@ const ProductItem = ({ product }: { product: Product }) => {
 	}
 
 	return (
-		<div className={styles.product} onClick={viewProduct}>
+		<motion.div className={styles.product} onClick={viewProduct}
+		initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay: delay } }}>
 			<div className={styles.pic}>
 				<img src={product.thumbnails[0]} alt="" />
 				<div className={styles.overlay}>
@@ -45,7 +47,7 @@ const ProductItem = ({ product }: { product: Product }) => {
 					</button>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }
 

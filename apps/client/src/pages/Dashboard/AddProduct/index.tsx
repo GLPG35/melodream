@@ -42,7 +42,7 @@ const AddProduct = () => {
 		if (thumbs.length) {
 			setLoader(true)
 
-			uploadImages(thumbs, user.token)
+			uploadImages(thumbs)
 			.then(thumbsURL => {
 				const body = {
 					title: inputTitle.value,
@@ -55,7 +55,7 @@ const AddProduct = () => {
 					description: description.value
 				}
 	
-				manageProduct(body, 'POST', user.token)
+				manageProduct(body, 'POST')
 				.then(res => {
 					setTimeout(() => {
 						setFinish(true)

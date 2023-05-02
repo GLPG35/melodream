@@ -1,5 +1,6 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import { Request } from 'express'
 
 dotenv.config()
 
@@ -18,19 +19,30 @@ export const verifyToken = (token: string) => {
 }
 
 export const parseSessionUser = (user: any) => {
-	const { id, userType, email, name } = user
+	const { userType, email, name, cart } = user
 
 	const token = createToken({
-		id,
-		userType
+		email,
+		name,
+		userType,
+		cart
 	})
 
 	return {
 		email,
 		name,
 		userType,
+		cart,
 		token
 	}
+}
+
+export const cookieExtractor = (req: Request) => {
+	if (req && req.cookies) {
+		return req.cookies['jwtToken']
+	}
+
+	return null
 }
 
 export const createURL = (page: number) => {

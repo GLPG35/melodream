@@ -5,12 +5,8 @@ export const default404 = (_req: Request, res: Response) => {
 }
 
 export const checkToken = (req: Request, _res: Response, next: NextFunction) => {
-	const { authorization } = req.headers
-
-	if (authorization !== undefined && authorization.toLowerCase().startsWith('bearer')) {
-		const bearerToken = authorization.split(' ')[1]
-
-		req.token = bearerToken
+	if (req && req.cookies) {
+		req.token = req.cookies['jwtToken']
 	}
 
 	return next()

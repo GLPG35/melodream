@@ -121,13 +121,13 @@ const UpdateProduct = () => {
 		setLoader(true)
 
 		if (thumbs.length) {
-			await uploadImages(thumbs, user.token).then(thumbsURL => {
+			await uploadImages(thumbs).then(thumbsURL => {
 				body.thumbnails = thumbsURL
 			})
 		}
 
 		if (selectedId) {
-			manageProduct(selectedId, body, 'PUT', user.token)
+			manageProduct(selectedId, body, 'PUT')
 			.then(res => {
 				setTimeout(() => {
 					resetSelectedProduct()

@@ -1,18 +1,24 @@
 import { AddUser } from '../../types'
 import bcrypt from 'bcrypt'
 import User from './models/User'
+import CartManager from './cartManager'
+
+const carts = new CartManager()
 
 class UserManager {
 	addUser = async (user: AddUser) => {
-		const { email, name, password, userType } = user
+		const { email, name, password, userType, cart } = user
 
 		const passwordHash = await bcrypt.hash(password, 10)
+
+		const checkCart = cart || await carts.addCart().then(cart => cart.id)
 
 		return User.create({
 			email,
 			name,
 			passwordHash,
-			userType: userType || 'user'
+			userType: userType || 'user',
+			cart: checkCart
 		})
 	}
 

@@ -20,7 +20,9 @@ router.post('/', checkToken, (req, res) => {
 	return passport.authenticate('register', (err: Error, user: any) => {
 		if (err) return res.status(400).send({ success: false, message: err.message })
 
-		return res.send({ success: true, message: user })
+		const { token, ...parseUser } = user
+
+		return res.cookie('jwtToken', token).send({ success: true, message: parseUser })
 	})(req, res)
 })
 
