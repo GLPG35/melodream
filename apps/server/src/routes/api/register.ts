@@ -22,7 +22,7 @@ router.post('/', checkToken, (req, res) => {
 
 		const { token, ...parseUser } = user
 
-		return res.cookie('jwtToken', token).send({ success: true, message: parseUser })
+		return res.cookie('jwtToken', token, { httpOnly: true }).send({ success: true, message: parseUser })
 	})(req, res)
 })
 

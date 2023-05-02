@@ -16,7 +16,7 @@ router.post('/', (req, res) => {
 
 		const { token, ...parseUser } = user
 	
-		return res.cookie('jwtToken', token, { maxAge: 48 * 60 * 60 * 1000 }).send({ success: true, message: parseUser })
+		return res.cookie('jwtToken', token, { httpOnly: true, maxAge: 48 * 60 * 60 * 1000 }).send({ success: true, message: parseUser })
 	})(req, res)
 })
 
