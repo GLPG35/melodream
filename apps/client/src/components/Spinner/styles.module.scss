@@ -23,7 +23,7 @@
 			width:64px;
 			height: 64px;
 			border-radius: 50%;
-			background:#FFF;
+			background:	var(--bg-color);
 			transform: translate(-50% , -100%)  scale(0);
 			animation: push 2s infinite linear;
 		}
