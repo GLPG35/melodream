@@ -6,7 +6,7 @@ const router = Router()
 
 const categories = new CategoryManager()
 
-router.get('/', passport.authenticate('jwt', { session: false }), (_req, res) => {
+router.get('/', (_req, res) => {
 	return categories.getCategories()
 	.then(categories => {
 		return res.send(categories)
