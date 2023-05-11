@@ -10,7 +10,10 @@ export interface Product {
 	thumbnails: string[],
 	description: string,
 	stock: number,
-	category: string,
+	category: {
+		id: string,
+		name: string
+	},
 	subCategory: string,
 	status: boolean
 }
@@ -20,4 +23,9 @@ export interface User {
 	name: string,
 	userType: string,
 	cart: string
+}
+
+export interface Category {
+	id: string,
+	name: string
 }

@@ -110,6 +110,21 @@ export const manageProduct: ManageProduct = (id?: string | {}, body?: any, metho
 	})
 }
 
+export const queryProduct = (field: string, value: string) => {
+	return fetch(`/api/products?query[${field}]=${value}`)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
 export const productsPage = (page: number) => {
 	return fetch(`/api/products?page=${page}`)
 	.then(res => {
@@ -118,6 +133,39 @@ export const productsPage = (page: number) => {
 			.then(res => {
 				return res
 			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+type ManageCategory = {
+	(): Promise<any>,
+	(body: { name: string }): Promise<any>,
+	(cid: string, method: Method): Promise<any>
+}
+
+export const manageCategory: ManageCategory = (body?: { name: string } | string, method?: Method) => {
+	const options: RequestInit = {
+		method: body ? method || 'POST' : 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	if (method == 'POST') {
+		options.body = JSON.stringify(body)
+	}
+	
+	return fetch(`/api/categories`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
 		}
 
 		return res.json()
@@ -188,6 +236,27 @@ export const manageUser: ManageUser = (body?: { email: string, name?: string, pa
 	return fetch(body === true ? '/api/logout' : `/api/${(body && body.name) ? 'register' : 'login'}`, options)
 	.then(res => {
 		if (res.ok) return res.json().then(res => res.message)
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const manageSearch = (text: string) => {
+	const body = {
+		text
+	}
+
+	return fetch('/api/products/search', {
+		method: 'POST',
+		body: JSON.stringify(body),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}).then(res => {
+		if (res.ok) return res.json().then(res => res)
 
 		return res.json()
 		.then(res => {

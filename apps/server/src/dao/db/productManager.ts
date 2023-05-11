@@ -24,7 +24,8 @@ class ProductManager {
 			sort: typeof sort !== 'object' ?
 			{ createdAt: sort || 'desc' }
 			: sort,
-			query
+			query,
+			populate: 'category'
 		}).then(data => {
 			return {
 				...data,
@@ -35,7 +36,7 @@ class ProductManager {
 	}
 
 	getProductByCode = (code: string) => {
-		return Product.findOne({ code }).exec()
+		return Product.findOne({ code }).populate('category').exec()
 		.then(product => {
 			if (!product) throw new Error('Product not found')
 
@@ -47,7 +48,7 @@ class ProductManager {
 	}
 
 	getProductById = (id: string) => {
-		return Product.findById(id).exec()
+		return Product.findById(id).populate('category').exec()
 		.then(product => {
 			if (!product) throw new Error('Product not found')
 
@@ -77,6 +78,14 @@ class ProductManager {
 		}).catch(() => {
 			throw new Error('Product not found')
 		})
+	}
+
+	searchProduct = (text: string) => {
+		return Product.aggregate([
+			{ $search: { autocomplete: { query: text, path: 'title'} } },
+			{ $limit: 5 },
+			{ $addFields: { 'id': '$_id' } }
+		]).exec()
 	}
 }
 

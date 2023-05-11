@@ -19,7 +19,7 @@ const ViewProduct = () => {
 				setProduct(null)
 			})
 		}
-	}, [])
+	}, [pid])
 
 	return (
 		<div className={styles.viewProduct}>

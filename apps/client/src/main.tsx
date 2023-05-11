@@ -13,6 +13,9 @@ import DeleteProduct from './pages/Dashboard/DeleteProduct'
 import ViewProduct from './pages/ViewProduct'
 import Cart from './pages/Cart'
 import AddUser from './pages/Dashboard/AddUser'
+import NotFound from './pages/NotFound'
+import Categories from './pages/Categories'
+import AddCategory from './pages/Dashboard/AddCategory'
 
 const router = createBrowserRouter([
   {
@@ -26,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: '/product/:pid',
         element: <ViewProduct />
+      },
+      {
+        path: '/categories/:cid',
+        element: <Categories />
       },
       {
         path: '/cart',
@@ -52,10 +59,18 @@ const router = createBrowserRouter([
             element: <DeleteProduct />
           },
           {
+            path: 'addCategory',
+            element: <AddCategory />
+          },
+          {
             path: 'addUser',
             element: <AddUser />
           }
         ]
+      },
+      {
+        path: '*',
+        element: <NotFound />
       }
     ]
   }

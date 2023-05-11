@@ -1,7 +1,7 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "5.0.1",
+  "version": "5.1.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src",

@@ -1,0 +1,47 @@
+.notFound {
+	width: 100%;
+	height: calc(100vh - 5em);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	gap: 1em;
+
+	.icon {
+		font-size: 3.5em;
+	}
+
+	.title {
+		font-weight: 700;
+		font-size: 1.8em;
+	}
+
+	.text {
+		font-size: 0.9em;
+	}
+
+	button {
+		margin-top: 1em;
+		border: none;
+		outline: none;
+		background-color: transparent;
+		font-family: 'Montserrat', sans-serif;
+		font-weight: 600;
+		color: var(--accent-color);
+		font-size: 1em;
+		padding: 0.8em 1.2em;
+		border: 3px solid var(--accent-color);
+		border-radius: 15px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.5em;
+		transition: 0.2s ease-out;
+		cursor: pointer;
+
+		&:hover {
+			color: var(--bg-color);
+			background-color: var(--accent-color);
+		}
+	}
+}

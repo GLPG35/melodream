@@ -3,6 +3,7 @@ import login from './login'
 import register from './register'
 import logout from './logout'
 import products from './products'
+import categories from './categories'
 import image from './image'
 import carts from './carts'
 
@@ -12,6 +13,7 @@ router.use('/login', login)
 router.use('/register', register)
 router.use('/logout', logout)
 router.use('/products', products)
+router.use('/categories', categories)
 router.use('/image', image)
 router.use('/carts', carts)
 

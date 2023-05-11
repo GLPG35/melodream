@@ -79,4 +79,15 @@ router.delete('/:pid', checkToken, (req, res) => {
 	})
 })
 
+router.post('/search', (req, res) => {
+	const { text } = req.body
+
+	return products.searchProduct(text)
+	.then(products => {
+		return res.send(products)
+	}).catch(err => {
+		return res.status(400).send({ success: false, message: err.message })
+	})
+})
+
 export default router

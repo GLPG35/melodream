@@ -3,17 +3,20 @@ import paginate from 'mongoose-paginate-v2'
 
 const productSchema = new Schema({
 	code: { type: String, unique: true },
-	title: { type: String, index: 'text' },
+	title: { type: String },
 	price: Number,
 	thumbnails: [String],
 	description: String,
 	stock: Number,
-	category: String,
+	category: {
+		type: Schema.Types.ObjectId,
+		ref: 'Category'
+	},
 	subCategory: String,
 	status: Boolean
 }, { timestamps: true })
 
-productSchema.index({ title: 1, type: -1 })
+productSchema.index({ title: 'text' }, { name: 'titleIndex' })
 productSchema.plugin(paginate)
 
 productSchema.set('toJSON', {

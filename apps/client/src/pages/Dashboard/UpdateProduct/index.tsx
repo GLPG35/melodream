@@ -6,11 +6,12 @@ import DropImages from '../../../components/DropImages'
 import NoProducts from '../../../components/NoProducts'
 import WaveLoader from '../../../components/WaveLoader'
 import { Product } from '../../../types'
-import { manageProduct, productsPage, uploadImages } from '../../../utils/server'
+import { manageCategory, manageProduct, productsPage, uploadImages } from '../../../utils/server'
 import styles from './styles.module.scss'
 
 const UpdateProduct = () => {
 	const [products, setProducts] = useState<Product[]>()
+	const [categories, setCategories] = useState([])
 	const [finish, setFinish] = useState(false)
 	const [loader, setLoader] = useState(false)
 	const [render, setRender] = useState(false)
@@ -27,6 +28,13 @@ const UpdateProduct = () => {
 	}>()
 	const [selectedPage, setSelectedPage] = useState(1)
 	const { callAlert, user } = useContext(globalContext)
+	
+	useEffect(() => {
+		if (!categories.length) {
+			manageCategory()
+			.then(setCategories)
+		}
+	}, [])
 	
 	useEffect(() => {
 		if (!products) {
@@ -113,7 +121,7 @@ const UpdateProduct = () => {
 			price: upPrice,
 			stock: upStock,
 			thumbnails: undefined,
-			category: upCategory ? category.options[category.selectedIndex].text : undefined,
+			category: upCategory ? category.value : undefined,
 			subCategory: upSubCategory,
 			description: upDescription
 		}
@@ -264,11 +272,13 @@ const UpdateProduct = () => {
 														<select name="category" id="category" defaultValue="default"
 														onFocus={() => setArrow(true)} onBlur={() => setArrow(false)}>
 															<option value="default" disabled>Select one category</option>
-															<option value="classic">Classic</option>	
-															<option value="kpop">K-Pop</option>
-															<option value="metal">Metal</option>
-															<option value="pop">Pop</option>
-															<option value="rock">Rock</option>
+															{categories.length > 0 &&
+																categories.map(({ id, name }) => {
+																	return (
+																		<option key={id} value={id}>{name}</option>
+																	)
+																})
+															}
 														</select>
 														<motion.div animate={{ rotate: arrow ? -90 : 0 }} className={styles.arrow}>
 															<TbChevronLeft />

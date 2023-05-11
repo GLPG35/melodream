@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { TbCirclePlus, TbEdit, TbEraser, TbUser } from 'react-icons/tb'
+import { TbCirclePlus, TbEdit, TbEraser, TbUser, TbVersions } from 'react-icons/tb'
 import { Outlet } from 'react-router-dom'
 import styles from './styles.module.scss'
 import { useContext, useEffect } from 'react'
@@ -12,6 +12,8 @@ const Dashboard = () => {
 	const currentLocation = location.pathname.split('/').pop()
 	
 	useEffect(() => {
+		if (user === undefined) return
+
 		if (!user) {
 			navigate('/login')
 		} else if (user.userType !== 'admin') {
@@ -42,6 +44,11 @@ const Dashboard = () => {
 							<li>
 								<Link to={'delete'}>
 									<TbEraser fontSize={'1.2em'} /> Delete Product
+								</Link>
+							</li>
+							<li>
+								<Link to={'addCategory'}>
+									<TbVersions fontSize={'1.2em'} /> Add Category
 								</Link>
 							</li>
 							<li>

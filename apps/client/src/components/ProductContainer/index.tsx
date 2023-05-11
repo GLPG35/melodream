@@ -4,10 +4,10 @@ import ProductItem from '../ProductItem'
 import Spinner from '../Spinner'
 import styles from './styles.module.scss'
 
-const ProductContainer = ({ products, title, id }: { products: Product[] | undefined, title: string, id?: string }) => {
+const ProductContainer = ({ products, title, id, color = 'primary' }: { products: Product[] | undefined, title: string, id?: string, color?: 'primary' | 'secondary' }) => {
 	return (
 		<div className={styles.productContainer} id={id}>
-			<div className={styles.title}>
+			<div className={styles.title} style={{ color: color == 'primary' ? 'var(--bg-color)' : 'var(--accent-color)' }}>
 				{title}
 			</div>
 			<div className={styles.products}>

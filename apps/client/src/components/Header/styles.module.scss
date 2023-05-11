@@ -6,6 +6,77 @@
 	top: 0;
 	z-index: 50;
 
+	.categoriesContainer {
+		position: fixed;
+		width: 100%;
+		height: 100vh;
+		left: 0;
+		top: 0;
+		z-index: 50;
+		background-color: transparent;
+		overflow: hidden;
+		background-color: var(--bg-color);
+
+		.categoriesWrapper {
+			position: relative;
+			width: 100%;
+			height: 100%;
+			padding-top: 20vh;
+
+			.waveBg {
+				@keyframes waveAnim {
+					from {
+						transform: translateX(-47%);
+					}
+				
+					to {
+						transform: translateX(0%);
+					}
+				}
+
+				top: 7vh;
+				left: 0;
+				position: absolute;
+				background-color: var(--accent-color);
+				width: 200%;
+				height: 100%;
+				animation: waveAnim 9s linear infinite forwards;
+				--mask:
+					radial-gradient(84.91px at 50% 117.00px,#000 99%,#0000 101%) calc(50% - 90px) 0/180px 100%,
+					radial-gradient(84.91px at 50% -72px,#0000 99%,#000 101%) 50% 45px/180px 100% repeat-x;
+				-webkit-mask: var(--mask);
+				mask: var(--mask);
+				z-index: -1;
+			}
+
+			.categories {
+				width: 100%;
+				height: 100%;
+				display: grid;
+				padding: 2em;
+				grid-template-columns: repeat(auto-fit, minmax(10em, 1fr));
+				gap: 2em;
+				grid-auto-rows: 7em;
+
+				.category {
+					width: 100%;
+					height: 100%;
+					border-radius: 25px;
+					color: var(--bg-color);
+					background-color: var(--accent-color-lighter);
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					padding-right: 0.2em;
+					gap: 0.3em;
+					font-weight: 800;
+					font-size: 2em;
+					cursor: pointer;
+				}
+			}
+		}
+	}
+
 	.innerHeader {
 		width: 100%;
 		height: 100%;
@@ -16,6 +87,8 @@
 		background-color: var(--bg-color-op);
 		backdrop-filter: blur(10px);
 		border-radius: 15px;
+		position: relative;
+		z-index: 52;
 
 		.icon {
 			height: 80%;
@@ -44,11 +117,35 @@
 		nav {
 			display: flex;
 			gap: 1em;
+			position: absolute;
+			z-index: 10;
+			width: 100%;
+			align-items: center;
+			justify-content: center;
 	
 			ul {
 				display: flex;
 				list-style: none;
 				gap: 1em;
+
+				.categories {
+					display: flex;
+					gap: 0.2em;
+					cursor: pointer;
+
+					&:hover {
+						color: var(--accent-color-dark);
+
+						a {
+							color: var(--accent-color-dark);
+						}
+					}
+
+					.arrow {
+						font-size: 0.9em;
+						transition: color 0.2s ease-out;
+					}
+				}
 	
 				a {
 					text-decoration: none;
@@ -56,6 +153,8 @@
 					outline: none;
 					color: var(--accent-color);
 					font-weight: 600;
+					cursor: pointer;
+					user-select: none;
 	
 					&:hover {
 						color: var(--accent-color-dark);
@@ -68,6 +167,7 @@
 			display: flex;
 			align-items: center;
 			gap: 1em;
+			z-index: 20;
 		}
 	}
 }
