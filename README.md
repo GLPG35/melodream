@@ -11,7 +11,7 @@ E-commerce app for the sell of music albums, made with Vite, TypeScript, React, 
 
 You will need certain requirements:
 
-  - Node.js (Install the LTS version from [https://nodejs.org/](https://nodejs.org/)
+  - Node.js (Install the LTS version from [https://nodejs.org/](https://nodejs.org/))
   - git
   
 Now open your favorite terminal and type these commands:
