@@ -53,6 +53,11 @@ const Cart = () => {
 			setProducts(res.products)
 		})
 
+		manageCart(cid, true)
+		.then(res => {
+			saveQuantity(+res.count, updateCartCount)
+		})
+
 		manageCartTotal(cid)
 		.then(res => {
 			setTotal(res)

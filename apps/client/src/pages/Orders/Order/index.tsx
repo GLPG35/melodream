@@ -4,19 +4,23 @@ import { useContext, useEffect, useState } from 'react'
 import { manageOrder } from '../../../utils/server'
 import { globalContext } from '../../../App'
 import { Order } from '../../../types'
-import { TbChevronLeft } from 'react-icons/tb'
+import { TbChevronLeft, TbTicket } from 'react-icons/tb'
+import Spinner from '../../../components/Spinner'
+import NoProducts from '../../../components/NoProducts'
 
 const Order = () => {
 	const { oid } = useParams()
 	const { user } = useContext(globalContext)
-	const [order, setOrder] = useState<Order>()
+	const [order, setOrder] = useState<Order | null>()
 
 	useEffect(() => {
 		if (oid && user) {
 			manageOrder(user.email, oid)
 			.then(res => {
 				setOrder(res)
-			}).catch
+			}).catch(() => {
+				setOrder(null)
+			})
 		}
 	}, [user])
 
@@ -24,11 +28,17 @@ const Order = () => {
 		<div className={styles.order}>
 			<div className={styles.title}>
 				<span>Order</span>
-				<Link to={'/orders'}>
-					<TbChevronLeft /> Orders
-				</Link>
+				{order &&
+					<Link to={'/orders'}>
+						<TbChevronLeft /> Orders
+					</Link>
+				}
 			</div>
-			{order &&
+			{order === undefined ?
+				<div className={styles.spinner}>
+					<Spinner color='secondary' background style={{ height: '100%' }} />
+				</div>
+			: order ?
 				<div className={styles.orderInfo} key={order.id}>
 					<div className={styles.orderTitle}>
 						<div className={styles.orderId}>
@@ -42,6 +52,9 @@ const Order = () => {
 						</div>
 					</div>
 				</div>
+			:
+				<NoProducts title='Order not found' message='Please check your orders and try again'
+				icon='order' buttonIcon={<TbTicket />} buttonMsg='Go to orders' buttonLink='/orders' />
 			}
 		</div>
 	)
