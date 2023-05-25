@@ -16,6 +16,11 @@ import AddUser from './pages/Dashboard/AddUser'
 import NotFound from './pages/NotFound'
 import Categories from './pages/Categories'
 import AddCategory from './pages/Dashboard/AddCategory'
+import Buy from './pages/Cart/Buy'
+import Payment from './pages/Payment'
+import SuccessPayment from './pages/Payment/Success'
+import Orders from './pages/Orders'
+import Order from './pages/Orders/Order'
 
 const router = createBrowserRouter([
   {
@@ -39,6 +44,32 @@ const router = createBrowserRouter([
         element: <Cart />
       },
       {
+        path: '/cart/buy',
+        element: <Buy />
+      },
+      {
+        path: '/payment',
+        element: <Payment />,
+        children: [
+          {
+            index: true,
+            element: <NotFound />
+          },
+          {
+            path: 'success',
+            element: <SuccessPayment />
+          }
+        ]
+      },
+      {
+        path: '/orders',
+        element: <Orders />
+      },
+      {
+        path: '/orders/:oid',
+        element: <Order />
+      },
+      {
         path: '/login',
         element: <Login />
       },
@@ -46,6 +77,10 @@ const router = createBrowserRouter([
         path: '/dashboard',
         element: <Dashboard />,
         children: [
+          {
+            index: true,
+            element: <AddProduct />
+          },
           {
             path: 'add',
             element: <AddProduct />

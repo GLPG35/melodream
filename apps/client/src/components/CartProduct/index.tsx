@@ -1,25 +1,15 @@
-import { useState } from 'react'
-import { TbCurrencyDollar, TbMinus, TbPlus } from 'react-icons/tb'
+import { TbCurrencyDollar, TbMinus, TbPlus, TbTrash } from 'react-icons/tb'
 import { Product } from '../../types'
 import { motion } from 'framer-motion'
 import styles from './styles.module.scss'
 
-const CartProduct = ({ product, quantity, delay }: { product: Product, quantity: number, delay: number }) => {
-	const [selectedQuantity, setSelectedQuantity] = useState(quantity)
+interface Callbacks {
+	handleDelete: (id: string) => void,
+	handleQtty: (id: string, type: 'add' | 'sub') => void
+}
 
-	const checkStock = (qtty: number) => {
-		if (qtty > product.stock) return product.stock
-		if (qtty < 1) return 1
-
-		return qtty
-	}
-
-	const changeQtty = (type: 'sub' | 'add') => {
-		const bType = type == 'add'
-
-		const newQtty = checkStock(bType ? selectedQuantity + 1 : selectedQuantity - 1)
-		setSelectedQuantity(newQtty)
-	}
+const CartProduct = ({ product, quantity, delay, callbacks }: { product: Product, quantity: number, delay: number, callbacks: Callbacks}) => {
+	const { handleDelete, handleQtty } = callbacks
 
 	return (
 		<motion.div className={styles.cartProduct}
@@ -40,15 +30,20 @@ const CartProduct = ({ product, quantity, delay }: { product: Product, quantity:
 			<div className={styles.bottom}>
 				<div className={styles.quantity}>
 					<motion.button className={styles.sub}
-					onClick={() => changeQtty('sub')}>
+					onClick={() => handleQtty(product.id, 'sub')}>
 						<TbMinus />
 					</motion.button>
-					<input type="number" min={0} max={product.stock} value={selectedQuantity}
+					<input type="number" min={0} value={quantity}
 					readOnly />
 					<motion.button className={styles.add}
-					onClick={() => changeQtty('add')}>
+					disabled={quantity >= product.stock}
+					onClick={() => handleQtty(product.id, 'add')}>
 						<TbPlus />
 					</motion.button>
+				</div>
+				<div className={styles.delete}
+				onClick={() => handleDelete(product.id)}>
+					<TbTrash />
 				</div>
 			</div>
 		</motion.div>

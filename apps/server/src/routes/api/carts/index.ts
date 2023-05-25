@@ -27,6 +27,17 @@ router.get('/:cid', (req, res) => {
 	})
 })
 
+router.get('/:cid/total', (req, res) => {
+	const { cid } = req.params
+
+	carts.getTotalAmount(cid)
+	.then(total => {
+		return res.send({ success: true, message: total })
+	}).catch(err => {
+		return res.status(400).send({ success: false, message: err.message })
+	})
+})
+
 router.delete('/:cid', (req, res) => {
 	const { cid } = req.params
 

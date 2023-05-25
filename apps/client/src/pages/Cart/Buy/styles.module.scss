@@ -1,0 +1,175 @@
+.buy {
+	width: 100%;
+	height: calc(100vh - 5em);
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	position: relative;
+
+	.title {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+
+		span {
+			font-weight: 800;
+			font-size: 2em;
+		}
+
+		.back {
+			font-weight: 500;
+			font-size: 0.9em;
+			
+			a {
+				text-decoration: none;
+				display: flex;
+				align-items: center;
+				gap: 0.2em;
+				outline: none;
+				color: var(--accent-color);
+			}
+		}
+	}
+
+	form {
+		width: 100%;
+		flex-grow: 1;
+		border-radius: 25px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 2em;
+
+		.info {
+			flex-grow: 3;
+			min-width: 30em;
+			display: flex;
+			flex-direction: column;
+			gap: 2.5em;
+			padding: 2em;
+			background-color: var(--bg-color-dark);
+			border-radius: 25px;
+			
+			.fieldsWrapper {
+				display: flex;
+				flex-direction: column;
+				gap: 1.5em;
+
+				.title {
+					font-size: 1.6em;
+					font-weight: 700;
+				}
+	
+				.fields {
+					width: 100%;
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(13em, 1fr));
+					gap: 2em;
+	
+					.field {
+						width: 100%;
+						display: flex;
+						flex-direction: column;
+						gap: 0.5em;
+	
+						label {
+							font-size: 1.1em;
+							font-weight: 700;
+						}
+	
+						input {
+							width: 100%;
+							border: none;
+							outline: none;
+							padding: 0.7em 1em;
+							font-size: 1em;
+							font-family: 'Montserrat', sans-serif;
+							background-color: var(--bg-color);
+							border-radius: 10px;
+							color: var(--accent-color);
+							font-weight: 500;
+						}
+					}
+				}
+			}
+		}
+
+		.complete {
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 1.5em;
+			padding: 2em;
+			background-color: var(--bg-color-dark);
+			border-radius: 25px;
+
+			.title {
+				font-size: 1.6em;
+				font-weight: 700;
+			}
+
+			.previews {
+				min-height: 5em;
+				position: relative;
+				display: flex;
+
+				.pic {
+					height: 5em;
+					width: 5em;
+					border-radius: 15px;
+					overflow: hidden;
+					position: absolute;
+					top: 0;
+					left: 0;
+					z-index: 5;
+
+					@for $i from 2 through 5 {
+						&:nth-child(#{$i}) {
+							z-index: calc(6 - #{$i});
+							translate: calc(70% * (#{$i} - 1));
+						}
+					}
+
+					img {
+						width: 100%;
+						height: 100%;
+						object-fit: cover;
+					}
+				}
+			}
+
+			.albumsInfo {
+				font-size: 0.9em;
+				display: flex;
+				align-items: center;
+				gap: 0.2em;
+			}
+
+			.total {
+				display: flex;
+				justify-content: space-between;
+				font-size: 1.5em;
+				font-weight: 700;
+				margin-top: auto;
+			}
+
+			button {
+				display: flex;
+				gap: 0.5em;
+				width: 100%;
+				border: none;
+				outline: none;
+				background-color: var(--accent-color);
+				font-weight: 800;
+				font-size: 1.2em;
+				font-family: 'Montserrat', sans-serif;
+				align-items: center;
+				justify-content: center;
+				padding-block: 0.8em;
+				color: var(--bg-color-dark);
+				border-radius: 10px;
+				cursor: pointer;
+			}
+		}
+	}
+}

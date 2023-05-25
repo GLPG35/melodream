@@ -13,6 +13,7 @@ const Login = () => {
 	const [register, setRegister] = useState(false)
 	const [queryParams] = useSearchParams()
 	const error = queryParams.get('error')
+	const redirect = queryParams.get('redirect')
 
 	useEffect(() => {
 		if (error) {
@@ -22,6 +23,12 @@ const Login = () => {
 	
 	useEffect(() => {
 		if (user) {
+			if (redirect) {
+				navigate(`/${redirect}`)
+				
+				return
+			}
+
 			if (user.userType == 'admin') {
 				navigate('/dashboard')
 			} else {

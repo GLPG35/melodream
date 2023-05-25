@@ -13,6 +13,19 @@ export interface Product {
 	status: boolean
 }
 
+export interface PopulatedCartProduct {
+	_id: string,
+	code: string,
+	title: string,
+	price: number,
+	thumbnails: string[],
+	description: string,
+	stock: number,
+	category: string,
+	subCategory: string,
+	status: boolean
+}
+
 export type AddProduct = Omit<Product, 'id'>
 
 export interface CartProduct {

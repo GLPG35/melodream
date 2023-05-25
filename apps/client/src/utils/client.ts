@@ -1,7 +1,7 @@
 import { User } from '../types'
 import { manageCart } from './server'
 
-export const resolveCid = (user?: User) => {
+export const resolveCid = (user?: User | null) => {
 	if (user) {
 		localStorage.setItem('cart', user.cart)
 

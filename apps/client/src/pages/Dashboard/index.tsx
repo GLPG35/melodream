@@ -1,4 +1,4 @@
-import { Link, useLocation, useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { TbCirclePlus, TbEdit, TbEraser, TbUser, TbVersions } from 'react-icons/tb'
 import { Outlet } from 'react-router-dom'
 import styles from './styles.module.scss'
@@ -8,20 +8,12 @@ import { globalContext } from '../../App'
 const Dashboard = () => {
 	const navigate = useNavigate()
 	const { user } = useContext(globalContext)
-	const location = useLocation()
-	const currentLocation = location.pathname.split('/').pop()
 	
 	useEffect(() => {
-		if (user === undefined) return
-
 		if (!user) {
-			navigate('/login')
+			navigate('/login', { replace: true })
 		} else if (user.userType !== 'admin') {
 			navigate('/')
-		} else {
-			if (currentLocation === '' || currentLocation === 'dashboard') {
-				navigate('add')
-			}
 		}
 	}, [user])
 

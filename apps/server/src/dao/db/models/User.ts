@@ -1,4 +1,12 @@
-import { Schema, model } from 'mongoose'
+import { Document, Schema, model } from 'mongoose'
+
+interface UserDocument extends Document {
+	email: string,
+	name: string,
+	passwordHash?: string,
+	userType: 'admin' | 'user',
+	cart: string
+}
 
 const userSchema = new Schema({
 	email: {
@@ -33,6 +41,6 @@ userSchema.set('toJSON', {
 	}
 })
 
-const User = model('User', userSchema)
+const User = model<UserDocument>('User', userSchema)
 
 export default User

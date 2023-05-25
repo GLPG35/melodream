@@ -1,4 +1,20 @@
-import { Schema, model } from 'mongoose'
+import { Document, PopulatedDoc, Schema, model } from 'mongoose'
+import { PopulatedCartProduct } from '../../../types'
+
+export interface CartDocument extends Document {
+	products: [{
+		product: string,
+		quantity: number
+	}]
+}
+
+export interface PopulatedCartDocument extends PopulatedDoc<Document> {
+	products: [{
+		product: PopulatedCartProduct,
+		quantity: number
+	}],
+	count?: number
+}
 
 const cartSchema = new Schema({
 	products: [{
@@ -20,6 +36,6 @@ cartSchema.set('toJSON', {
 	}
 })
 
-const Cart = model('Cart', cartSchema)
+const Cart = model<CartDocument>('Cart', cartSchema)
 
 export default Cart

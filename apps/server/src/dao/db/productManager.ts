@@ -47,14 +47,13 @@ class ProductManager {
 		})
 	}
 
-	getProductById = (id: string) => {
+	getProductById = (id: string | number) => {
 		return Product.findById(id).populate('category').exec()
 		.then(product => {
 			if (!product) throw new Error('Product not found')
 
 			return product
-		})
-		.catch(err => {
+		}).catch(err => {
 			throw new Error(err.message)
 		})
 	}
@@ -69,6 +68,24 @@ class ProductManager {
 		.catch(err => {
 			throw new Error(err.message)
 		})
+	}
+
+	checkStock = (id: string | number, quantity: number) => {
+		return this.getProductById(id)
+		.then(product => {
+			if (product.stock >= quantity) return false
+
+			return {
+				id: product.id,
+				stock: product.stock
+			}
+		}).catch(err => {
+			throw new Error(err.message)
+		})
+	}
+
+	updateStock = (id: string | number, quantity: number) => {
+		return Product.findOneAndUpdate({ _id: id }, { $inc: { stock: -quantity } }, { new: true })
 	}
 
 	deleteProduct = (id: string) => {

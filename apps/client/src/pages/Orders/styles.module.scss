@@ -1,0 +1,112 @@
+.orders {
+	width: 100%;
+	height: calc(100vh - 5em);
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	position: relative;
+
+	.title {
+		font-weight: 800;
+		font-size: 2em;
+	}
+
+	.ordersList {
+		width: 100%;
+		flex-grow: 1;
+		overflow-y: auto;
+		border-radius: 25px;
+		background-color: var(--bg-color-dark);
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(23em, 1fr));
+		gap: 2em;
+		padding: 2em;
+
+		.order {
+			width: 100%;
+			height: max-content;
+			border-radius: 20px;
+			background-color: var(--bg-color);
+			padding: 2em;
+			display: flex;
+			flex-direction: column;
+			gap: 2em;
+			cursor: pointer;
+			position: relative;
+			overflow: hidden;
+
+			.background {
+				position: absolute;
+				z-index: 1;
+				right: 0;
+				top: 0;
+				font-size: 6em;
+				width: 100%;
+				height: 100%;
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				color: var(--accent-color-light);
+
+				.icon {
+					translate: 40%;
+				}
+			}
+
+			.orderTitle {
+				display: flex;
+				flex-direction: column;
+				gap: 0.2em;
+
+				.orderId {
+					font-weight: 800;
+					font-size: 1.1em;
+					max-width: 100%;
+					overflow: hidden;
+					text-overflow: ellipsis;
+				}
+
+				.date {
+					font-size: 0.9em;
+					color: var(--accent-color-light);
+				}
+			}
+
+			.bottom {
+				width: 80%;
+				display: flex;
+				justify-content: space-between;
+
+				.info {
+					display: flex;
+					gap: 1em;
+	
+					.total {
+						display: flex;
+						align-items: center;
+						gap: 0.3em;
+					}
+	
+					.amount {
+						display: flex;
+						align-items: center;
+					}
+				}
+
+				button {
+					padding: 0.5em;
+					border: none;
+					outline: none;
+					background-color: var(--accent-color);
+					border-radius: 50vh;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					color: var(--bg-color);
+					font-size: 1.1em;
+				}
+			}
+		}
+	}
+}

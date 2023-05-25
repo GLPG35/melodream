@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { TbLayout, TbLogout, TbUser } from 'react-icons/tb'
+import { TbLayout, TbLogout, TbTicket, TbUser } from 'react-icons/tb'
 import { Link, useNavigate } from 'react-router-dom'
 import { globalContext } from '../../App'
 import { manageUser } from '../../utils/server'
@@ -22,7 +22,7 @@ const UserIcon = () => {
 		manageUser(true)
 		.then(() => {
 			setMenu(!menu)
-			setUser(undefined)
+			setUser(null)
 
 			localStorage.removeItem('cart')
 			localStorage.removeItem('cartQtty')
@@ -67,6 +67,9 @@ const UserIcon = () => {
 											<TbLayout /> Dashboard
 										</Link>
 									}
+									<Link to={'/orders'} onClick={() => setMenu(!menu)}>
+										<TbTicket /> Orders
+									</Link>
 									<a href={undefined} onClick={handleLogout}>
 										<TbLogout /> Logout
 									</a>

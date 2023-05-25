@@ -29,3 +29,18 @@ export interface Category {
 	id: string,
 	name: string
 }
+
+export interface Order {
+	amount: number,
+	createdAt: Date,
+	id: string,
+	products: {
+		product: Product,
+		quantity: number
+	}[],
+	user: User,
+	userInfo: {
+		phone: number,
+		street: string
+	}
+}

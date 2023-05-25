@@ -16,9 +16,9 @@ const CartIcon = () => {
 		<div className={styles.cartIcon}
 		onClick={goToCart}>
 			<TbShoppingCart />
-			{cartCount !== undefined &&
+			{cartCount !== undefined && cartCount !== 0 &&
 				<div className={styles.count}>
-					{cartCount}
+					{cartCount > 99 ? +99 : cartCount}
 				</div>
 			}
 		</div>

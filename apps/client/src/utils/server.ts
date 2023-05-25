@@ -142,6 +142,36 @@ export const productsPage = (page: number) => {
 	})
 }
 
+export const changeProductQtty = (cid: string, pid: string, type: 'sub' | 'add') => {
+	const bQtty = type == 'add'
+	const quantity = bQtty ? 1 : -1
+	
+	const options: RequestInit = {
+		method: 'POST',
+		body: JSON.stringify({
+			quantity
+		}),
+		headers: {
+			'Content-Type': 'application/json'
+		}
+	}
+
+	return fetch(`/api/carts/${cid}/product/${pid}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				return res.message
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
 type ManageCategory = {
 	(): Promise<any>,
 	(body: { name: string }): Promise<any>,
@@ -178,12 +208,12 @@ export const manageCategory: ManageCategory = (body?: { name: string } | string,
 type ManageCart = {
 	(): Promise<any>,
 	(cid: string): Promise<any>,
-	(cid: string, pid: string, body: {}): Promise<any>,
+	(cid: string, pid: string, body: {}, method?: Method): Promise<any>,
 	(cid: string, count: boolean): Promise<any>
 }
 
-export const manageCart: ManageCart = (cid?: string, pid?: string | boolean, body?: {}) => {
-	const options: { method: 'POST' | 'GET', headers?: {}, body?: string } = { method: (body || !cid) ? 'POST' : 'GET' }
+export const manageCart: ManageCart = (cid?: string, pid?: string | boolean, body?: {}, method?: Method) => {
+	const options: RequestInit = { method: method || ((body || !cid) ? 'POST' : 'GET') }
 
 	if (options.method == 'POST') {
 		options.headers = { 'Content-Type': 'application/json' }
@@ -218,6 +248,23 @@ type ManageUser = {
 		cart?: string
 	}): Promise<any>,
 	(logout: true): Promise<any>
+}
+
+export const manageCartTotal = (cid: string) => {
+	return fetch(`/api/carts/${cid}/total`)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				return res.message
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
 }
 
 export const manageUser: ManageUser = (body?: { email: string, name?: string, password: string, userType?: 'admin' | 'user' } | true) => {
@@ -257,6 +304,68 @@ export const manageSearch = (text: string) => {
 		}
 	}).then(res => {
 		if (res.ok) return res.json().then(res => res)
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+type ManageOrder = {
+	(email: string): Promise<any>,
+	(email: string, oid: string): Promise<any>,
+	(cid: string, email: string, userInfo: { phone: number, street: string }): Promise<any>
+}
+
+export const manageOrder: ManageOrder = (cid?: string, email?: string, userInfo?: { phone: number, street: string }) => {
+	const options: RequestInit = {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	if (userInfo) {
+		options.method = 'POST'
+		options.body = JSON.stringify({
+			cid,
+			email,
+			userInfo
+		})
+	}
+
+	return fetch(`/api/orders${!userInfo ? `/user/${cid}` : ''}
+	${!userInfo && email ? `/${email}` : ''}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const verifyPaymentToken = () => {
+	const options: RequestInit = {
+		credentials: 'include',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'GET'
+	}
+	
+	return fetch('/api/orders/token', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
+		}
 
 		return res.json()
 		.then(res => {

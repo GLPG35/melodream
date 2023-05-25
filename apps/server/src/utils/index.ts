@@ -18,6 +18,14 @@ export const verifyToken = (token: string) => {
 	}
 }
 
+export const oneTimeToken = (id: string) => {
+	const content = {
+		id: id
+	}
+
+	return jwt.sign(content, process.env.SECRET as string, { expiresIn: '15s' })
+}
+
 export const parseSessionUser = (user: any) => {
 	const { userType, email, name, cart } = user
 

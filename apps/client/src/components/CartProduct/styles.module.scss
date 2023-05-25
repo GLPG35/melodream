@@ -49,6 +49,8 @@
 	.bottom {
 		width: max-content;
 		height: max-content;
+		display: flex;
+		gap: 1em;
 
 		.quantity {
 			width: max-content;
@@ -74,6 +76,11 @@
 	
 				&.add {
 					border-radius: 0.3em 0 0 0.3em;
+
+					&:disabled {
+						color: var(--accent-color-light);
+						pointer-events: none;
+					}
 				}
 	
 				&:hover {
@@ -101,6 +108,16 @@
 					display: none;
 				}
 			}
+		}
+
+		.delete {
+			height: 100%;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 1.2em;
+			padding: 0.2em;
+			cursor: pointer;
 		}
 	}
 }

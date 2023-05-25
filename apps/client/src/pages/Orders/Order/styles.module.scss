@@ -1,0 +1,56 @@
+.order {
+	width: 100%;
+	height: calc(100vh - 5em);
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+	position: relative;
+
+	.title {
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+
+		span {
+			font-weight: 800;
+			font-size: 2em;
+		}
+
+		a {
+			font-weight: 500;
+			font-size: 0.9em;
+			text-decoration: none;
+			display: flex;
+			align-items: center;
+			gap: 0.2em;
+			outline: none;
+			color: var(--accent-color);
+		}
+	}
+
+	.orderInfo {
+		width: 100%;
+		flex-grow: 1;
+		border-radius: 25px;
+		background-color: var(--bg-color-dark);
+		padding: 2em;
+		overflow-y: auto;
+
+		.orderTitle {
+			display: flex;
+			flex-direction: column;
+			gap: 0.3em;
+
+			.orderId {
+				font-weight: 700;
+				font-size: 1.5em;
+			}
+
+			.date {
+				font-size: 1em;
+				color: var(--accent-color-light);
+			}
+		}
+	}
+}

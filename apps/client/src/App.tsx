@@ -11,8 +11,8 @@ type globalContextType = {
 	callAlert: (icon: AlertIcon, text: string) => void,
 	updateCartCount: (count?: number) => void,
 	cartCount: number | undefined,
-	user: User | undefined,
-	setUser: Dispatch<SetStateAction<User | undefined>>
+	user: User | undefined | null,
+	setUser: Dispatch<SetStateAction<User | undefined | null>>
 }
 
 const globalContextState = {
@@ -29,7 +29,7 @@ function App() {
 	const [alert, setAlert] = useState(false)
 	const [alertData, setAlertData] = useState<{ icon: AlertIcon, text: string } | undefined>()
 	const [cartCount, setCartCount] = useState<number | undefined>()
-	const [user, setUser] = useState<User>()
+	const [user, setUser] = useState<User | null>()
 
 	useEffect(() => {
 		if (!user) {
@@ -44,7 +44,7 @@ function App() {
 						saveQuantity(+res.count, setCartCount)
 					})
 				})
-			}).catch(() => {})
+			}).catch(() => setUser(null))
 		}
 	}, [])
 

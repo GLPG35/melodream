@@ -1,6 +1,18 @@
 import { Schema, model, Document, PaginateModel } from 'mongoose'
 import paginate from 'mongoose-paginate-v2'
 
+interface ProductDocument extends Document {
+	code: string,
+	title: string,
+	price: number,
+	thumbnails: string[],
+	description: string,
+	stock: number,
+	category: string,
+	subCategory: string,
+	status: boolean
+}
+
 const productSchema = new Schema({
 	code: { type: String, unique: true },
 	title: { type: String },
@@ -28,8 +40,6 @@ productSchema.set('toJSON', {
 		delete returnedObject.status
 	}
 })
-
-interface ProductDocument extends Document {}
 
 const Product = model<ProductDocument, PaginateModel<ProductDocument>>('Product', productSchema)
 

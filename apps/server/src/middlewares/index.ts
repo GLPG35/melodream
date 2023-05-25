@@ -11,3 +11,11 @@ export const checkToken = (req: Request, _res: Response, next: NextFunction) => 
 
 	return next()
 }
+
+export const checkOrderToken = (req: Request, _res: Response, next: NextFunction) => {
+	if (req && req.cookies) {
+		req.token = req.cookies['orderToken']
+	}
+
+	return next()
+}
