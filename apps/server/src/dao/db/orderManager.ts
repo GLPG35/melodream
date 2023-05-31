@@ -3,6 +3,7 @@ import CartManager from './cartManager'
 import { PopulatedCartDocument } from './models/Cart'
 import UserManager from './userManager'
 import ProductManager from './productManager'
+import { CustomError } from '../../utils'
 
 const carts = new CartManager()
 const users = new UserManager()
@@ -13,7 +14,7 @@ class OrderManager {
 		const populatedCart = await carts.getCart(cid, false, false) as PopulatedCartDocument
 		const amount = await carts.getTotalAmount(cid)
 		const { id: user } = await users.getUser(email).then(doc => {
-			if (!doc) throw new Error('User not found')
+			if (!doc) throw new CustomError('User not found', 404)
 
 			return doc
 		})
@@ -41,13 +42,13 @@ class OrderManager {
 				return Order.create({ amount, products: populatedCart.products, user, userInfo })
 			}
 
-			throw new Error('Not enough stock of selected products')
+			throw new CustomError('Not enough stock of selected products', 409)
 		})
 	}
 
 	getOrders = async (email: string) => {
 		const { id: user } = await users.getUser(email).then(doc => {
-			if (!doc) throw new Error('User not found')
+			if (!doc) throw new CustomError('User not found', 404)
 
 			return doc
 		})
@@ -57,14 +58,14 @@ class OrderManager {
 
 	getOrder = async (email: string, oid: string) => {
 		const { id: user } = await users.getUser(email).then(doc => {
-			if (!doc) throw new Error('User not found')
+			if (!doc) throw new CustomError('User not found', 404)
 
 			return doc
 		})
 		
 		return Order.findOne({ _id: oid, user }).populate(['user', 'products.product'])
 		.then(doc => {
-			if (!doc) throw new Error('Order not found')
+			if (!doc) throw new CustomError('Order not found', 404)
 
 			return doc
 		})

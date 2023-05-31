@@ -7,6 +7,7 @@ import categories from './categories'
 import image from './image'
 import carts from './carts'
 import orders from './orders'
+import mocks from './mocks'
 
 const router = Router()
 
@@ -18,5 +19,6 @@ router.use('/categories', categories)
 router.use('/image', image)
 router.use('/carts', carts)
 router.use('/orders', orders)
+router.use('/mocks', mocks)
 
 export default router

@@ -1,5 +1,5 @@
 import { AddProduct } from '../../types'
-import { createURL } from '../../utils'
+import { CustomError, createURL } from '../../utils'
 import Product from './models/Product'
 
 class ProductManager {
@@ -8,15 +8,15 @@ class ProductManager {
 		.then(() => {
 			return true
 		}).catch(err => {
-			throw new Error(err.message)
+			throw new CustomError(err.message, 400)
 		})
 	}
 
 	getProducts = async (limit?: any, page?: any, sort?: any, query?: any) => {
-		if (isNaN(limit) && limit !== undefined) throw new Error('Provide a valid limit')
-		if (limit <= 0) throw new Error('Provide a limit greater than 0')
-		if (isNaN(page) && page !== undefined) throw new Error('Provide a valid page')
-		if (typeof query !== 'object' && query !== undefined) throw new Error('Provide a valid query')
+		if (isNaN(limit) && limit !== undefined) throw new CustomError('Provide a valid limit', 400)
+		if (limit <= 0) throw new CustomError('Provide a limit greater than 0', 400)
+		if (isNaN(page) && page !== undefined) throw new CustomError('Provide a valid page', 400)
+		if (typeof query !== 'object' && query !== undefined) throw new CustomError('Provide a valid query', 400)
 
 		return Product.paginate({ status: true, ...query } || { status: true }, {
 			limit: limit ? limit : 10,
@@ -38,35 +38,34 @@ class ProductManager {
 	getProductByCode = (code: string) => {
 		return Product.findOne({ code }).populate('category').exec()
 		.then(product => {
-			if (!product) throw new Error('Product not found')
+			if (!product) throw new CustomError('Product not found', 404)
 
 			return product
-		})
-		.catch(err => {
-			throw new Error(err.message)
+		}).catch(err => {
+			throw new CustomError(err.message, 500)
 		})
 	}
 
 	getProductById = (id: string | number) => {
 		return Product.findById(id).populate('category').exec()
 		.then(product => {
-			if (!product) throw new Error('Product not found')
+			if (!product) throw new CustomError('Product not found', 404)
 
 			return product
 		}).catch(err => {
-			throw new Error(err.message)
+			throw new CustomError(err.message, 500)
 		})
 	}
 
 	updateProduct = (id: string, newProduct: AddProduct) => {
 		return Product.findByIdAndUpdate(id, newProduct, { new: true }).exec()
 		.then(product => {
-			if (!product) throw new Error('Product not found')
+			if (!product) throw new CustomError('Product not found', 404)
 
 			return product
 		})
 		.catch(err => {
-			throw new Error(err.message)
+			throw new CustomError(err.message, 500)
 		})
 	}
 
@@ -80,7 +79,7 @@ class ProductManager {
 				stock: product.stock
 			}
 		}).catch(err => {
-			throw new Error(err.message)
+			throw new CustomError(err.message, err.code)
 		})
 	}
 
@@ -93,7 +92,7 @@ class ProductManager {
 		.then(() => {
 			return true
 		}).catch(() => {
-			throw new Error('Product not found')
+			throw new CustomError('Product not found', 404)
 		})
 	}
 

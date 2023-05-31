@@ -1,11 +1,21 @@
 import jwt, { JwtPayload } from 'jsonwebtoken'
 import dotenv from 'dotenv'
 import { Request } from 'express'
+import { faker } from '@faker-js/faker'
 
 dotenv.config()
 
+export class CustomError extends Error {
+	status: number
+
+	constructor(message: string, status: number) {
+		super(message)
+		this.status = status
+	}
+}
+
 export const createToken = (content: JwtPayload) => {
-	return jwt.sign(content, process.env.SECRET as string, { expiresIn: '7d' })
+	return jwt.sign(content, process.env.SECRET as string, { expiresIn: '2d' })
 }
 
 export const verifyToken = (token: string) => {
@@ -55,4 +65,39 @@ export const cookieExtractor = (req: Request) => {
 
 export const createURL = (page: number) => {
 	return `/api/products?page=${page}`
+}
+
+//Dev mode
+
+export const generateUsers = (quantity: number) => {
+	if (quantity < 0) throw new CustomError('Quantity must be greater than 0', 400)
+
+	return Array.from({ length: quantity }, () => {
+		return {
+			id: faker.database.mongodbObjectId(),
+			email: faker.internet.email(),
+			name: faker.person.fullName(),
+			userType: faker.datatype.boolean() ? 'user' : 'admin',
+			cart: faker.database.mongodbObjectId()
+		}
+	})
+}
+
+export const generateProducts = (quantity: number) => {
+	if (quantity < 0) throw new CustomError('Quantity must be greater than 0', 400)
+
+	return Array.from({ length: quantity }, () => {
+		return {
+			id: faker.database.mongodbObjectId(),
+			code: faker.string.alphanumeric({ length: { min: 2, max: 6 } }),
+			title: faker.commerce.productName(),
+			price: faker.commerce.price(),
+			thumbnails: [faker.image.url()],
+			description: faker.commerce.productDescription(),
+			stock: faker.number.int({ max: 999 }),
+			category: faker.commerce.productMaterial(),
+			subCategory: faker.commerce.productAdjective(),
+			status: faker.datatype.boolean()
+		}
+	})
 }

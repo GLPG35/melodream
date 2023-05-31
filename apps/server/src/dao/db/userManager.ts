@@ -2,6 +2,7 @@ import { AddUser } from '../../types'
 import bcrypt from 'bcrypt'
 import User from './models/User'
 import CartManager from './cartManager'
+import { CustomError } from '../../utils'
 
 const carts = new CartManager()
 
@@ -25,7 +26,7 @@ class UserManager {
 	addSocialUser = async (user: any) => {
 		const { email, name, userType } = user
 
-		if (!email) throw new Error('Public verified email address not defined on this Github account')
+		if (!email) throw new CustomError('Public verified email address not defined on this Github account', 400)
 
 		return User.create({
 			email: email,

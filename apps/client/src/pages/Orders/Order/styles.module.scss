@@ -40,21 +40,127 @@
 		border-radius: 25px;
 		background-color: var(--bg-color-dark);
 		padding: 2em;
-		overflow-y: auto;
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
 
-		.orderTitle {
+		.topBar {
 			display: flex;
-			flex-direction: column;
-			gap: 0.3em;
+			justify-content: space-between;
+			align-items: center;
 
-			.orderId {
-				font-weight: 700;
-				font-size: 1.5em;
+			.orderTitle {
+				display: flex;
+				flex-direction: column;
+				gap: 0.3em;
+	
+				.orderId {
+					font-weight: 700;
+					font-size: 1.5em;
+				}
+	
+				.date {
+					font-size: 1em;
+					color: var(--accent-color-light);
+				}
 			}
 
-			.date {
-				font-size: 1em;
-				color: var(--accent-color-light);
+			.summary {
+				font-size: 1.2em;
+				display: flex;
+				gap: 1em;
+				height: max-content;
+
+				.quantity, .price {
+					display: flex;
+					align-items: center;
+					font-weight: 600;
+				}
+
+				.quantity {
+					gap: 0.2em;
+				}
+			}
+		}
+
+		.details {
+			width: 100%;
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			gap: 1em;
+
+			.productsListWrapper {
+				width: 100%;
+				height: max-content;
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+
+				.listTitle {
+					font-weight: 600;
+					font-size: 1.2em;
+				}
+
+				.productsList {
+					width: 100%;
+					flex-grow: 1;
+					overflow-y: auto;
+					display: grid;
+					grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+					gap: 1em;
+
+					.product {
+						width: 100%;
+						height: max-content;
+						display: flex;
+						gap: 1em;
+						border-radius: 15px;
+						background-color: var(--bg-color);
+						padding: 1em;
+
+						.pic {
+							height: 3em;
+							width: 3em;
+							border-radius: 10px;
+							overflow: hidden;
+
+							img {
+								width: 100%;
+								height: 100%;
+								object-fit: cover;
+							}
+						}
+
+						.productDetails {
+							flex-grow: 1;
+							height: auto;
+							display: flex;
+							flex-direction: column;
+							justify-content: center;
+							gap: 0.2em;
+
+							.productTitle {
+								font-weight: 600;
+							}
+
+							.extraInfo {
+								display: flex;
+								gap: 1em;
+								font-size: 0.8em;
+
+								.price, .quantity {
+									display: flex;
+									align-items: center;
+								}
+
+								.quantity {
+									gap: 0.2em;
+								}
+							}
+						}
+					}
+				}
 			}
 		}
 	}

@@ -10,13 +10,13 @@ import api from './routes/api'
 import crypto from 'crypto'
 import multer from 'multer'
 import cors from 'cors'
-import compression from 'compression'
+import compression from 'express-compression'
 import http from 'http'
 import io from './socket'
 import passport from 'passport'
 import initializePassport from './passport/config'
 import { engine } from 'express-handlebars'
-import { default404 } from './middlewares'
+import { default404, errorHandler } from './middlewares'
 import { dbConnect } from './dao/db'
 import cookieParser from 'cookie-parser'
 
@@ -46,7 +46,9 @@ app.set('views', __dirname + '/views')
 
 app.use(express.json())
 app.use(urlencoded({ extended: true }))
-app.use(compression())
+app.use(compression({
+	brotli: { enabled: true, zlib: {} }
+}))
 app.use(cookieParser(process.env.SECRET))
 
 initializePassport()
@@ -63,6 +65,7 @@ app.use('/realtimeproducts', realtime)
 app.use('/chat', chat)
 app.use('/api', api)
 
+app.use(errorHandler)
 app.use(default404)
 
 server.listen(PORT)

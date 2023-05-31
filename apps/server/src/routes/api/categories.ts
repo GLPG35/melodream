@@ -13,14 +13,14 @@ router.get('/', (_req, res) => {
 	})
 })
 
-router.post('/',  passport.authenticate('jwt', { session: false }), (req, res) => {
+router.post('/',  passport.authenticate('jwt', { session: false }), (req, res, next) => {
 	const { name } = req.body
 	
 	return categories.addCategory(name)
 	.then(() => {
 		return res.send({ success: true, message: 'Category added successfully' })
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 

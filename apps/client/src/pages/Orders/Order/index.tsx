@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react'
 import { manageOrder } from '../../../utils/server'
 import { globalContext } from '../../../App'
 import { Order } from '../../../types'
-import { TbChevronLeft, TbTicket } from 'react-icons/tb'
+import { TbChevronLeft, TbCurrencyDollar, TbDisc, TbTicket } from 'react-icons/tb'
 import Spinner from '../../../components/Spinner'
 import NoProducts from '../../../components/NoProducts'
 
@@ -40,15 +40,56 @@ const Order = () => {
 				</div>
 			: order ?
 				<div className={styles.orderInfo} key={order.id}>
-					<div className={styles.orderTitle}>
-						<div className={styles.orderId}>
-							Order #{order.id}
+					<div className={styles.topBar}>
+						<div className={styles.orderTitle}>
+							<div className={styles.orderId}>
+								Order #{order.id}
+							</div>
+							<div className={styles.date}>
+								{new Intl.DateTimeFormat('en-UK', {
+									dateStyle: 'medium',
+									timeStyle: 'short'
+								}).format(new Date(order.createdAt))}
+							</div>
 						</div>
-						<div className={styles.date}>
-							{new Intl.DateTimeFormat('en-UK', {
-								dateStyle: 'medium',
-								timeStyle: 'short'
-							}).format(new Date(order.createdAt))}
+						<div className={styles.summary}>
+							<div className={styles.quantity}>
+								<TbDisc /> {order.products.reduce((prev, curr) => prev + curr.quantity, 0)}
+							</div>
+							<div className={styles.price}>
+								<TbCurrencyDollar /> {order.amount}
+							</div>
+						</div>
+					</div>
+					<div className={styles.details}>
+						<div className={styles.productsListWrapper}>
+							<div className={styles.listTitle}>
+								Products
+							</div>
+							<div className={styles.productsList}>
+								{order.products.map(({ product, quantity }) => {
+									return (
+										<div className={styles.product} key={product.id}>
+											<div className={styles.pic}>
+												<img src={product.thumbnails[0]} alt="" />
+											</div>
+											<div className={styles.productDetails}>
+												<div className={styles.productTitle}>
+													{product.title}
+												</div>
+												<div className={styles.extraInfo}>
+													<div className={styles.price}>
+														<TbCurrencyDollar /> {product.price}
+													</div>
+													<div className={styles.quantity}>
+														<TbDisc /> {quantity}
+													</div>
+												</div>
+											</div>
+										</div>
+									)
+								})}
+							</div>
 						</div>
 					</div>
 				</div>

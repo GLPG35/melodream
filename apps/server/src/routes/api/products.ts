@@ -7,40 +7,40 @@ const router = express.Router()
 
 const products = new ProductManager()
 
-router.get('/', async (req, res) => {
+router.get('/', async (req, res, next) => {
 	const { limit, page, sort, query } = req.query
 
-	products.getProducts(limit ? +limit : undefined, page ? +page : undefined, sort, query)
+	return products.getProducts(limit ? +limit : undefined, page ? +page : undefined, sort, query)
 	.then(data => {
 		return res.send({ ...data })
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.get('/:pid', (req, res) => {
+router.get('/:pid', (req, res, next) => {
 	const { pid } = req.params
 
 	products.getProductById(pid)
 	.then(product => {
 		return res.send(product)
 	}).catch(err => {
-		return res.status(404).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.get('/exists/:code', (req, res) => {
+router.get('/exists/:code', (req, res, next) => {
 	const { code } = req.params
 
 	products.getProductByCode(code)
 	.then(product => {
 		return res.send(product)
 	}).catch(err => {
-		return res.status(404).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.post('/', checkToken, (req, res) => {
+router.post('/', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ success: false, message: 'User unauthorized' })
 	
 	const { body } = req
@@ -49,11 +49,11 @@ router.post('/', checkToken, (req, res) => {
 	.then(() => {
 		return res.send({ success: true, message: 'Product added successfully' })
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.put('/:pid', checkToken, (req, res) => {
+router.put('/:pid', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { body, params: { pid } } = req
@@ -62,11 +62,11 @@ router.put('/:pid', checkToken, (req, res) => {
 	.then(() => {
 		return res.send({ success: true, message: 'Product updated successfully' })
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.delete('/:pid', checkToken, (req, res) => {
+router.delete('/:pid', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { pid } = req.params
@@ -75,18 +75,18 @@ router.delete('/:pid', checkToken, (req, res) => {
 	.then(() => {
 		return res.send({ success: true, message: 'Product deleted successfully' })
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 
-router.post('/search', (req, res) => {
+router.post('/search', (req, res, next) => {
 	const { text } = req.body
 
 	return products.searchProduct(text)
 	.then(products => {
 		return res.send(products)
 	}).catch(err => {
-		return res.status(400).send({ success: false, message: err.message })
+		return next(err)
 	})
 })
 

@@ -1,4 +1,5 @@
 import { PopulatedCartProduct, Product } from '../../types'
+import { CustomError } from '../../utils'
 import Cart, { PopulatedCartDocument } from './models/Cart'
 import ProductManager from './productManager'
 import { Types } from 'mongoose'
@@ -24,13 +25,13 @@ class CartManager {
 				}
 			}
 
-			throw new Error('Cart not found')
+			throw new CustomError('Cart not found', 404)
 		}
 
 		if (populate) {
 			return Cart.findOne({ _id: id }).populate<{ products: { product: PopulatedCartProduct, quantity: number }[] }>('products.product')
 			.then(doc => {
-				if (!doc) throw new Error('Cart not found')
+				if (!doc) throw new CustomError('Cart not found', 404)
 
 				return Promise.allSettled(
 					doc.products.map(async product => {
@@ -59,7 +60,7 @@ class CartManager {
 							} else {
 								return Cart.findById(id)
 								.then(doc => {
-									if (!doc) throw new Error('Cart not found')
+									if (!doc) throw new CustomError('Cart not found', 404)
 
 									return Cart.findOneAndUpdate(
 										{ _id: id, 'products.product': reason.id },
@@ -71,7 +72,7 @@ class CartManager {
 					).then(() => {
 						return Cart.findOne({ _id: id }).populate('products.product')
 						.then(doc => {
-							if (!doc) throw new Error('Cart not found')
+							if (!doc) throw new CustomError('Cart not found', 404)
 
 							return doc
 						})
@@ -82,7 +83,7 @@ class CartManager {
 
 		return Cart.findOne({ _id: id })
 		.then(doc => {
-			if (!doc) throw new Error('Cart not found')
+			if (!doc) throw new CustomError('Cart not found', 404)
 
 			return doc
 		})
@@ -91,7 +92,7 @@ class CartManager {
 	getTotalAmount = async (id: string) => {
 		return Cart.findOne({ _id: id }).populate<{ products: { product: Product, quantity: number }[] }>('products.product')
 		.then(doc => {
-			if (!doc) throw new Error('Cart not found')
+			if (!doc) throw new CustomError('Cart not found', 404)
 
 			const preTotal = doc.products.reduce((prev, current) => {
 				return prev + (current.product.price * current.quantity)
@@ -107,7 +108,7 @@ class CartManager {
 
 	deleteCart = (cid: string) => {
 		return Cart.findByIdAndUpdate(cid, { products: [] }, { new: true })
-		.catch(err => { throw new Error(err.message) })
+		.catch(err => { throw new CustomError(err.message, 500) })
 	}
 
 	addProduct = async (cid: string, pid: string, quantity?: any) => {
@@ -117,7 +118,7 @@ class CartManager {
 		.then(product => {
 			return Cart.findById(cid)
 			.then(data => {
-				if (!data) throw new Error('Cart not found')
+				if (!data) throw new CustomError('Cart not found', 404)
 
 				return Cart.findOne({ _id: cid, 'products.product': pid })
 				.then(async doc => {
@@ -137,8 +138,8 @@ class CartManager {
 								}
 							}
 
-							throw new Error('Cart not found')
-						}).catch(err => { throw new Error(err.message) })
+							throw new CustomError('Cart not found', 404)
+						}).catch(err => { throw new CustomError(err.message, 500) })
 					}
 
 					const pQuantity = isNaN(+quantity) ? 1 : +quantity
@@ -147,7 +148,7 @@ class CartManager {
 					const productQuantity = products.find(x => x.product._id == pid)?.quantity
 
 					if (productQuantity && ((productQuantity + pQuantity) > product.stock)) {
-						throw new Error('Not enough stock')
+						throw new CustomError('Not enough stock', 409)
 					}
 
 					return Cart.findOneAndUpdate(
@@ -166,16 +167,16 @@ class CartManager {
 							}
 						}
 
-						throw new Error('Cart not found')
-					}).catch(err => { throw new Error(err.message) })
+						throw new CustomError('Cart not found', 404)
+					}).catch(err => { throw new CustomError(err.message, 500) })
 				}).catch(err => {
-					throw new Error(err.message)
+					throw new CustomError(err.message, 500)
 				})
 			}).catch(err => {
-				throw new Error(err.message)
+				throw new CustomError(err.message, 500)
 			})
 		}).catch(err => {
-			throw new Error(err.message)
+			throw new CustomError(err.message, 500)
 		})
 	}
 
@@ -184,7 +185,7 @@ class CartManager {
 			{ _id: cid },
 			{ $pull: { 'products': { 'product': pid } } },
 			{ new: true }
-		).catch(err => { throw new Error(err.message) })
+		).catch(err => { throw new CustomError(err.message, 500) })
 	}
 }
 
