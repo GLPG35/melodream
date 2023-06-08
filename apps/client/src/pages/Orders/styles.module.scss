@@ -25,6 +25,7 @@
 		background-color: var(--bg-color-dark);
 		display: grid;
 		grid-template-columns: repeat(auto-fill, minmax(23em, 1fr));
+		grid-auto-rows: max-content;
 		gap: 2em;
 		padding: 2em;
 

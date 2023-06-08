@@ -9,6 +9,16 @@ router.all('*', (_req, res, next) => {
 	return next()
 })
 
+router.get('/user', (_req, res, next) => {
+	try {
+		const user = generateUsers()
+
+		return res.send(user)
+	} catch(err) {
+		return next(err)
+	}
+})
+
 router.get('/users/:quantity', (req, res, next) => {
 	const { quantity } = req.params
 	

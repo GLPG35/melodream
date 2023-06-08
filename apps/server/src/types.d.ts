@@ -65,7 +65,8 @@ export declare module 'express-session' {
 declare global {
 	namespace Express {
 		interface Request {
-			token?: string
+			token?: string,
+			logger: any
 		}
 
 		interface User {

@@ -5,8 +5,9 @@ export const default404 = (_req: Request, res: Response) => {
 	return res.status(404).end()
 }
 
-export const errorHandler = (error: CustomError, _req: Request, res: Response, _next: NextFunction) => {
+export const errorHandler = (error: CustomError, req: Request, res: Response, _next: NextFunction) => {
 	const { message, status } = error
+	req.logger.error(`${status} ${message}`)
 
 	return res.status(status || 500).send({ success: false, message })
 }

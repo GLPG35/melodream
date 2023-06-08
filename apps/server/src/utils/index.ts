@@ -69,7 +69,17 @@ export const createURL = (page: number) => {
 
 //Dev mode
 
-export const generateUsers = (quantity: number) => {
+export const generateUsers = (quantity?: number) => {
+	if (!quantity) {
+		return {
+			id: faker.database.mongodbObjectId(),
+			email: faker.internet.email(),
+			name: faker.person.fullName(),
+			password: faker.internet.password(),
+			cart: faker.database.mongodbObjectId()
+		}
+	}
+
 	if (quantity < 0) throw new CustomError('Quantity must be greater than 0', 400)
 
 	return Array.from({ length: quantity }, () => {

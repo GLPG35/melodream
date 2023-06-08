@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from 'react'
-import Wave from '../Wave'
 import styles from './styles.module.scss'
 
 const WaveLoader = ({ end, callback, render }: {
@@ -24,10 +23,10 @@ const WaveLoader = ({ end, callback, render }: {
 			if (waveRef.current) {
 				waveRef.current.animate([
 					{
-						transform: 'translateY(-12%)'
+						transform: 'translateY(4%)'
 					},
 					{
-						transform: 'translateY(40%)'
+						transform: 'translateY(100%)'
 					}
 				], {
 					duration: 2000,
@@ -45,8 +44,7 @@ const WaveLoader = ({ end, callback, render }: {
 	return (
 		<div className={styles.waveLoader}>
 			<div className={styles.wave} ref={waveRef}>
-				<Wave />
-				<div className={styles.bottomWave}></div>
+				<div className={styles.realWave}></div>
 			</div>
 		</div>
 	)

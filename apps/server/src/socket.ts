@@ -2,6 +2,7 @@ import { Server } from 'socket.io'
 import http from 'http'
 import Message from './dao/db/models/Message'
 import ProductManager from './dao/db/productManager'
+import { logger } from './utils/logger'
 
 const io = (httpServer: http.Server) => {
 	const io = new Server(httpServer, {
@@ -29,7 +30,7 @@ const io = (httpServer: http.Server) => {
 
 				Message.create(msgData)
 				.catch(err => {
-					console.error(err.message)
+					logger.error(err.message)
 				})
 			}
 		})

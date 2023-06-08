@@ -1,20 +1,20 @@
 @keyframes waveAnim {
 	from {
-		transform: scale(4) translate(-50%, -50%);
+		transform: translate(-22%);
 	}
 
 	to {
-		transform: scale(4) translate(-37.8%, -50%);
+		transform: translate(calc(-22% + 180px));
 	}
 }
 
 @keyframes waveAnim2 {
 	from {
-		transform: translateY(40%);
+		transform: translateY(100%);
 	}
 
 	to {
-		transform: translateY(-12%);
+		transform: translateY(4%);
 	}
 }
 
@@ -32,30 +32,20 @@
 
 	.wave {
 		width: 100%;
-		height: max-content;
-		display: flex;
-		flex-direction: column;
-		position: relative;
-		transform: translateY(40%);
+		height: 100%;
+		transform: translateY(100%);
 		animation: waveAnim2 2s cubic-bezier(0.65,0.05,0.36,1) forwards;
 
-		svg {
-			width: 100%;
-			height: 60em;
-			z-index: 1;
-
-			path {
-				transform: scale(4) translate(-50%, -50%);
-				left: 0;
-				animation: waveAnim 2.5s linear infinite forwards;
-				z-index: 1;
-			}
-		}
-
-		.bottomWave {
-			width: 100%;
-			height: 200%;
+		.realWave {
+			width: 150%;
+			height: 100%;
+			--mask:
+				radial-gradient(84.91px at 50% 117.00px,#000 99%,#0000 101%) calc(50% - 90px) 0/180px 100%,
+				radial-gradient(84.91px at 50% -72px,#0000 99%,#000 101%) 50% 45px/180px 100% repeat-x;
+			-webkit-mask: var(--mask);
+			mask: var(--mask);
 			background-color: var(--accent-color);
+			animation: waveAnim 0.7s linear infinite forwards;
 		}
 	}
 }
