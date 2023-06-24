@@ -1,10 +1,10 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "7.0.0",
+  "version": "7.0.1",
   "main": "dist/index.js",
   "scripts": {
-    "dev": "tsx watch --ignore src/public --clear-screen=false src",
+    "dev": "tsx watch --ignore src/public --ignore src/logs --clear-screen=false src",
     "build": "node esbuild.config.js",
     "start": "node dist/index.js",
     "lint": "tsc"

@@ -35,8 +35,8 @@ require('esbuild').build({
 			recursive: true
 		}),
 		require('esbuild-copy-static-files')({
-			src: 'src/.logs',
-			dest: 'dist/.logs',
+			src: 'src/logs',
+			dest: 'dist/logs',
 			recursive: true
 		})
 	]
