@@ -24,7 +24,8 @@ require('esbuild').build({
 		'passport-local',
 		'passport-spotify',
 		'socket.io',
-		'winston'
+		'winston',
+		'@faker-js/faker'
 	],
 	outfile: "dist/index.js",
 	plugins: [
