@@ -42,6 +42,7 @@ require('esbuild').build({
 	]
 }).then(() => {
 	console.log('⚡ Done')
-}).catch(() => {
+}).catch(err => {
+	console.error(err)
 	process.exit(1)
 })
