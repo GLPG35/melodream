@@ -45,7 +45,7 @@ const ProductDetails = ({ product }: { product: Product }) => {
 						</motion.div>
 					</div>
 				}
-				{isOwner !== undefined && isOwner &&
+				{product.owner &&
 					<div className={styles.owner}>
 						<h4>Seller</h4>
 						<div className={styles.wrapper}>

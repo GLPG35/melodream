@@ -19,7 +19,7 @@ const ProductContainer = ({ products, title, id, color = 'primary' }: { products
 							return <ProductItem key={product.id} delay={delay} product={product} />
 						})
 					: products === undefined &&
-						<Spinner />
+						<Spinner style={{ gridColumn: '1 / -1' }} />
 					}
 				</AnimatePresence>
 			</div>
