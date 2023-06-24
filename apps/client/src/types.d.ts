@@ -15,6 +15,10 @@ export interface Product {
 		name: string
 	},
 	subCategory: string,
+	owner?: {
+		email: string,
+		name: string
+	},
 	status: boolean
 }
 

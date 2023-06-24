@@ -4,7 +4,7 @@ interface UserDocument extends Document {
 	email: string,
 	name: string,
 	passwordHash?: string,
-	userType: 'admin' | 'user',
+	userType: 'admin' | 'superstar' | 'user',
 	cart: string
 }
 
@@ -21,7 +21,7 @@ const userSchema = new Schema({
 	passwordHash: String,
 	userType: {
 		type: String,
-		enum: ['admin', 'user'],
+		enum: ['admin', 'superstar', 'user'],
 		required: true
 	},
 	cart: {

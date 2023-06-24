@@ -1,6 +1,6 @@
 import { AnimatePresence, motion } from 'framer-motion'
 import { useContext, useEffect, useRef, useState } from 'react'
-import { TbLayout, TbLogout, TbTicket, TbUser } from 'react-icons/tb'
+import { TbLayout, TbLogout, TbStar, TbTicket, TbUser } from 'react-icons/tb'
 import { Link, useNavigate } from 'react-router-dom'
 import { globalContext } from '../../App'
 import { manageUser } from '../../utils/server'
@@ -62,9 +62,14 @@ const UserIcon = () => {
 							exit={{ height: 0 }} onClick={e => e.stopPropagation()}
 							ref={menuRef}>
 								<div className={styles.wrapper}>
-									{user.userType == 'admin' &&
+									{['admin', 'superstar'].includes(user.userType) &&
 										<Link to={'/dashboard'} onClick={() => setMenu(!menu)}>
 											<TbLayout /> Dashboard
+										</Link>
+									}
+									{user.userType == 'user' &&
+										<Link to={'/superstar'} onClick={() => setMenu(!menu)}>
+											<TbStar /> Superstar
 										</Link>
 									}
 									<Link to={'/orders'} onClick={() => setMenu(!menu)}>

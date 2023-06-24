@@ -57,6 +57,32 @@
 				background-color: var(--accent-color);
 			}
 		}
+
+		.owner {
+			width: 100%;
+			height: max-content;
+			display: flex;
+			flex-direction: column;
+			gap: 0.2em;
+
+			h4 {
+				font-size: 1.2em;
+			}
+
+			.wrapper {
+				display: flex;
+				align-items: center;
+				gap: 0.5em;
+
+				.ownerPic {
+					font-size: 1.2em;
+				}
+	
+				.ownerName {
+					font-weight: 600;
+				}
+			}
+		}
 	}
 
 	.pic {

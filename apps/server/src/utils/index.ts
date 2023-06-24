@@ -18,7 +18,7 @@ export const createToken = (content: JwtPayload) => {
 	return jwt.sign(content, process.env.SECRET as string, { expiresIn: '2d' })
 }
 
-export const verifyToken = (token: string) => {
+export const verifyToken = (token: string): any => {
 	try {
 		const verifiedToken = jwt.verify(token, process.env.SECRET as string)
 

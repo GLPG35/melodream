@@ -1,0 +1,136 @@
+.recoverPass {
+	width: 100%;
+	height: calc(100vh - 5em);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	form {
+		width: 30em;
+		height: max-content;
+		display: flex;
+		flex-direction: column;
+		gap: 1.5em;
+
+		.title {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5em;
+			margin-bottom: 1em;
+
+			h2 {
+				font-weight: 800;
+				font-size: 1.7em;
+			}
+
+			span {
+				font-size: 0.9em;
+			}
+		}
+
+		.group {
+			display: flex;
+			flex-direction: column;
+			gap: 0.5em;
+			padding-left: 0.5em;
+
+			label {
+				font-weight: 700;
+				font-size: 1.2em;
+			}
+
+			input {
+				border: none;
+				outline: none;
+				border-radius: 15px;
+				font-size: 1em;
+				color: var(--accent-color);
+				font-weight: 600;
+				padding: 1em 1.5em;
+				width: 100%;
+				background-color: var(--bg-color-dark);
+				font-family: 'Montserrat', sans-serif;
+			}
+		}
+
+		.action {
+			color: var(--accent-color);
+			font-size: 0.8em;
+			cursor: pointer;
+			padding: 0.5em;
+			width: max-content;
+
+			span {
+				font-weight: 700;
+			}
+		}
+
+		button {
+			border: none;
+			outline: none;
+			width: max-content;
+			padding: 1em 2em;
+			font-size: 1em;
+			border-radius: 15px;
+			background-color: var(--bg-color);
+			font-family: 'Montserrat', sans-serif;
+			font-weight: 600;
+			border: 3px solid var(--accent-color);
+			color: var(--accent-color);
+			transition: 0.2s ease-out;
+
+			&:hover {
+				cursor: pointer;
+				background-color: var(--accent-color);
+				color: var(--bg-color);
+			}
+		}
+	}
+
+	.success {
+		width: 100%;
+		height: max-content;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1em;
+
+		.icon {
+			font-size: 3.5em;
+		}
+	
+		.successTitle {
+			font-weight: 700;
+			font-size: 1.8em;
+		}
+	
+		.text {
+			font-size: 0.9em;
+		}
+	
+		button {
+			margin-top: 1em;
+			border: none;
+			outline: none;
+			background-color: transparent;
+			font-family: 'Montserrat', sans-serif;
+			font-weight: 600;
+			color: var(--accent-color);
+			font-size: 1em;
+			padding: 0.8em 1.2em;
+			border: 3px solid var(--accent-color);
+			border-radius: 15px;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 0.5em;
+			transition: 0.2s ease-out;
+			cursor: pointer;
+	
+			&:hover {
+				color: var(--bg-color);
+				background-color: var(--accent-color);
+			}
+		}
+	}
+}

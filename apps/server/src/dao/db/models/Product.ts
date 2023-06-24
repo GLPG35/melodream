@@ -10,6 +10,7 @@ interface ProductDocument extends Document {
 	stock: number,
 	category: string,
 	subCategory: string,
+	owner?: string,
 	status: boolean
 }
 
@@ -25,6 +26,10 @@ const productSchema = new Schema({
 		ref: 'Category'
 	},
 	subCategory: String,
+	owner: {
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	},
 	status: Boolean
 }, { timestamps: true })
 

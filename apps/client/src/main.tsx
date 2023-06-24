@@ -21,6 +21,9 @@ import Payment from './pages/Payment'
 import SuccessPayment from './pages/Payment/Success'
 import Orders from './pages/Orders'
 import Order from './pages/Orders/Order'
+import RecoverPass from './pages/Login/Recover'
+import ResetPass from './pages/Login/Reset'
+import Superstar from './pages/Superstar'
 
 const router = createBrowserRouter([
   {
@@ -72,6 +75,18 @@ const router = createBrowserRouter([
       {
         path: '/login',
         element: <Login />
+      },
+      {
+        path: '/login/recover',
+        element: <RecoverPass />
+      },
+      {
+        path: '/login/reset',
+        element: <ResetPass />
+      },
+      {
+        path: '/superstar',
+        element: <Superstar />
       },
       {
         path: '/dashboard',

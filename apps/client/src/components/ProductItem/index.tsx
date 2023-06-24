@@ -1,4 +1,4 @@
-import { MouseEvent, useContext } from 'react'
+import { MouseEvent, useContext, useEffect, useState } from 'react'
 import { TbCurrencyDollar, TbShoppingCart } from 'react-icons/tb'
 import { useNavigate } from 'react-router-dom'
 import { globalContext } from '../../App'
@@ -11,6 +11,15 @@ import styles from './styles.module.scss'
 const ProductItem = ({ product, delay }: { product: Product, delay: number }) => {
 	const { updateCartCount, user } = useContext(globalContext)
 	const navigate = useNavigate()
+	const [isOwner, setIsOwner] = useState<boolean>()
+
+	useEffect(() => {
+		if (user && product.owner && (user.email == product.owner.email)) {
+			setIsOwner(true)
+		} else {
+			setIsOwner(false)
+		}
+	}, [user])
 
 	const viewProduct = () => {
 		navigate(`/product/${product.id}`)
@@ -42,9 +51,11 @@ const ProductItem = ({ product, delay }: { product: Product, delay: number }) =>
 							<TbCurrencyDollar style={{ fontSize: '0.9em' }} /> {product.price}
 						</div>
 					</div>
-					<button title='Add to cart' onClick={handleAddToCart}>
-						<TbShoppingCart />
-					</button>
+					{isOwner !== undefined && !isOwner &&
+						<button title='Add to cart' onClick={handleAddToCart}>
+							<TbShoppingCart />
+						</button>
+					}
 				</div>
 			</div>
 		</motion.div>

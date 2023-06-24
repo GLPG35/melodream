@@ -1,8 +1,8 @@
 import { AddUser } from '../../types'
 import bcrypt from 'bcrypt'
 import User from './models/User'
-import CartManager from './cartManager'
 import { CustomError } from '../../utils'
+import CartManager from './cartManager'
 
 const carts = new CartManager()
 
@@ -35,6 +35,12 @@ class UserManager {
 		})
 	}
 
+	resetPassword = async (email: string, newPassword: string) => {
+		const passwordHash = await bcrypt.hash(newPassword, 10)
+
+		return User.findOneAndUpdate({ email }, { passwordHash })
+	}
+
 	authUser = (email: string, password: string) => {
 		return User.findOne({ email })
 		.then(async user => {
@@ -50,6 +56,15 @@ class UserManager {
 
 	getUser = (email: string) => {
 		return User.findOne({ email })
+	}
+
+	upgradeUser = async (email: string) => {
+		const user = await this.getUser(email)
+
+		if (!user) throw new CustomError('User not found', 404)
+		if (user.userType !== 'user') throw new CustomError('User must be a normal member', 400)
+
+		return User.findOneAndUpdate({ email }, { userType: 'superstar' }, { new: true })
 	}
 }
 

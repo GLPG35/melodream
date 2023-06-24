@@ -85,6 +85,7 @@ const AddUser = () => {
 						required onChange={checkInput}>
 							<option value="default" disabled>Select one type</option>
 							<option value="user">User</option>
+							<option value="superstar">Superstar</option>
 							<option value="admin">Admin</option>
 						</select>
 						<motion.div animate={{ rotate: arrow ? -90 : 0 }} className={styles.arrow}>

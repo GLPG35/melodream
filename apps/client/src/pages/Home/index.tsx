@@ -11,7 +11,7 @@ const Home = () => {
 	const [products, setProducts] = useState<Product[]>()
 	
 	useEffect(() => {
-		manageProduct()
+		manageProduct(true)
 		.then(products => {
 			setProducts(products.docs)
 		})

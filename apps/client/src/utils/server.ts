@@ -42,10 +42,6 @@ export const uploadImages = (images: {id: number, thumb: File}[]) => {
 			return new Promise((res, rej) => {
 				return fetch('/api/image/upload', {
 					method: 'POST',
-					credentials: 'include',
-					headers: {
-						'Content-Type': 'application/json'
-					},
 					body: formData
 				}).then(res => {
 					if (res.ok) {
@@ -60,7 +56,6 @@ export const uploadImages = (images: {id: number, thumb: File}[]) => {
 				}).then(({ path }) => {
 					return res(path)
 				}).catch(err => {
-					console.log(err.message)
 					return rej(err)
 				})
 			})
@@ -72,6 +67,7 @@ type Method = 'GET' | 'POST' | 'PUT' | 'DELETE'
 type ManageProduct = {
 	(): Promise<any>
 	(id: string): Promise<any>,
+	(getAll: boolean): Promise<any>,
 	(body: {}, method: Method): Promise<any>,
 	(id: string, method: Method): Promise<any>,
 	(id: string, body: {}, method: Method): Promise<any>
@@ -90,11 +86,11 @@ export const manageProduct: ManageProduct = (id?: string | {}, body?: any, metho
 		options.method = body
 	}
 
-	if (options.method == 'POST' || options.method == 'PUT') {
+	if (['POST', 'PUT'].includes(options.method as string)) {
 		options.body = JSON.stringify(typeof id !== 'string' ? id : body)
 	}
 
-	return fetch(`/api/products/${typeof id !== 'string' ? '' : id}`, options)
+	return fetch(`/api/products/${typeof id == 'string' ? id : typeof id == 'boolean' ? `?getAll=${id}` : ''}`, options)
 	.then(res => {
 		if (res.ok) {
 			return res.json()
@@ -365,6 +361,103 @@ export const verifyPaymentToken = () => {
 		if (res.ok) {
 			return res.json()
 			.then(res => res)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const recoverPassword = (email: string) => {
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			email
+		})
+	}
+
+	return fetch('/api/login/recover', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const checkResetPassword = (token: string) => {
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'GET'
+	}
+
+	return fetch(`/api/login/reset/${token}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const resetPassword = (password: string, token: string) =>  {
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			password
+		})
+	}
+
+	return fetch(`/api/login/reset/${token}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const manageSuperstar = (email: string) => {
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			email
+		})
+	}
+
+	return fetch('/api/superstar', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
 		}
 
 		return res.json()

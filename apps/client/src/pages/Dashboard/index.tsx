@@ -12,7 +12,7 @@ const Dashboard = () => {
 	useEffect(() => {
 		if (!user) {
 			navigate('/login', { replace: true })
-		} else if (user.userType !== 'admin') {
+		} else if (!['admin', 'superstar'].includes(user.userType)) {
 			navigate('/')
 		}
 	}, [user])
@@ -38,16 +38,20 @@ const Dashboard = () => {
 									<TbEraser fontSize={'1.2em'} /> Delete Product
 								</Link>
 							</li>
-							<li>
-								<Link to={'addCategory'}>
-									<TbVersions fontSize={'1.2em'} /> Add Category
-								</Link>
-							</li>
-							<li>
-								<Link to={'addUser'}>
-									<TbUser fontSize={'1.2em'} /> Add User
-								</Link>
-							</li>
+							{user.userType === 'admin' &&
+								<>
+									<li>
+										<Link to={'addCategory'}>
+											<TbVersions fontSize={'1.2em'} /> Add Category
+										</Link>
+									</li>
+									<li>
+										<Link to={'addUser'}>
+											<TbUser fontSize={'1.2em'} /> Add User
+										</Link>
+									</li>
+								</>
+							}
 						</ul>
 					</div>
 					<div className={styles.display}>

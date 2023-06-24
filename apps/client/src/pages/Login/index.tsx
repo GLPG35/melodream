@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { globalContext } from '../../App'
 import { manageUser } from '../../utils/server'
 import { motion, AnimatePresence } from 'framer-motion'
-import { TbBrandSpotify } from 'react-icons/tb'
+import { TbBrandSpotify, TbPointFilled } from 'react-icons/tb'
 import styles from './styles.module.scss'
 import { resolveCid } from '../../utils/client'
 
@@ -29,7 +29,7 @@ const Login = () => {
 				return
 			}
 
-			if (user.userType == 'admin') {
+			if (['admin', 'superstar'].includes(user.userType)) {
 				navigate('/dashboard')
 			} else {
 				navigate('/')
@@ -60,10 +60,10 @@ const Login = () => {
 
 		const { email, password, nameInput } = e.currentTarget
 
-		localStorage.removeItem('cart')
-		localStorage.removeItem('cartQtty')
-
 		const cid = await resolveCid().then(cid => cid)
+
+		localStorage.removeItem('guestCart')
+		localStorage.removeItem('cartQtty')
 
 		const body = {
 			email: email.value,
@@ -76,11 +76,11 @@ const Login = () => {
 		manageUser(body)
 		.then(user => {
 			setUser(user)
-		}).catch(() => {})
+		})
 	}
 
 	const handleLoginSpotify = () => {
-		window.open('http://localhost:3000/api/login/spotify', '_self')
+		window.open('https://melodream.vercel.app/api/login/spotify', '_self')
 	}
 
 	return (
@@ -113,10 +113,17 @@ const Login = () => {
 									<input type='password' name='password' id='password' required />
 								</div>
 							</fieldset>
-							<span className={styles.action}
-							onClick={() => setRegister(true)}>
-								Don't have an account? <span>Register</span>
-							</span>
+							<div className={styles.actionWrapper}>
+								<span className={styles.action}
+								onClick={() => setRegister(true)}>
+									Don't have an account? <span>Register</span>
+								</span>
+								<TbPointFilled fontSize={'0.8em'} />
+								<span className={styles.action}
+								onClick={() => navigate('recover')}>
+									Forgot your password? <span>Recover</span>
+								</span>
+							</div>
 							<button type='submit'>
 								Login
 							</button>

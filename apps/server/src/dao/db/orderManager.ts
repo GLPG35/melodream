@@ -5,12 +5,13 @@ import UserManager from './userManager'
 import ProductManager from './productManager'
 import { CustomError } from '../../utils'
 
-const carts = new CartManager()
-const users = new UserManager()
-const products = new ProductManager()
 
 class OrderManager {
 	addOrder = async (cid: string, email: string, userInfo: { phone: number, street: string }) => {
+		const carts = new CartManager()
+		const users = new UserManager()
+		const products = new ProductManager()
+
 		const populatedCart = await carts.getCart(cid, false, false) as PopulatedCartDocument
 		const amount = await carts.getTotalAmount(cid)
 		const { id: user } = await users.getUser(email).then(doc => {
@@ -47,6 +48,8 @@ class OrderManager {
 	}
 
 	getOrders = async (email: string) => {
+		const users = new UserManager()
+
 		const { id: user } = await users.getUser(email).then(doc => {
 			if (!doc) throw new CustomError('User not found', 404)
 
@@ -57,6 +60,8 @@ class OrderManager {
 	}
 
 	getOrder = async (email: string, oid: string) => {
+		const users = new UserManager()
+
 		const { id: user } = await users.getUser(email).then(doc => {
 			if (!doc) throw new CustomError('User not found', 404)
 

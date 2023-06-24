@@ -10,6 +10,7 @@ export interface Product {
 	stock: number,
 	category: string,
 	subCategory: string,
+	owner?: string
 	status: boolean
 }
 
@@ -23,10 +24,15 @@ export interface PopulatedCartProduct {
 	stock: number,
 	category: string,
 	subCategory: string,
+	owner?: string,
 	status: boolean
 }
 
 export type AddProduct = Omit<Product, 'id'>
+
+export interface UpdateProduct extends AddProduct {
+	email: string
+}
 
 export interface CartProduct {
 	id: string | number,
@@ -43,14 +49,14 @@ export interface User {
 	email: string,
 	name: string,
 	password: string,
-	userType?: 'user' | 'admin'
+	userType?: 'user' | 'admin' | 'superstar'
 }
 
 export interface AddUser {
 	email: string,
 	name: string,
 	password: string,
-	userType?: 'user' | 'admin',
+	userType?: 'user' | 'admin' | 'superstar',
 	cart?: string
 }
 

@@ -1,10 +1,8 @@
 import { PopulatedCartProduct, Product } from '../../types'
 import { CustomError } from '../../utils'
 import Cart, { PopulatedCartDocument } from './models/Cart'
-import ProductManager from './productManager'
 import { Types } from 'mongoose'
-
-const products = new ProductManager()
+import ProductManager from './productManager'
 
 class CartManager {
 	addCart = () => {
@@ -12,6 +10,8 @@ class CartManager {
 	}
 
 	getCart = async (id: string, count?: any, populate = true) => {
+		const products = new ProductManager()
+
 		if (count) {
 			const cart = await Cart.findById(id)
 			
@@ -111,11 +111,17 @@ class CartManager {
 		.catch(err => { throw new CustomError(err.message, 500) })
 	}
 
-	addProduct = async (cid: string, pid: string, quantity?: any) => {
+	addProduct = async (cid: string, pid: string, quantity?: any, email?: string) => {
 		const products = new ProductManager()
-
+		
 		return products.getProductById(pid)
 		.then(product => {
+			if (product.owner) {
+				const { email: oEmail } = product.owner as any
+
+				if (oEmail == email) throw new CustomError("You can't add your own products", 403)
+			}
+
 			return Cart.findById(cid)
 			.then(data => {
 				if (!data) throw new CustomError('Cart not found', 404)
