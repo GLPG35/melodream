@@ -2,6 +2,7 @@ require('esbuild').build({
 	entryPoints: ["src/index.ts"],
 	bundle: true,
 	platform: 'node',
+	target: 'es2016',
 	external: [
 		'bcrypt',
 		'compression',
