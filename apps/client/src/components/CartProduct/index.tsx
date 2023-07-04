@@ -11,6 +11,12 @@ interface Callbacks {
 const CartProduct = ({ product, quantity, delay, callbacks }: { product: Product, quantity: number, delay: number, callbacks: Callbacks}) => {
 	const { handleDelete, handleQtty } = callbacks
 
+	const checkAction = (disabled: boolean, type: 'add' | 'sub') => {
+		if (disabled) return
+
+		handleQtty(product.id, type)
+	}
+
 	return (
 		<motion.div className={styles.cartProduct}
 		initial={{ opacity: 0 }} animate={{ opacity: 1, transition: { delay } }}>
@@ -29,15 +35,15 @@ const CartProduct = ({ product, quantity, delay, callbacks }: { product: Product
 			</div>
 			<div className={styles.bottom}>
 				<div className={styles.quantity}>
-					<motion.button className={styles.sub}
-					onClick={() => handleQtty(product.id, 'sub')}>
+					<motion.button className={styles.sub} disabled={quantity <= 1}
+					onClick={() => checkAction(quantity <= 1, 'sub')}>
 						<TbMinus />
 					</motion.button>
 					<input type="number" min={0} value={quantity}
 					readOnly />
 					<motion.button className={styles.add}
 					disabled={quantity >= product.stock}
-					onClick={() => handleQtty(product.id, 'add')}>
+					onClick={() => checkAction(quantity >= product.stock, 'add')}>
 						<TbPlus />
 					</motion.button>
 				</div>

@@ -45,6 +45,16 @@
 					background-color: var(--accent-color);
 					color: var(--bg-color);
 				}
+
+				&:disabled {
+					cursor: not-allowed;
+					color: var(--accent-color-light);
+
+					&:hover {
+						color: var(--accent-color-light);
+						background-color: inherit;
+					}
+				}
 			}
 	
 			input {
@@ -80,5 +90,10 @@
 		font-weight: 600;
 		user-select: none;
 		cursor: pointer;
+
+		&.disabled {
+			cursor: not-allowed;
+			background-color: var(--accent-color-light);
+		}
 	}
 }

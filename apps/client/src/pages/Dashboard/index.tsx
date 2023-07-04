@@ -1,6 +1,5 @@
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useNavigate, Outlet } from 'react-router-dom'
 import { TbCirclePlus, TbEdit, TbEraser, TbUser, TbVersions } from 'react-icons/tb'
-import { Outlet } from 'react-router-dom'
 import styles from './styles.module.scss'
 import { useContext, useEffect } from 'react'
 import { globalContext } from '../../App'

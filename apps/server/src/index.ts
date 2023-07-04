@@ -21,6 +21,8 @@ import { dbConnect } from './dao/db'
 import cookieParser from 'cookie-parser'
 import { addLogger } from './utils/logger'
 import { __root } from './paths'
+import { globSync } from 'glob'
+import swaggerUiExpress, { SwaggerUiOptions } from 'swagger-ui-express'
 
 const app = express()
 const server = http.createServer(app)
@@ -58,6 +60,23 @@ initializePassport()
 app.use(passport.initialize())
 
 app.use('/static', express.static(__root + '/public'))
+
+//Docs
+const options: SwaggerUiOptions = {
+	explorer: true,
+	swaggerOptions: {
+		urls: globSync(`${__root}/public/docs/*.json`).map(route => {
+			const filename = route.split('/').pop() as string
+			
+			return {
+				url: `/static/docs/${filename}`,
+				name: filename.charAt(0).toUpperCase() + filename.split('.').shift()?.slice(1)
+			}
+		})
+	}
+}
+
+app.use ('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(undefined, options))
 
 app.use(cors())
 app.use(upload)

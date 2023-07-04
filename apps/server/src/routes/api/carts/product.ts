@@ -16,9 +16,20 @@ router.post('/:pid', checkToken, (req, res, next) => {
 		email = verifyToken(req.token) || undefined
 	}
 
-	carts.addProduct(cid, pid, quantity, email)
+	return carts.addProduct(cid, pid, quantity, email)
 	.then(doc => {
 		return res.send({ success: true, message: doc })
+	}).catch(err => {
+		return next(err)
+	})
+})
+
+router.get('/check/:pid', (req, res, next) => {
+	const { cid, pid } = req.params as { cid: string, pid: string }
+
+	return carts.checkProduct(cid, pid)
+	.then(check => {
+		return res.send({ success: true, message: check })
 	}).catch(err => {
 		return next(err)
 	})
@@ -27,7 +38,7 @@ router.post('/:pid', checkToken, (req, res, next) => {
 router.delete('/:pid', (req, res, next) => {
 	const { cid, pid } = req.params as { cid: string, pid: string }
 
-	carts.deleteProduct(cid, pid)
+	return carts.deleteProduct(cid, pid)
 	.then(() => {
 		return res.send({ success: true, message: 'Product deleted successfully' })
 	}).catch(err => {

@@ -193,6 +193,21 @@ class CartManager {
 			{ new: true }
 		).catch(err => { throw new CustomError(err.message, 500) })
 	}
+
+	checkProduct = (cid: string, pid: string) => {
+		const products = new ProductManager()
+
+		return Cart.findById(cid)
+		.then(async cart => {
+			if (!cart) throw new CustomError('Cart not found', 404)
+
+			const product = await products.getProductById(pid)
+			const cartProduct = cart.products.find(x => x.product == pid)
+			const productQuantity = cartProduct ? cartProduct.quantity : 0
+
+			return product.stock > productQuantity
+		})
+	}
 }
 
 export default CartManager

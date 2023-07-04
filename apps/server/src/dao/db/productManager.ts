@@ -5,7 +5,11 @@ import UserManager from './userManager'
 
 class ProductManager {
 	addProduct = async (product: AddProduct) => {
-		const { owner } = product
+		const { owner, code } = product
+
+		const exists = await this.getProductByCode(code).catch(() => null)
+
+		if (exists) throw new CustomError('This product already exists', 400)
 
 		return this.parseOwner(owner as string)
 		.then(parsedOwner => {
@@ -37,6 +41,7 @@ class ProductManager {
 		}
 
 		return Product.paginate(owner ? { owner, status: true, ...query } : { status: true, ...query } || { status: true }, {
+			stock: { $gte: 1 },
 			limit: limit ? limit : 10,
 			page: page ? page : 1,
 			sort: typeof sort !== 'object' ?
@@ -68,15 +73,19 @@ class ProductManager {
 			if (!product) throw new CustomError('Product not found', 404)
 
 			return product
-		}).catch(err => {
-			throw new CustomError(err.message, 500)
 		})
 	}
 
 
 	updateProduct = async (id: string, newProduct: UpdateProduct) => {
-		const { email } = newProduct
+		const { email, code } = newProduct
 		await this.checkOwner(id, email)
+
+		if (code) {
+			const exists = await this.getProductByCode(code).catch(() => null)
+
+			if (exists) throw new CustomError('A product with this code already exists', 400)
+		}
 
 		return Product.findByIdAndUpdate(id, newProduct, { new: true }).exec()
 		.then(product => {

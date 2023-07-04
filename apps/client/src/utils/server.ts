@@ -263,6 +263,23 @@ export const manageCartTotal = (cid: string) => {
 	})
 }
 
+export const checkCartProduct = (cid: string, pid: string) => {
+	return fetch(`/api/carts/${cid}/product/check/${pid}`)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				return res.message
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
 export const manageUser: ManageUser = (body?: { email: string, name?: string, password: string, userType?: 'admin' | 'user' } | true) => {
 	const options: RequestInit = {
 		method: body ? 'POST' : 'GET',

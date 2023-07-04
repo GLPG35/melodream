@@ -24,6 +24,8 @@ import Order from './pages/Orders/Order'
 import RecoverPass from './pages/Login/Recover'
 import ResetPass from './pages/Login/Reset'
 import Superstar from './pages/Superstar'
+import Docs from './pages/Docs'
+import DocsHome from './pages/Docs/Home'
 
 const router = createBrowserRouter([
   {
@@ -115,6 +117,16 @@ const router = createBrowserRouter([
           {
             path: 'addUser',
             element: <AddUser />
+          }
+        ]
+      },
+      {
+        path: '/docs',
+        element: <Docs />,
+        children: [
+          {
+            index: true,
+            element: <DocsHome />
           }
         ]
       },

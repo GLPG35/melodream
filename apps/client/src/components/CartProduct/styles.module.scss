@@ -76,16 +76,20 @@
 	
 				&.add {
 					border-radius: 0.3em 0 0 0.3em;
-
-					&:disabled {
-						color: var(--accent-color-light);
-						pointer-events: none;
-					}
 				}
 	
 				&:hover {
 					background-color: var(--accent-color);
 					color: var(--bg-color);
+				}
+
+				&:disabled {
+					color: var(--accent-color-light);
+					cursor: not-allowed;
+
+					&:hover {
+						background-color: inherit;
+					}
 				}
 			}
 	

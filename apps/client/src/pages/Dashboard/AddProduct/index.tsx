@@ -40,13 +40,6 @@ const AddProduct = () => {
 
 		if (!user) return
 
-		const productExists = await fetch(`/api/products/exists/${code.value}`)
-
-		if (productExists.ok) {
-			callAlert('error', 'Product already exists!')
-			return
-		}
-
 		if (thumbs.length) {
 			setLoader(true)
 

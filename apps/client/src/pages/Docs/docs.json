@@ -1,0 +1,681 @@
+{
+	"openapi": "3.0.1",
+	"info": {
+		"title": "Melodream API documentation",
+		"description": "API for Melodream music shop",
+		"version": "1.0.0"
+	},
+	"paths": {
+		"Products": {
+			"/api/products": {
+				"get": {
+					"tags": [
+						"Products"
+					],
+					"name": "List products",
+					"summary": "Lists the most recent products",
+					"responses": {
+						"200": {
+							"description": "Products retrieved correctly from the database",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/Products"
+									}
+								}
+							}
+						},
+						"400": {
+							"description": "Query parameters used incorrectly"
+						}
+					}
+				},
+				"post": {
+					"security": [
+						{
+							"cookieAuth": []
+						}
+					],
+					"tags": [
+						"Products"
+					],
+					"name": "Create product",
+					"summary": "Create a new product",
+					"requestBody": {
+						"required": true,
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/requestBodies/addProduct"
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "Product added successfully to the database"
+						},
+						"400": {
+							"description": "Incorrect type on any attribute"
+						}
+					}
+				}
+			},
+			"/api/products/{pid}": {
+				"get": {
+					"tags": [
+						"Products"
+					],
+					"name": "Get product",
+					"summary": "Get one product",
+					"parameters": [
+						{
+							"name": "pid",
+							"in": "path",
+							"required": true,
+							"description": "Id of product to get",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Product retrieved correctly from the database",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/Product"
+									}
+								}
+							}
+						},
+						"404": {
+							"description": "Product not found"
+						}
+					}
+				},
+				"put": {
+					"security": [
+						{
+							"cookieAuth": []
+						}
+					],
+					"tags": [
+						"Products"
+					],
+					"name": "Update product",
+					"summary": "Update a product",
+					"parameters": [
+						{
+							"name": "pid",
+							"in": "path",
+							"required": true,
+							"description": "Id of product to update",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"requestBody": {
+						"required": true,
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/requestBodies/addProduct"
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "Product updated successfully"
+						},
+						"400": {
+							"description": "Incorrect type on any attribute"
+						},
+						"404": {
+							"description": "Product not found"
+						}
+					}
+				},
+				"delete": {
+					"security": [
+						{
+							"cookieAuth": []
+						}
+					],
+					"tags": [
+						"Products"
+					],
+					"name": "Delete product",
+					"summary": "Delete a product",
+					"parameters": [
+						{
+							"name": "pid",
+							"in": "path",
+							"required": true,
+							"description": "Id of product to delete",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Product deleted successfully"
+						},
+						"404": {
+							"description": "Product not found"
+						}
+					}
+				}
+			},
+			"/api/products/search": {
+				"post": {
+					"tags": [
+						"Products"
+					],
+					"name": "Search products",
+					"summary": "Search for multiple products",
+					"requestBody": {
+						"required": true,
+						"content": {
+							"application/json": {
+								"schema": {
+									"$ref": "#components/requestBodies/searchProduct"
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "The search was successful"
+						}
+					}
+				}
+			}
+		},
+		"Carts": {
+			"/api/carts": {
+				"post": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Create cart",
+					"summary": "Create a new empty cart",
+					"responses": {
+						"200": {
+							"description": "Cart created successfully",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "object",
+										"properties": {
+											"success": {
+												"type": "boolean"
+											},
+											"message": {
+												"type": "string",
+												"description": "Id of the created cart"
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			},
+			"/api/carts/{cid}": {
+				"get": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Get cart",
+					"summary": "Get specific cart from id",
+					"parameters": [
+						{
+							"name": "cid",
+							"in": "path",
+							"required": true,
+							"description": "Id of cart to get",
+							"schema": {
+								"type": "string"
+							}
+						},
+						{
+							"name": "count",
+							"in": "query",
+							"description": "Counts how many products are in the cart",
+							"schema": {
+								"type": "boolean"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Cart retrieved successfully",
+							"content": {
+								"application/json": {
+									"schema": {
+										"$ref": "#components/schemas/Cart"
+									}
+								}
+							}
+						},
+						"404": {
+							"description": "Cart not found"
+						}
+					}
+				},
+				"delete": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Delete cart contents",
+					"summary": "Delete all products from cart",
+					"parameters": [
+						{
+							"name": "cid",
+							"in": "path",
+							"required": true,
+							"description": "Id of cart to delete",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Cart emptied successfully"
+						},
+						"404": {
+							"description": "Cart not found"
+						}
+					}
+				}
+			},
+			"/api/carts/{cid}/total": {
+				"get": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Get cart amount",
+					"summary": "Get the total amount to pay based on the products inside the cart",
+					"parameters": [
+						{
+							"name": "cid",
+							"in": "path",
+							"required": true,
+							"description": "Id of cart to get total amount",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Total retrivied sucessfully",
+							"content": {
+								"application/json": {
+									"schema": {
+										"type": "number"
+									}
+								}
+							}
+						},
+						"404": {
+							"description": "Cart not found"
+						}
+					}
+				}
+			},
+			"/api/carts/{cid}/product/{pid}": {
+				"post": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Add product",
+					"summary": "Add a product to the specified cart",
+					"parameters": [
+						{
+							"name": "cid",
+							"in": "path",
+							"required": true,
+							"description": "Id of cart to add the product",
+							"schema": {
+								"type": "string"
+							}
+						},
+						{
+							"name": "pid",
+							"in": "path",
+							"required": true,
+							"description": "Id of product to add",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"requestBody": {
+						"description": "Quantity to add or decrease",
+						"content": {
+							"application/json": {
+								"schema": {
+									"type": "object",
+									"properties": {
+										"quantity": {
+											"type": "number"
+										}
+									},
+									"example": {
+										"quantity": 1
+									}
+								}
+							}
+						}
+					},
+					"responses": {
+						"200": {
+							"description": "Product added successfully"
+						},
+						"404": {
+							"description": "Cart or product not found"
+						}
+					}
+				},
+				"delete": {
+					"tags": [
+						"Carts"
+					],
+					"name": "Delete product",
+					"summary": "Delete product from specific cart",
+					"parameters": [
+						{
+							"name": "cid",
+							"in": "path",
+							"required": true,
+							"description": "Id of cart to add the product",
+							"schema": {
+								"type": "string"
+							}
+						},
+						{
+							"name": "pid",
+							"in": "path",
+							"required": true,
+							"description": "Id of product to add",
+							"schema": {
+								"type": "string"
+							}
+						}
+					],
+					"responses": {
+						"200": {
+							"description": "Product deleted successfully"
+						},
+						"404": {
+							"description": "Cart or product not found"
+						}
+					}
+				}
+			}
+		}
+	},
+	"components": {
+		"securitySchemes": {
+			"cookieAuth": {
+				"type": "apiKey",
+				"in": "cookie",
+				"name": "jwtToken"
+			}
+		},
+		"schemas": {
+			"Product": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "MongoDB auto-generated id"
+					},
+					"code": {
+						"type": "string",
+						"description": "Unique 10 characters max string"
+					},
+					"title": {
+						"type": "string",
+						"description": "Name of product"
+					},
+					"price": {
+						"type": "number",
+						"description": "Price of product"
+					},
+					"thumbnails": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Paths to product thumbnails"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description of product"
+					},
+					"stock": {
+						"type": "number",
+						"description": "Stock of product"
+					},
+					"category": {
+						"type": "object",
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "MongoDB auto-generated id"
+							},
+							"name": {
+								"type": "string",
+								"description": "Name of category"
+							}
+						},
+						"description": "Category of product"
+					},
+					"subCategory": {
+						"type": "string",
+						"description": "Sub category of product"
+					},
+					"owner": {
+						"type": "object",
+						"required": false,
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "MongoDB auto-generated id"
+							},
+							"email": {
+								"type": "string",
+								"description": "Email of owner"
+							},
+							"name": {
+								"type": "string",
+								"description": "Name of owner"
+							}
+						}
+					},
+					"createdAt": {
+						"type": "Date",
+						"description": "Date of creation of product"
+					}
+				},
+				"example": {
+					"id": "649607e246988a544664d58d",
+					"code": "p5",
+					"title": "Persona 5 Original Soundtrack",
+					"price": 24.99,
+					"thumbnails": [
+						"/static/images/fcd0eedb72e91ad6729fe75954b10c75.jpg"
+					],
+					"description": "Persona 5 Original Soundtrack is the official soundtrack of Persona 5. It was released by Atlus on January 17, 2017. The soundtrack features 110 tracks from the game, spread into three discs. It is composed by Shoji Meguro with additional compositions by Toshiki Konishi, Kenichi Tsuchiya, Atsushi Kitajoh and Ryota Kozuka, with vocals by Lyn Inaizumi. The soundtrack album includes a booklet that contains a tracklist, lyrics to 7 vocalized tracks, track commentary and liner notes.",
+					"stock": 5,
+					"category": {
+						"id": "645adcc77def69a63dac39c6",
+						"name": "Pop"
+					},
+					"subCategory": "Experimental",
+					"owner": {
+						"id": "6494ea0cac1d5f9cc9b90a2b",
+						"email": "gisa2735@gmail.com",
+						"name": "Gian Luca"
+					},
+					"createdAt": "2023-06-23T21:00:18.444Z"
+				}
+			},
+			"Products": {
+				"type": "object",
+				"properties": {
+					"docs": {
+						"type": "array",
+						"items": {
+							"$ref": "#components/schemas/Product"
+						},
+						"description": "All products of current page"
+					},
+					"totalDocs": {
+						"type": "number",
+						"description": "Total of products on the database"
+					},
+					"limit": {
+						"type": "number",
+						"description": "Total of products to show per page"
+					},
+					"totalPages": {
+						"type": "number",
+						"description": "Total of pages in this request"
+					},
+					"page": {
+						"type": "number",
+						"description": "Current page"
+					},
+					"hasPrevPage": {
+						"type": "boolean",
+						"description": "Indicates if page has previous page"
+					},
+					"hasNextPage": {
+						"type": "boolean",
+						"description": "Indicates if page has next page"
+					},
+					"prevPage": {
+						"type": "number",
+						"description": "number indicating prev page"
+					},
+					"nextPage": {
+						"type": "number",
+						"description": "number indicating next page"
+					},
+					"prevLink": {
+						"type": "string",
+						"nullable": true,
+						"description": "Link to prev page"
+					},
+					"nextLink": {
+						"type": "string",
+						"nullable": true,
+						"description": "Link to next page"
+					}
+				}
+			},
+			"Cart": {
+				"type": "object",
+				"properties": {
+					"id": {
+						"type": "string",
+						"description": "Id of cart"
+					},
+					"products": {
+						"type": "array",
+						"items": {
+							"type": "object",
+							"properties": {
+								"product": {
+									"schema": {
+										"$ref": "#components/schemas/Product"
+									}
+								},
+								"quantity": {
+									"type": "number",
+									"description": "Quantity of the product in the cart"
+								}
+							}
+						}
+					}
+				}
+			}
+		},
+		"requestBodies": {
+			"addProduct": {
+				"type": "object",
+				"properties": {
+					"code": {
+						"type": "string",
+						"description": "Unique code for product of a maximum of 10 characters"
+					},
+					"title": {
+						"type": "string",
+						"description": "Name of product"
+					},
+					"price": {
+						"type": "number",
+						"description": "Price of product"
+					},
+					"thumbnails": {
+						"type": "array",
+						"items": {
+							"type": "string"
+						},
+						"description": "Paths to product thumbnails"
+					},
+					"description": {
+						"type": "string",
+						"description": "Description of product"
+					},
+					"stock": {
+						"type": "number",
+						"description": "Stock of product"
+					},
+					"category": {
+						"type": "string",
+						"description": "Category of product"
+					},
+					"subCategory": {
+						"type": "string",
+						"description": "Sub category of product"
+					}
+				},
+				"example": {
+					"code": "abcdefgh12",
+					"title": "Example title",
+					"price": 27.99,
+					"thumbnails": [
+						"/static/images/sample.jpg"
+					],
+					"description": "Example description of product",
+					"stock": 3,
+					"category": "645adcc77def69a63dac39c6",
+					"subCategory": "Example sub category"
+				}
+			},
+			"searchProduct": {
+				"type": "object",
+				"properties": {
+					"text": {
+						"type": "string",
+						"description": "Product to search by title"
+					}
+				},
+				"example": {
+					"text": "Square"
+				}
+			}
+		}
+	}
+}
