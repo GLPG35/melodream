@@ -483,3 +483,31 @@ export const manageSuperstar = (email: string) => {
 		})
 	})
 }
+
+export const manageSnippets = (method: string, url: string, headers: any, postData: any) => {
+	const options: RequestInit = {
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		method: 'POST',
+		body: JSON.stringify({
+			method,
+			url,
+			headers,
+			postData
+		})
+	}
+
+	return fetch('/api/snippets', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}

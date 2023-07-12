@@ -67,7 +67,7 @@ const Alert = ({ icon, text, callback }: { icon: AlertIcon, text: string, callba
 	return (
 		<div className={styles.alertContainer}>
 			<motion.div initial={{translateX: '100vw'}} animate={{translateX: 0}}
-			exit={{translateX: '120%'}} transition={{type: 'spring', duration: 0.8}}
+			exit={{translateX: '120vw'}} transition={{type: 'spring', duration: 0.8}}
 			className={styles.alert} onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}>
 				<div className={styles.icon}>

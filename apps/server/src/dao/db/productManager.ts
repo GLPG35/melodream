@@ -141,6 +141,8 @@ class ProductManager {
 
 	parseOwner = async (email: string) => {
 		const users = new UserManager()
+
+		console.log(email)
 		
 		return users.getUser(email)
 		.then(user => {

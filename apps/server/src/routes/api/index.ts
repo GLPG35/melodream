@@ -10,6 +10,7 @@ import carts from './carts'
 import orders from './orders'
 import mocks from './mocks'
 import testLogs from './testLogs'
+import snippets from './snippets'
 
 const router = Router()
 
@@ -24,5 +25,6 @@ router.use('/carts', carts)
 router.use('/orders', orders)
 router.use('/mocks', mocks)
 router.use('/testLogs', testLogs)
+router.use('/snippets', snippets)
 
 export default router

@@ -54,7 +54,7 @@ router.post('/', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType !== 'user')) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { body } = req
-	body.owner = verifyToken(req.token) || undefined
+	body.owner = verifyToken(req.token).email
 
 	return products.addProduct(body)
 	.then(() => {
@@ -68,7 +68,7 @@ router.put('/:pid', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType !== 'user')) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { body, params: { pid } } = req
-	body.email = verifyToken(req.token) || undefined
+	body.email = verifyToken(req.token).email
 
 	return products.updateProduct(pid, body)
 	.then(() => {
@@ -82,7 +82,7 @@ router.delete('/:pid', checkToken, (req, res, next) => {
 	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType !== 'user')) return res.status(403).send({ succes: false, message: 'User unauthorized' })
 
 	const { params: { pid } } = req
-	const owner = verifyToken(req.token) || undefined
+	const owner = verifyToken(req.token).email
 
 	return products.deleteProduct(pid, { owner })
 	.then(() => {

@@ -12,8 +12,8 @@
 					"tags": [
 						"Products"
 					],
-					"name": "List products",
-					"summary": "Lists the most recent products",
+					"name": "Lists products",
+					"summary": "Lists the most recent products from the database.",
 					"responses": {
 						"200": {
 							"description": "Products retrieved correctly from the database",
@@ -40,7 +40,7 @@
 						"Products"
 					],
 					"name": "Create product",
-					"summary": "Create a new product",
+					"summary": "Uploads a new product to the database based on the information in the body.",
 					"requestBody": {
 						"required": true,
 						"content": {
@@ -67,7 +67,7 @@
 						"Products"
 					],
 					"name": "Get product",
-					"summary": "Get one product",
+					"summary": "Gets one product based on the specified id of the request.",
 					"parameters": [
 						{
 							"name": "pid",
@@ -105,7 +105,7 @@
 						"Products"
 					],
 					"name": "Update product",
-					"summary": "Update a product",
+					"summary": "Updates one product based on the specified id on the request with the data passed on the body.",
 					"parameters": [
 						{
 							"name": "pid",
@@ -149,7 +149,7 @@
 						"Products"
 					],
 					"name": "Delete product",
-					"summary": "Delete a product",
+					"summary": "Deletes one product based on the specified id of the request.",
 					"parameters": [
 						{
 							"name": "pid",
@@ -177,7 +177,7 @@
 						"Products"
 					],
 					"name": "Search products",
-					"summary": "Search for multiple products",
+					"summary": "Searches for multiple products based on a string passed through the body.",
 					"requestBody": {
 						"required": true,
 						"content": {
@@ -203,7 +203,7 @@
 						"Carts"
 					],
 					"name": "Create cart",
-					"summary": "Create a new empty cart",
+					"summary": "Creates a new empty cart for one user.",
 					"responses": {
 						"200": {
 							"description": "Cart created successfully",
@@ -219,6 +219,10 @@
 												"type": "string",
 												"description": "Id of the created cart"
 											}
+										},
+										"example": {
+											"success": true,
+											"message": "64623d1f8c53ea89c543e1ff"
 										}
 									}
 								}
@@ -233,7 +237,7 @@
 						"Carts"
 					],
 					"name": "Get cart",
-					"summary": "Get specific cart from id",
+					"summary": "Gets one cart based on the specified id of the request.",
 					"parameters": [
 						{
 							"name": "cid",
@@ -274,7 +278,7 @@
 						"Carts"
 					],
 					"name": "Delete cart contents",
-					"summary": "Delete all products from cart",
+					"summary": "Deletes all products from one cart based on the specified id of the request.",
 					"parameters": [
 						{
 							"name": "cid",
@@ -302,7 +306,7 @@
 						"Carts"
 					],
 					"name": "Get cart amount",
-					"summary": "Get the total amount to pay based on the products inside the cart",
+					"summary": "Gets the total amount to pay based on the products inside the cart.",
 					"parameters": [
 						{
 							"name": "cid",
@@ -320,7 +324,11 @@
 							"content": {
 								"application/json": {
 									"schema": {
-										"type": "number"
+										"type": "number",
+										"example": {
+											"success": true,
+											"message": 44.97
+										}
 									}
 								}
 							}
@@ -337,7 +345,7 @@
 						"Carts"
 					],
 					"name": "Add product",
-					"summary": "Add a product to the specified cart",
+					"summary": "Adds one product to the specified cart.",
 					"parameters": [
 						{
 							"name": "cid",
@@ -390,7 +398,7 @@
 						"Carts"
 					],
 					"name": "Delete product",
-					"summary": "Delete product from specific cart",
+					"summary": "Deletes one product from one cart based on the specified ids of the request.",
 					"parameters": [
 						{
 							"name": "cid",
@@ -582,6 +590,209 @@
 						"nullable": true,
 						"description": "Link to next page"
 					}
+				},
+				"example": {
+					"docs": [
+						{
+							"code": "p5",
+							"title": "Persona 5 Original Soundtrack",
+							"price": 24.99,
+							"thumbnails": [
+								"/static/images/fcd0eedb72e91ad6729fe75954b10c75.jpg"
+							],
+							"description": "Persona 5 Original Soundtrack is the official soundtrack of Persona 5. It was released by Atlus on January 17, 2017. The soundtrack features 110 tracks from the game, spread into three discs. It is composed by Shoji Meguro with additional compositions by Toshiki Konishi, Kenichi Tsuchiya, Atsushi Kitajoh and Ryota Kozuka, with vocals by Lyn Inaizumi. The soundtrack album includes a booklet that contains a tracklist, lyrics to 7 vocalized tracks, track commentary and liner notes.",
+							"stock": 5,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Experimental",
+							"owner": {
+								"email": "gisa2735@gmail.com",
+								"name": "Gian Luca",
+								"userType": "superstar",
+								"cart": "64517033b15e94366ca8f8ac",
+								"id": "6494ea0cac1d5f9cc9b90a2b"
+							},
+							"createdAt": "2023-06-23T21:00:18.444Z",
+							"updatedAt": "2023-06-23T23:40:53.798Z",
+							"id": "649607e246988a544664d58d"
+					  	},
+					  	{
+							"code": "bb02",
+							"title": "digital druglord",
+							"price": 19.99,
+							"thumbnails": [
+								"/static/images/638a56264316684379f57aa096e352d1.jpg"
+							],
+							"description": "Digital Druglord (stylized in all lowercase) is the third studio album by American singer blackbear. It was released on April 21, 2017, by Beartrap, Alamo Records, and Interscope Records, his first album under a major record label, follows after the release of his independent albums, Deadroses and Help (both released in 2015), as well as his EP, Salt which was released two weeks prior.\n\nThe album include guest appearances from Gucci Mane, Juicy J, Stalking Gia and 24hrs. It was preceded by one single; \"Do Re Mi\".",
+							"stock": 5,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:38:25.718Z",
+							"updatedAt": "2023-06-04T20:32:12.463Z",
+							"id": "6421e2a1330df18868714b3a"
+					  	},
+					  	{
+							"code": "bb01",
+							"title": "deadroses",
+							"price": 14.99,
+							"thumbnails": [
+								"/static/images/18c1c734ecc4ca7c92a795c3f70be33d.jpg"
+							],
+							"description": "Blackbear released his first full-length album, Deadroses, a self-released set of 10 tracks, on February 14, 2015. The album received favorable reviews, one of which stating that the album had \"pleasantly mixed together a plethora of genres, sounds, and emotions to create a completely cohesive and unique project.\" The lead single, \"idfc\", charted on Billboard's R&B Hot 100 and held a spot on the Billboard R&B charts for over a year. The track has earned millions of streams on both SoundCloud and Spotify. It has been streamed over 550 million times on SoundCloud and Idfc (Tarro Remix) has over 255 million views as of January 2022. \"idfc\" shot Blackbear to the top 20 of the Billboard charts. The second single, \"90210\", features G-Eazy and gained over 55 million streams on Spotify.",
+							"stock": 1,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:36:13.793Z",
+							"updatedAt": "2023-05-25T00:39:10.347Z",
+							"id": "6421e21db9bd9578cc43d02d"
+					  	},
+					  	{
+							"code": "dl02",
+							"title": "Future Nostalgia",
+							"price": 24.99,
+							"thumbnails": [
+								"/static/images/1ebc1d3d32ab0a83ad686cbd9ae2fb80.jpg"
+							],
+							"description": "Future Nostalgia is the second studio album by English and Albanian singer Dua Lipa, released on 27 March 2020 by Warner Records. Lipa enlisted writers and producers such as Jeff Bhasker, Ian Kirkpatrick, Stuart Price, the Monsters & Strangerz, and Koz to create a \"nostalgic\" pop and disco record with influences from dance-pop and electronic music, inspired by the music that Lipa enjoyed during her childhood.",
+							"stock": 9,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:33:24.923Z",
+							"updatedAt": "2023-05-11T01:53:50.678Z",
+							"id": "6421e174874b3219244381e8"
+					  	},
+					  	{
+							"code": "dl01",
+							"title": "Dua Lipa (Complete Edition)",
+							"price": 24.99,
+							"thumbnails": [
+								"/static/images/85718ed1526b2562fa002c9c4f81e6a2.jpg"
+							],
+							"description": "Dua Lipa is the debut studio album by English and Albanian singer Dua Lipa. Released through Warner Records on 2 June 2017, the album is a dance-pop, electropop and R&B record with elements of disco, hip hop and tropical house. It includes a guest appearance from Miguel, as well as Chris Martin from British rock band Coldplay.\n\nThe album was supported by eight singles, which includes the UK top 10 singles, \"Be the One\", and \"IDGAF\", as well as the UK chart-topping and US top 10 single, \"New Rules\". Lipa promoted the album with appearances at several award shows, television programs and festivals, as well as embarking on a series of concert tours from 2016 to 2018. She also supported Troye Sivan, Bruno Mars and Coldplay on their respective tours.",
+							"stock": 1,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:31:26.055Z",
+							"updatedAt": "2023-05-25T03:22:34.024Z",
+							"id": "6421e0fe1e67c51ee9e17d7a"
+					  	},
+					  	{
+							"code": "be02",
+							"title": "WHEN WE ALL FALL ASLEEP, WHERE DO WE GO?",
+							"price": 24.99,
+							"thumbnails": [
+								"/static/images/3cbf3ebcd5f98224b567852f9f8ab2e7.jpg"
+							],
+							"description": "When We All Fall Asleep, Where Do We Go? (stylized in all caps) is the debut studio album by American singer and songwriter Billie Eilish. It was released on March 29, 2019, by Darkroom and Interscope Records in the US and Polydor Records in the UK. Eilish, aged 17 at the time of release, largely wrote the album with her brother Finneas O'Connell, who produced it at his small bedroom studio in Highland Park, Los Angeles.\n\nMusically, When We All Fall Asleep, Where Do We Go? is a pop, electropop, avant-pop, and art pop record, though it also features influences from hip hop and industrial music. Its songs explore themes such as modern youth, drug addiction, heartbreak, suicide, and mental health, with lyrical sensibilities of humor and horror. Eilish said the album was inspired in part by lucid dreaming and night terrors, which are reflected on the cover photo.",
+							"stock": 17,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:26:38.212Z",
+							"updatedAt": "2023-05-11T01:54:10.608Z",
+							"id": "6421dfde72b391bf6273614c"
+					  	},
+					  	{
+							"code": "be01",
+							"title": "dont smile at me",
+							"price": 19.99,
+							"thumbnails": [
+								"/static/images/ed046a4e60974b0897661a8c8b19af75.jpg"
+							],
+							"description": "Don't Smile at Me (stylized as dont smile at me) is the debut extended play by American singer Billie Eilish, released on August 11, 2017, via Darkroom and Interscope Records. Eilish and her brother Finneas O'Connell wrote most of the material on the EP and were solely responsible for its production. It is an electropop and bedroom pop record with elements of R&B and jazz.",
+							"stock": 8,
+							"category": {
+								"name": "Pop",
+								"id": "645adcc77def69a63dac39c6"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:25:04.191Z",
+							"updatedAt": "2023-05-25T03:35:46.780Z",
+							"id": "6421df80ba4a5c9d9e28c5cb"
+					  	},
+					  	{
+							"code": "bp05",
+							"title": "Kill This Love",
+							"price": 18.99,
+							"thumbnails": [
+								"/static/images/e0006cf2b37438590cfbe31bd018b6a2.jpg"
+							],
+							"description": "Kill This Love is the second Korean-language extended play (third overall) by South Korean girl group Blackpink, released on April 5, 2019, by YG Entertainment and distributed through YG Plus and Interscope Records.[3] It is their first Korean material since the release of Square Up in June 2018, and their debut release with Interscope Records.[4] The title track was released as the lead single. The single peaked at number two in South Korea and became the group's first top-50 hit in the United States and the United Kingdom. The song \"Don't Know What To Do\" was later promoted in Korean music programs as the EP's sub-title track.",
+							"stock": 2,
+							"category": {
+								"name": "K-Pop",
+								"id": "645adceb7def69a63dac39ca"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-27T18:12:26.426Z",
+							"updatedAt": "2023-05-25T03:35:46.780Z",
+							"id": "6421dc8acf2763f6557571f6"
+					  	},
+					  	{
+							"code": "bp04",
+							"title": "Square Up",
+							"price": 12.99,
+							"thumbnails": [
+								"/static/images/bea72bcb1760e90ae6c783c0e7f93b2a.jpg",
+								"/static/images/a67b3631d5487581b0f32cd43bb4e6e0.jpg"
+							],
+							"description": "Square Up is the first Korean extended play (second overall) by South Korean girl group Blackpink, released on June 15, 2018 by YG Entertainment. It is available in two versions and contains four tracks, with \"Ddu-Du Ddu-Du\" released as the lead single. \"Ddu-Du Ddu-Du\" peaked at number one in South Korea for three weeks and became the highest-charting song by a female K-pop act in the United States and United Kingdom. The song \"Forever Young\" was later promoted in Korean music programs and peaked at number two in South Korea.",
+							"stock": 22,
+							"category": {
+								"name": "K-Pop",
+								"id": "645adceb7def69a63dac39ca"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-19T17:15:18.048Z",
+							"updatedAt": "2023-05-25T03:35:46.780Z",
+							"id": "6417432680b1f75b8d670468"
+					  	},
+					  	{
+							"code": "bp03",
+							"title": "SOLO",
+							"price": 18.99,
+							"thumbnails": [
+								"/static/images/1bf9f1b05263dd714d0dd1ebffb17941.jpg"
+							],
+							"description": "\"Solo\" (stylized in all caps) is the debut solo single of South Korean singer, rapper, and Blackpink member Jennie. Released on November 12, 2018, through YG and Interscope, the song was written by Teddy Park and produced by him alongside 24. Musically, \"Solo\" is a dance, pop, and hip hop song with EDM elements. Its lyrical content revolves around the theme of independence after a break-up.",
+							"stock": 6,
+							"category": {
+								"name": "K-Pop",
+								"id": "645adceb7def69a63dac39ca"
+							},
+							"subCategory": "Modern generation",
+							"createdAt": "2023-03-19T17:09:49.141Z",
+							"updatedAt": "2023-05-25T03:27:01.871Z",
+							"id": "641741ddb309a255f66ba7d3"
+					  	}
+					],
+					"totalDocs": 12,
+					"limit": 10,
+					"totalPages": 2,
+					"page": 1,
+					"pagingCounter": 1,
+					"hasPrevPage": false,
+					"hasNextPage": true,
+					"prevPage": null,
+					"nextPage": 2,
+					"prevLink": null,
+					"nextLink": "/api/products?page=2"
 				}
 			},
 			"Cart": {
@@ -608,6 +819,48 @@
 							}
 						}
 					}
+				},
+				"example": {
+					"id": "64623d1f8c53ea89c543e1ff",
+					"products": [
+						{
+							"product": {
+								"id": "6417432680b1f75b8d670468",
+								"code": "bp04",
+								"title": "Square Up",
+								"price": 12.99,
+								"thumbnails": [
+							  		"/static/images/bea72bcb1760e90ae6c783c0e7f93b2a.jpg",
+							  		"/static/images/a67b3631d5487581b0f32cd43bb4e6e0.jpg"
+								],
+								"description": "Square Up is the first Korean extended play (second overall) by South Korean girl group Blackpink, released on June 15, 2018 by YG Entertainment. It is available in two versions and contains four tracks, with \"Ddu-Du Ddu-Du\" released as the lead single. \"Ddu-Du Ddu-Du\" peaked at number one in South Korea for three weeks and became the highest-charting song by a female K-pop act in the United States and United Kingdom. The song \"Forever Young\" was later promoted in Korean music programs and peaked at number two in South Korea.",
+								"stock": 22,
+								"category": "645adceb7def69a63dac39ca",
+								"subCategory": "Modern generation",
+								"createdAt": "2023-03-19T17:15:18.048Z",
+								"updatedAt": "2023-05-25T03:35:46.780Z"
+						  	},
+						  	"quantity": 2
+						},
+						{
+						  	"product": {
+								"code": "bp03",
+								"title": "SOLO",
+								"price": 18.99,
+								"thumbnails": [
+									"/static/images/1bf9f1b05263dd714d0dd1ebffb17941.jpg"
+								],
+								"description": "\"Solo\" (stylized in all caps) is the debut solo single of South Korean singer, rapper, and Blackpink member Jennie. Released on November 12, 2018, through YG and Interscope, the song was written by Teddy Park and produced by him alongside 24. Musically, \"Solo\" is a dance, pop, and hip hop song with EDM elements. Its lyrical content revolves around the theme of independence after a break-up.",
+								"stock": 6,
+								"category": "645adceb7def69a63dac39ca",
+								"subCategory": "Modern generation",
+								"createdAt": "2023-03-19T17:09:49.141Z",
+								"updatedAt": "2023-05-25T03:27:01.871Z",
+								"id": "641741ddb309a255f66ba7d3"
+						  	},
+						  	"quantity": 1
+						}
+					]
 				}
 			}
 		},
