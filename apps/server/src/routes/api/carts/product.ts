@@ -17,33 +17,24 @@ router.post('/:pid', checkToken, (req, res, next) => {
 	}
 
 	return carts.addProduct(cid, pid, quantity, email)
-	.then(doc => {
-		return res.send({ success: true, message: doc })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(doc => res.send({ success: true, message: doc }))
+	.catch(next)
 })
 
 router.get('/check/:pid', (req, res, next) => {
 	const { cid, pid } = req.params as { cid: string, pid: string }
 
 	return carts.checkProduct(cid, pid)
-	.then(check => {
-		return res.send({ success: true, message: check })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(check => res.send({ success: true, message: check }))
+	.catch(next)
 })
 
 router.delete('/:pid', (req, res, next) => {
 	const { cid, pid } = req.params as { cid: string, pid: string }
 
 	return carts.deleteProduct(cid, pid)
-	.then(() => {
-		return res.send({ success: true, message: 'Product deleted successfully' })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(() => res.send({ success: true, message: 'Product deleted successfully' }))
+	.catch(next)
 })
 
 export default router

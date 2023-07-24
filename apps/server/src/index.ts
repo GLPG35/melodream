@@ -7,8 +7,6 @@ import home from './routes'
 import realtime from './routes/realtimeproducts'
 import chat from './routes/chat'
 import api from './routes/api'
-import crypto from 'crypto'
-import multer from 'multer'
 import cors from 'cors'
 import compression from 'express-compression'
 import http from 'http'
@@ -31,18 +29,6 @@ io(server)
 dbConnect()
 
 const PORT = process.env.PORT || 3000
-
-const upload = multer({ storage: multer.diskStorage({
-	destination: (_req, _file, cb) => {
-		cb(null, __root + '/public/images/')
-	},
-	filename: (_req, _file, cb) => {
-		const name = new Date().getTime().toString() + (Math.random() + 1).toString(36).substring(10)
-		const hash = crypto.createHash('md5').update(name, 'utf8').digest('hex')
-
-		cb(null, `${hash}.jpg`)
-	}
-})}).single('thumb')
 
 app.engine('handlebars', engine())
 app.set('view engine', 'handlebars')
@@ -79,7 +65,6 @@ const options: SwaggerUiOptions = {
 app.use ('/docs', swaggerUiExpress.serve, swaggerUiExpress.setup(undefined, options))
 
 app.use(cors())
-app.use(upload)
 
 //Routes
 app.use('/', home)

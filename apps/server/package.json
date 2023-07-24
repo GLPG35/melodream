@@ -1,7 +1,7 @@
 {
   "name": "melodream-server",
   "private": true,
-  "version": "8.1.0",
+  "version": "9.0.0",
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch --ignore src/public --ignore src/logs --ignore src/tests --clear-screen=false src",

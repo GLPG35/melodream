@@ -1,6 +1,9 @@
 import { Router } from 'express'
 import login from './login'
 import register from './register'
+import users from './users'
+import profile from './profile'
+import documentation from './documentation'
 import superstar from './superstar'
 import logout from './logout'
 import products from './products'
@@ -16,6 +19,9 @@ const router = Router()
 
 router.use('/login', login)
 router.use('/register', register)
+router.use('/users', users)
+router.use('/profile', profile)
+router.use('/documentation', documentation)
 router.use('/superstar', superstar)
 router.use('/logout', logout)
 router.use('/products', products)

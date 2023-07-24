@@ -11,11 +11,8 @@ router.get('/user/:email', (req, res, next) => {
 	const { email } = req.params
 	
 	return orders.getOrders(email)
-	.then(orders => {
-		return res.send(orders)
-	}).catch(err => {
-		return next(err)
-	})
+	.then(orders => res.send(orders))
+	.catch(next)
 })
 
 router.get('/token', checkOrderToken, (req, res) => {
@@ -30,11 +27,8 @@ router.get('/user/:email/:oid', (req, res, next) => {
 	const { email, oid } = req.params
 
 	return orders.getOrder(email, oid)
-	.then(order => {
-		return res.send(order)
-	}).catch(err => {
-		return next(err)
-	})
+	.then(order => res.send(order))
+	.catch(next)
 })
 
 router.post('/', (req, res, next) => {
@@ -46,9 +40,7 @@ router.post('/', (req, res, next) => {
 		const token = oneTimeToken(id)
 
 		return res.cookie('orderToken', token, { httpOnly: true, maxAge: 15 * 1000 }).send({ success: true, message: 'Order created successfully' })
-	}).catch(err => {
-		return next(err)
-	})
+	}).catch(next)
 })
 
 export default router

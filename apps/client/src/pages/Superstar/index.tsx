@@ -10,7 +10,7 @@ const Superstar = () => {
 	const navigate = useNavigate()
 	
 	useEffect(() => {
-		if (user && user.userType !== 'user') navigate('/', { replace: true })
+		if ((user && user.userType !== 'user') || user === null) navigate('/', { replace: true })
 	}, [user])
 
 	const handleConfirm = () => {

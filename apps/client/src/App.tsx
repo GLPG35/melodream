@@ -46,6 +46,20 @@ function App() {
 				})
 			}).catch(() => setUser(null))
 		}
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'hidden') {
+				fetch('/api/login/exit', { method: 'POST', credentials: 'include', keepalive: true })
+			}
+		})
+
+		return () => {
+			document.removeEventListener('visibilitychange', () => {
+				if (document.visibilityState === 'hidden') {
+					fetch('/api/login/exit', { method: 'POST', credentials: 'include', keepalive: true })
+				}
+			})
+		}
 	}, [])
 
 	useEffect(() => {

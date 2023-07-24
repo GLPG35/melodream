@@ -37,13 +37,14 @@ export const oneTimeToken = (id: string) => {
 }
 
 export const parseSessionUser = (user: any) => {
-	const { userType, email, name, cart } = user
+	const { userType, email, name, cart, pic } = user
 
 	const token = createToken({
 		email,
 		name,
 		userType,
-		cart
+		cart,
+		pic
 	})
 
 	return {
@@ -51,7 +52,8 @@ export const parseSessionUser = (user: any) => {
 		name,
 		userType,
 		cart,
-		token
+		token,
+		pic
 	}
 }
 

@@ -1,0 +1,380 @@
+@keyframes waveAnim {
+	from {
+		transform: translate(-180px);
+	}
+
+	to {
+		transform: translate(0);
+	}
+}
+
+.profile {
+	width: 100%;
+	height: calc(100vh - 5em);
+	padding: 2em;
+	display: flex;
+	flex-direction: column;
+	gap: 2em;
+
+	.title {
+		font-weight: 800;
+		font-size: 2em;
+	}
+	
+	.profileSections {
+		width: 100%;
+		flex-grow: 1;
+		display: flex;
+		flex-direction: column;
+		gap: 2em;
+		padding: 2em;
+		background-color: var(--bg-color-dark);
+		border-radius: 25px;
+		position: relative;
+
+		.selectDocWrapper {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			top: 0;
+			left: 0;
+			z-index: 10;
+			padding: 4em;
+
+			.selectDoc {
+				width: 100%;
+				height: 100%;
+				background-color: var(--bg-color-dark);
+				border-radius: 25px;
+				border: 5px solid var(--accent-color);
+				display: flex;
+				flex-direction: column;
+
+				.docTitle {
+					width: 100%;
+					height: max-content;
+					padding: 1.5em 1em;
+					display: flex;
+					flex-direction: column;
+					gap: 1em;
+
+					span {
+						display: flex;
+						align-items: center;
+						gap: 0.3em;
+						cursor: pointer;
+						width: max-content;
+					}
+
+					.dTitle {
+						width: 100%;
+						padding-inline: 1em;
+						display: flex;
+						justify-content: space-between;
+
+						.details {
+							display: flex;
+							gap: 1em;
+							align-items: center;
+
+							span {
+								font-size: 1.5em;
+								font-weight: 800;
+							}
+
+							.pic {
+								height: 2.5em;
+								width: 2.5em;
+
+								img {
+									width: 100%;
+									height: 100%;
+									object-fit: cover;
+									border-radius: 10px;
+								}
+							}
+						}
+
+						button {
+							padding: 0.8em 1.8em;
+							border-radius: 15px;
+							outline: none;
+							border: 3px solid var(--accent-color);
+							background-color: transparent;
+							color: var(--accent-color);
+							font-weight: 600;
+							font-size: 1em;
+							transition: 0.2s ease-out;
+							font-family: 'Montserrat', sans-serif;
+
+							&:hover {
+								cursor: pointer;
+								color: var(--bg-color);
+								background-color: var(--accent-color);
+							}
+						}
+					}
+				}
+
+				.docContent {
+					width: 100%;
+					flex-grow: 1;
+					overflow-y: auto;
+					display: flex;
+					flex-direction: column;
+					gap: 1em;
+
+					.dropDoc {
+						width: 100%;
+						height: max-content;
+						padding-inline: 2em;
+						display: flex;
+						flex-direction: column;
+						gap: 2em;
+					}
+				}
+			}
+		}
+
+		.generalInfo {
+			width: 100%;
+			height: max-content;
+			display: flex;
+			flex-direction: column;
+			gap: 3em;
+			border-radius: 25px;
+
+			.header {
+				height: 15em;
+				width: 100%;
+				overflow: hidden;
+				border-radius: 25px;
+				background-color: var(--bg-color);
+
+				.wave {
+					width: 200%;
+					height: 100%;
+					--mask:
+						radial-gradient(84.91px at 50% 117.00px,#000 99%,#0000 101%) calc(50% - 90px) 0/180px 100%,
+						radial-gradient(84.91px at 50% -72px,#0000 99%,#000 101%) 50% 45px/180px 100% repeat-x;
+					-webkit-mask: var(--mask);
+					mask: var(--mask);
+					background-color: var(--accent-color);
+					transition: 0.5s ease-out;
+					translate: 0 10%;
+					animation: waveAnim 1s linear infinite forwards;
+				}
+			}
+
+			.profileSection2 {
+				width: 100%;
+				height: max-content;
+				display: flex;
+				flex-direction: column;
+				gap: 1em;
+				padding: 2em;
+				position: relative;
+
+				.profilePic {
+					height: 8em;
+					width: 8em;
+					border-radius: 50vh;
+					outline: 5px solid var(--bg-color-dark);
+					background-color: var(--bg-color-dark);
+					position: absolute;
+					top: 0;
+					left: 2em;
+					translate: 0 -7em;
+					cursor: pointer;
+		
+					.picWrapper {
+						width: 100%;
+						height: 100%;
+						position: relative;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							border-radius: 50vh;
+						}
+	
+						.upload {
+							width: 100%;
+							height: 100%;
+							position: absolute;
+							top: 0;
+							left: 0;
+							border-radius: 50vh;
+							background-color: var(--bg-color-dark);
+							display: flex;
+							flex-direction: column;
+							gap: 0.5em;
+							justify-content: center;
+							align-items: center;
+							padding: 1em;
+							text-align: center;
+							font-weight: 600;
+							opacity: 0;
+							transition: 0.2s ease-out;
+							
+							&:hover {
+								opacity: 0.9;
+							}
+	
+							input {
+								display: none;
+							}
+						}
+	
+						.confirm {
+							position: absolute;
+							right: -0.5em;
+							bottom: -0.3em;
+							padding: 0.7em;
+							border-radius: 50vh;
+							background-color: var(--accent-color);
+							color: var(--bg-color);
+							transition: 0.2s ease-out;
+							cursor: pointer;
+	
+							&:hover {
+								background-color: var(--accent-color-dark);
+							}
+						}
+					}
+				}
+		
+				.info {
+					display: flex;
+					flex-direction: column;
+					gap: 0.5em;
+		
+					.name {
+						font-weight: 700;
+						font-size: 2.5em;
+					}
+		
+					.extra {
+						display: flex;
+						gap: 0.3em;
+						align-items: center;
+
+						.separator {
+							font-size: 0.8em;
+							color: var(--accent-color-light);
+						}
+						
+						.email, .tier {
+							font-size: 0.9em;
+							display: flex;
+							align-items: center;
+							gap: 0.2em;
+						}
+
+						.tier {
+							color: var(--accent-color-light);
+						}
+					}
+				}
+			}
+		}
+
+		.documentation {
+			width: 100%;
+			height: max-content;
+			display: flex;
+			flex-direction: column;
+
+			.subTitle {
+				font-weight: 700;
+				font-size: 1.5em;
+			}
+
+			.docWrapper {
+				width: 100%;
+				height: max-content;
+				display: grid;
+				grid-template-columns: repeat(auto-fit, minmax(13em, 1fr));
+				grid-auto-rows: max-content;
+				gap: 2em;
+				padding: 2em;
+
+				.document {
+					width: 100%;
+					display: flex;
+					align-items: center;
+					gap: 1em;
+					font-weight: 700;
+					background-color: var(--bg-color);
+					border-radius: 10px;
+					padding: 1em 2em;
+					cursor: pointer;
+
+					.pic {
+						font-size: 1.5em;
+						height: 2em;
+						width: 2em;
+						display: flex;
+						align-items: center;
+
+						img {
+							width: 100%;
+							height: 100%;
+							object-fit: cover;
+							border-radius: 15px;
+						}
+					}
+
+					.info {
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						flex-grow: 1;
+
+						.approved {
+							font-size: 1.2em;
+							padding: 0.5em;
+							border-radius: 10px;
+
+							&.pending {
+								color: var(--put-method-color);
+								background-color: var(--put-method-bg);
+							}
+
+							&.true {
+								color: var(--post-method-color);
+								background-color: var(--post-method-bg);
+							}
+
+							&.false {
+								color: var(--delete-method-color);
+								background-color: var(--delete-method-bg);
+							}
+						}
+
+						button {
+							border: none;
+							outline: none;
+							background-color: transparent;
+							font-size: 1em;
+							font-family: 'Montserrat', sans-serif;
+							font-weight: 600;
+							color: var(--accent-color);
+							padding: 0.5em 1em;
+							border-radius: 10px;
+							border: 3px solid var(--accent-color);
+							cursor: pointer;
+							transition: 0.2s ease-out;
+
+							&:hover {
+								background-color: var(--accent-color);
+								color: var(--bg-color);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

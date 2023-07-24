@@ -47,7 +47,7 @@ const UserIcon = () => {
 				<div className={styles.activeUser}
 				onClick={() => setMenu(!menu)}>
 					<div className={styles.pic}>
-						<img src={`https://ui-avatars.com/api/
+						<img src={user.pic || `https://ui-avatars.com/api/
 							?name=${user.name}
 							&background=4f3499
 							&color=fbdef4
@@ -62,6 +62,9 @@ const UserIcon = () => {
 							exit={{ height: 0 }} onClick={e => e.stopPropagation()}
 							ref={menuRef}>
 								<div className={styles.wrapper}>
+									<Link to={'/profile'} onClick={() => setMenu(!menu)}>
+										<TbUser /> Profile
+									</Link>
 									{['admin', 'superstar'].includes(user.userType) &&
 										<Link to={'/dashboard'} onClick={() => setMenu(!menu)}>
 											<TbLayout /> Dashboard

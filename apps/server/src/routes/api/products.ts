@@ -21,33 +21,24 @@ router.get('/', checkToken, async (req, res, next) => {
 	}
 
 	return products.getProducts(limit ? +limit : undefined, page ? +page : undefined, sort, query, email)
-	.then(data => {
-		return res.send({ ...data })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(data => res.send({ ...data }))
+	.catch(next)
 })
 
 router.get('/:pid', (req, res, next) => {
 	const { pid } = req.params
 
 	products.getProductById(pid)
-	.then(product => {
-		return res.send(product)
-	}).catch(err => {
-		return next(err)
-	})
+	.then(product => res.send(product))
+	.catch(next)
 })
 
 router.get('/exists/:code', (req, res, next) => {
 	const { code } = req.params
 
 	return products.getProductByCode(code)
-	.then(product => {
-		return res.send(product)
-	}).catch(err => {
-		return next(err)
-	})
+	.then(product => res.send(product))
+	.catch(next)
 })
 
 router.post('/', checkToken, (req, res, next) => {
@@ -57,11 +48,8 @@ router.post('/', checkToken, (req, res, next) => {
 	body.owner = verifyToken(req.token).email
 
 	return products.addProduct(body)
-	.then(() => {
-		return res.send({ success: true, message: 'Product added successfully' })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(() => res.send({ success: true, message: 'Product added successfully' }))
+	.catch(next)
 })
 
 router.put('/:pid', checkToken, (req, res, next) => {
@@ -71,11 +59,8 @@ router.put('/:pid', checkToken, (req, res, next) => {
 	body.email = verifyToken(req.token).email
 
 	return products.updateProduct(pid, body)
-	.then(() => {
-		return res.send({ success: true, message: 'Product updated successfully' })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(() => res.send({ success: true, message: 'Product updated successfully' }))
+	.catch(next)
 })
 
 router.delete('/:pid', checkToken, (req, res, next) => {
@@ -85,22 +70,16 @@ router.delete('/:pid', checkToken, (req, res, next) => {
 	const owner = verifyToken(req.token).email
 
 	return products.deleteProduct(pid, { owner })
-	.then(() => {
-		return res.send({ success: true, message: 'Product deleted successfully' })
-	}).catch(err => {
-		return next(err)
-	})
+	.then(() => res.send({ success: true, message: 'Product deleted successfully' }))
+	.catch(next)
 })
 
 router.post('/search', (req, res, next) => {
 	const { text } = req.body
 
 	return products.searchProduct(text)
-	.then(products => {
-		return res.send(products)
-	}).catch(err => {
-		return next(err)
-	})
+	.then(products => res.send(products))
+	.catch(next)
 })
 
 export default router

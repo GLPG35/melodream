@@ -1,5 +1,5 @@
 import { Link, useNavigate, Outlet } from 'react-router-dom'
-import { TbCirclePlus, TbEdit, TbEraser, TbUser, TbVersions } from 'react-icons/tb'
+import { TbCirclePlus, TbEdit, TbEraser, TbFileDescription, TbUser, TbVersions } from 'react-icons/tb'
 import styles from './styles.module.scss'
 import { useContext, useEffect } from 'react'
 import { globalContext } from '../../App'
@@ -47,6 +47,11 @@ const Dashboard = () => {
 									<li>
 										<Link to={'addUser'}>
 											<TbUser fontSize={'1.2em'} /> Add User
+										</Link>
+									</li>
+									<li>
+										<Link to={'documentation'}>
+											<TbFileDescription fontSize={'1.2em'} /> Documentation
 										</Link>
 									</li>
 								</>

@@ -5,7 +5,10 @@ interface UserDocument extends Document {
 	name: string,
 	passwordHash?: string,
 	userType: 'admin' | 'superstar' | 'user',
-	cart: string
+	cart: string,
+	documentation: { id: number, name: string, url: string, approved?: boolean }[],
+	pic: string,
+	lastConnection: Date
 }
 
 const userSchema = new Schema({
@@ -28,7 +31,15 @@ const userSchema = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'Cart',
 		required: true
-	}
+	},
+	documentation: [{
+		id: Number,
+		name: { type: String, enum: ['ID', 'Proof of Address', 'Bank Statement'] },
+		url: String,
+		approved: Boolean
+	}],
+	pic: String,
+	lastConnection: Date
 })
 
 userSchema.set('toJSON', {

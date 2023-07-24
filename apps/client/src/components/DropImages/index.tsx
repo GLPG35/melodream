@@ -4,12 +4,13 @@ import { convertImage } from '../../utils/server'
 import { motion, Reorder } from 'framer-motion'
 import styles from './styles.module.scss'
 
-const DropImages = ({ images, callback }: {
+const DropImages = ({ images, callback, limit }: {
 	images: { id: number, thumb: File }[],
 	callback: React.Dispatch<React.SetStateAction<{
 		id: number,
 		thumb: File
-	}[]>>
+	}[]>>,
+	limit?: number
 }) => {
 	const inputRef = useRef<HTMLInputElement>(null)
 	
@@ -30,6 +31,8 @@ const DropImages = ({ images, callback }: {
 		e.preventDefault()
 		e.currentTarget.classList.remove(styles.active)
 
+		if (limit && (images.length >= limit)) return
+
 		if (e.dataTransfer.files && e.dataTransfer.files[0]) {
 			const file = e.dataTransfer.files[0]
 
@@ -46,6 +49,8 @@ const DropImages = ({ images, callback }: {
 	}
 
 	const handleFileUp = (e: ChangeEvent<HTMLInputElement>) => {
+		if (limit && (images.length >= limit)) return
+
 		if (e.currentTarget.files) {
 			const file = e.currentTarget.files[0]
 

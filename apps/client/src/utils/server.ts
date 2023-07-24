@@ -304,6 +304,23 @@ export const manageUser: ManageUser = (body?: { email: string, name?: string, pa
 	})
 }
 
+export const refreshUser = () => {
+	const options: RequestInit = {
+		method: 'GET',
+		credentials: 'include'
+	}
+
+	return fetch('/api/login?refresh=true', options)
+	.then(res => {
+		if (res.ok) return res.json().then(res => res.message)
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
 export const manageSearch = (text: string) => {
 	const body = {
 		text
@@ -508,6 +525,149 @@ export const manageSnippets = (method: string, url: string, headers: any, postDa
 		return res.json()
 		.then(res => {
 			throw new Error(res.message)
+		})
+	})
+}
+
+export const manageProfilePic = (file: File) => {
+	const formData = new FormData()
+	formData.append('thumb', file)
+
+	return fetch('/api/image/upload?type=pfp', {
+		method: 'POST',
+		body: formData,
+		credentials: 'include'
+	}).then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				const { path } = res
+
+				return fetch('/api/profile', {
+					method: 'POST',
+					body: JSON.stringify({
+						path
+					}),
+					credentials: 'include',
+					headers: {
+						'Content-Type': 'application/json'
+					}
+				}).then(res => {
+					if (res.ok) {
+						return res.json()
+						.then(res => res.message)
+					}
+					
+					return res.json()
+					.then(res => {
+						throw new Error(res.message)
+					})
+				})
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+type ManageDocs = {
+	(): Promise<any>,
+	(id: number, url: string): Promise<any>
+}
+
+export const manageDocs: ManageDocs = (id?: number, url?: string) => {
+	const options: RequestInit = {
+		method: id ? 'POST' : 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	if (id) {
+		options.body = JSON.stringify({ id, url })
+	}
+
+	return fetch('/api/documentation', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => {
+				if (id) return res.message
+
+				return res.documentation
+			})
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const uploadDoc = (file: File) => {
+	const formData = new FormData()
+	formData.append('thumb', file)
+
+	return fetch('/api/image/upload?type=doc', {
+		method: 'POST',
+		body: formData,
+		credentials: 'include'
+	}).then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.path)
+		}
+
+		return res.json()
+		.then(res => {
+			throw new Error(res.message)
+		})
+	})
+}
+
+export const manageUsersWithDocs = () => {
+	return fetch('/api/users/docs')
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
+		})
+	})
+}
+
+export const manageUserDoc = (email: string, id: number, approve: boolean) => {
+	const options: RequestInit = {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include',
+		body: JSON.stringify({
+			id,
+			email
+		})
+	}
+	
+	return fetch(`/api/documentation/${approve ? 'approve' : 'reject'}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
 		})
 	})
 }

@@ -26,7 +26,8 @@ export interface User {
 	email: string,
 	name: string,
 	userType: string,
-	cart: string
+	cart: string,
+	pic?: string
 }
 
 export interface Category {

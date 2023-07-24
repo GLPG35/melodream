@@ -26,6 +26,8 @@ import ResetPass from './pages/Login/Reset'
 import Superstar from './pages/Superstar'
 import Docs from './pages/Docs'
 import DocsHome from './pages/Docs/Home'
+import Profile from './pages/Profile'
+import Documentation from './pages/Dashboard/Documentation'
 
 const router = createBrowserRouter([
   {
@@ -75,6 +77,10 @@ const router = createBrowserRouter([
         element: <Order />
       },
       {
+        path: '/profile',
+        element: <Profile />
+      },
+      {
         path: '/login',
         element: <Login />
       },
@@ -117,6 +123,10 @@ const router = createBrowserRouter([
           {
             path: 'addUser',
             element: <AddUser />
+          },
+          {
+            path: 'documentation',
+            element: <Documentation />
           }
         ]
       },
