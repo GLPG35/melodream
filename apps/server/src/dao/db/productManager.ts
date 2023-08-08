@@ -1,5 +1,6 @@
 import { AddProduct, UpdateProduct } from '../../types'
 import { CustomError, createURL } from '../../utils'
+import MailManager from './mailManager'
 import Product from './models/Product'
 import UserManager from './userManager'
 
@@ -42,7 +43,7 @@ class ProductManager {
 
 		return Product.paginate(owner ? { owner, status: true, ...query } : { status: true, ...query } || { status: true }, {
 			stock: { $gte: 1 },
-			limit: limit ? limit : 10,
+			limit: limit ? limit : 12,
 			page: page ? page : 1,
 			sort: typeof sort !== 'object' ?
 			{ createdAt: sort || 'desc' }
@@ -142,8 +143,6 @@ class ProductManager {
 	parseOwner = async (email: string) => {
 		const users = new UserManager()
 
-		console.log(email)
-		
 		return users.getUser(email)
 		.then(user => {
 			if (!user) throw new CustomError('User not found', 404)
@@ -158,7 +157,18 @@ class ProductManager {
 
 		if (!user) throw new CustomError('User not found', 404)
 
-		if (user.userType === 'admin') return undefined
+		if (user.userType === 'admin') {
+			const mails = new MailManager()
+			const productOwner = await Product.findOne({ _id: id }).populate<{ owner: { id: string, email: string, userType: string } }>('owner')
+
+			if (!productOwner) throw new CustomError('Product does not exist', 404)
+			if (!productOwner.owner) return undefined
+			if (productOwner.owner.userType === 'admin') return undefined
+			
+			mails.deletedProduct(productOwner.owner.email)
+			
+			return undefined
+		}
 
 		return Product.findOne({ _id: id, owner: user.id })
 		.then(doc => {

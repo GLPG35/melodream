@@ -30,6 +30,10 @@ export interface User {
 	pic?: string
 }
 
+export interface DashboardUser extends User {
+	id: string
+}
+
 export interface Category {
 	id: string,
 	name: string

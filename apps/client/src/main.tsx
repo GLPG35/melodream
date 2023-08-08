@@ -28,6 +28,8 @@ import Docs from './pages/Docs'
 import DocsHome from './pages/Docs/Home'
 import Profile from './pages/Profile'
 import Documentation from './pages/Dashboard/Documentation'
+import DeleteUsers from './pages/Dashboard/DeleteUsers'
+import UpdateUser from './pages/Dashboard/UpdateUser'
 
 const router = createBrowserRouter([
   {
@@ -123,6 +125,14 @@ const router = createBrowserRouter([
           {
             path: 'addUser',
             element: <AddUser />
+          },
+          {
+            path: 'updateUser',
+            element: <UpdateUser />
+          },
+          {
+            path: 'deleteUsers',
+            element: <DeleteUsers />
           },
           {
             path: 'documentation',

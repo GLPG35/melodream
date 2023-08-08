@@ -51,8 +51,7 @@ class MailManager {
 	}
 
 	resetPassword = async (email: string) => {
-	const users = new UserManager()
-
+		const users = new UserManager()
 		const user = await users.getUser(email)
 
 		if (!user) throw new CustomError('User not found', 404)
@@ -86,6 +85,72 @@ class MailManager {
 				this.sendMail(email, subject, content)
 			})
 		})
+	}
+
+	deletedProduct = async (email: string) => {
+		const users = new UserManager()
+		const user = await users.getUser(email)
+
+		if (!user) throw new CustomError('User not found', 404)
+
+		const subject = 'Product deleted from Melodream'
+		const content = `
+			<p style="margin: 0;">Hello ${user.name},</p>
+			<p style="margin: 0;">We've deleted one of your products because it didn't pass our quality standards.</p>
+			<p style="margin: 0;">If you think this is a mistake, please answer this email and we'll review it right away.</p>
+		`
+
+		this.sendMail(email, subject, content)
+	}
+
+	deletedUsers = async (usersArray: string[]) => {
+		const users = new UserManager()
+
+		return Promise.allSettled(
+			usersArray.map(async email => {
+				return new Promise(async (res, rej) => {
+					const user = await users.getUser(email)
+
+					if (!user) return rej(new CustomError('User not found', 404))
+
+					const subject = 'Your Melodream account was deleted'
+					const content = `
+						<p style="margin: 0;">Hello ${user.name},</p>
+						<p style="margin: 0;">We've recently deleted your account because it was not respecting the site policies.</p>
+						<p style="margin: 0;">If you have any problem with our decision, please answer this email and we'll talk it so we can achieve an agreement.</p>
+					`
+
+					this.sendMail(email, subject, content)
+
+					return res(true)
+				})
+			})
+		)
+	}
+
+	deletedInactiveUsers = async (usersArray: string[]) => {
+		const users = new UserManager()
+
+		return Promise.allSettled(
+			usersArray.map(async email => {
+				return new Promise(async (res, rej) => {
+					const user = await users.getUser(email)
+
+					if (!user) return rej(new CustomError('User not found', 404))
+
+					const subject = 'Your Melodream account was deleted'
+					const content = `
+						<p style="margin: 0;">Hello ${user.name},</p>
+						<p style="margin: 0;">We've recently deleted your account because it was inactive for more than 30 days.</p>
+						<p style="margin: 0;">If you want you can create a new account clicking on this link: <a href="${process.env.BASE_URL_CLIENT}/login">${process.env.BASE_URL_CLIENT}/login</a></p>.</p>
+					`
+
+					this.sendMail(email, subject, content)
+
+					return res(true)
+				})
+			})
+		)
 	}
 
 	checkToken = (token: string, del: boolean) => {

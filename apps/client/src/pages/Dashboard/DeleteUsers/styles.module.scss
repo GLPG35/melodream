@@ -1,0 +1,252 @@
+.deleteUsers {
+	width: 100%;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	gap: 1em;
+	position: relative;
+
+	.topBar {
+		width: 100%;
+		height: max-content;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0.8em 2em 0 0;
+
+		.actions {
+			display: flex;
+			align-items: center;
+			gap: 0.5em;
+			
+			.selectAll {
+				margin-right: 1.5em;
+				
+				button {
+					margin-left: auto;
+					height: 1.8em;
+					width: 1.8em;
+					border: 3px solid var(--accent-color);
+					border-radius: 5px;
+					background-color: transparent;
+					cursor: pointer;
+					transition: 0.2s ease-out;
+					display: flex;
+					align-items: center;
+					justify-content: center;
+	
+					&.active {
+						background-color: var(--accent-color);
+					}
+					
+					.icon {
+						font-size: 0.9em;
+						color: var(--bg-color);
+					}
+				}
+			}
+	
+			button.delete {
+				border-radius: 15px;
+				padding: 1em 1.5em;
+				font-size: 1em;
+				font-weight: 600;
+				font-family: 'Montserrat', sans-serif;
+				background-color: var(--bg-color);
+				color: var(--accent-color);
+				border: 3px solid var(--accent-color);
+				transition: 0.2s ease-out;
+	
+				&:hover:not(:disabled) {
+					cursor: pointer;
+					background-color: var(--accent-color);
+					color: var(--bg-color);
+				}
+	
+				&:disabled {
+					opacity: 0.5;
+					cursor: not-allowed;
+				}
+			}
+
+			.moreOptions {
+				position: relative;
+				cursor: pointer;
+
+				.dots {
+					padding: 1em;
+				}
+
+				.moreWrapper {
+					position: absolute;
+					right: 0;
+					width: max-content;
+					height: max-content;
+					padding: 0.5em;
+					top: 4.5em;
+					background-color: var(--accent-color);
+					border-radius: 15px;
+					z-index: 30;
+					color: var(--bg-color);
+					display: flex;
+					flex-direction: column;
+					border: 2px solid var(--bg-color);
+					
+					.option {
+						display: flex;
+						gap: 0.5em;
+						align-items: center;
+						font-weight: 600;
+						padding: 1em;
+						transition: 0.2s ease-out;
+						border-radius: 15px;
+
+						&:hover {
+							background-color: var(--accent-color-dark);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	.usersList {
+		width: 100%;
+		height: 100%;
+		overflow-y: auto;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(22em, 1fr));
+		grid-auto-rows: max-content;
+		gap: 2em;
+		padding: 2em;
+		position: relative;
+
+		.confirmDeleteWrapper {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			background-color: var(--bg-color-dark-op);
+			display: flex;
+			align-items: center;
+			justify-content: center;
+
+			.confirmDelete {
+				padding: 2em;
+				display: flex;
+				flex-direction: column;
+				gap: 2em;
+				border-radius: 25px;
+				background-color: var(--bg-color);
+
+				.top {
+					display: flex;
+					gap: 1em;
+					align-items: center;
+					font-weight: 600;
+					font-size: 1.2em;
+				}
+
+				.bottom {
+					display: flex;
+					gap: 1.5em;
+					width: 100%;
+					align-items: center;
+
+					button {
+						font-size: 0.9em;
+						border: none;
+						outline: none;
+						border-radius: 15px;
+						padding: 0.8em 1.5em;
+						font-weight: 600;
+						font-family: 'Montserrat', sans-serif;
+						background-color: var(--bg-color);
+						color: var(--accent-color);
+						border: 3px solid var(--accent-color);
+						transition: 0.2s ease-out;
+
+						&:hover {
+							cursor: pointer;
+							color: var(--bg-color);
+							background-color: var(--accent-color);
+						}
+					}
+				}
+			}
+		}
+
+		.user {
+			width: 100%;
+			height: max-content;
+			display: flex;
+			gap: 1.5em;
+			padding: 1em 1.5em;
+			border-radius: 15px;
+			background-color: var(--bg-color);
+			cursor: pointer;
+			align-items: center;
+
+			.pic {
+				height: 3em;
+				width: 3em;
+				aspect-ratio: 1 / 1;
+				border-radius: 10px;
+				overflow: hidden;
+
+				img {
+					width: 100%;
+					height: 100%;
+					object-fit: cover;
+				}
+			}
+
+			.info {
+				display: flex;
+				justify-content: center;
+				flex-direction: column;
+				gap: 0.2em;
+				width: 60%;
+				user-select: none;
+				
+				.name {
+					font-weight: 600;
+					width: 100%;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+
+				.email {
+					font-size: 0.9em;
+					width: 100%;
+					overflow: hidden;
+					white-space: nowrap;
+					text-overflow: ellipsis;
+				}
+			}
+
+			button {
+				margin-left: auto;
+				height: 1.8em;
+				width: 1.8em;
+				border: 3px solid var(--accent-color);
+				border-radius: 5px;
+				background-color: transparent;
+				cursor: pointer;
+				transition: 0.2s ease-out;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+
+				&.active {
+					background-color: var(--accent-color);
+				}
+				
+				.check {
+					font-size: 0.9em;
+					color: var(--bg-color);
+				}
+			}
+		}
+	}
+}

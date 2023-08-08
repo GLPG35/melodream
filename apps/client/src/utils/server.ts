@@ -671,3 +671,99 @@ export const manageUserDoc = (email: string, id: number, approve: boolean) => {
 		})
 	})
 }
+
+export const manageUsers = () => {
+	const options: RequestInit = {
+		method: 'GET',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	return fetch('/api/users', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
+		})
+	})
+}
+
+export const deleteUsers = (users: string[]) => {
+	const options: RequestInit = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include',
+		body: JSON.stringify({
+			users
+		})
+	}
+
+	return fetch('/api/users', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
+		})
+	})
+}
+
+export const deleteInactiveUsers = () => {
+	const options: RequestInit = {
+		method: 'DELETE',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include'
+	}
+
+	return fetch('/api/users/inactive', options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
+		})
+	})
+}
+
+export const updateUser = (uid: string, user: { name: string, userType: string }) => {
+	const options: RequestInit = {
+		method: 'PUT',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		credentials: 'include',
+		body: JSON.stringify(user)
+	}
+
+	return fetch(`/api/users/${uid}`, options)
+	.then(res => {
+		if (res.ok) {
+			return res.json()
+			.then(res => res.message)
+		}
+
+		return res.json()
+		.then(err => {
+			throw new Error(err.message)
+		})
+	})
+}

@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import User from './models/User'
 import { CustomError } from '../../utils'
 import CartManager from './cartManager'
+import MailManager from './mailManager'
 
 const carts = new CartManager()
 
@@ -56,6 +57,51 @@ class UserManager {
 
 	getUser = (email: string) => {
 		return User.findOne({ email })
+	}
+
+	getUsers = () => {
+		return User.find({})
+	}
+
+	deleteUsers = async (users: string[]) => {
+		const mails = new MailManager()
+		await mails.deletedUsers(users)
+		
+		return User.deleteMany({ email: { $in: users } })
+	}
+
+	deleteInactiveUsers = async () => {
+		return User.find({})
+		.then(async users => {
+			const filterUsers = users.filter(x => x.lastConnection)
+
+			const inactiveUsers = filterUsers.filter(({ lastConnection }) => {
+				const currentDate = Date.now()
+				const parseTimestamp = new Date(lastConnection).getTime()
+				
+				const diff = (currentDate - parseTimestamp) / (1000 * 3600 * 24)
+				
+				return diff > 30
+			})
+
+			const parseInactiveUsers = inactiveUsers.map(x => x.email)
+
+			if (!parseInactiveUsers.length) throw new CustomError('There are no inactive users', 404)
+
+			const mails = new MailManager()
+			await mails.deletedInactiveUsers(parseInactiveUsers)
+
+			return User.deleteMany({ email: { $in: parseInactiveUsers } })
+		})
+	}
+
+	updateUser = (id: string, { name, userType }: { name: string, userType: string }) => {
+		return User.findOneAndUpdate({ _id: id }, { name, userType }, { new: true })
+		.then(doc => {
+			if (!doc) throw new CustomError('User not found', 404)
+
+			return doc
+		})
 	}
 
 	getUsersDocs = () => {
