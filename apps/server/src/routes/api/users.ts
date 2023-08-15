@@ -14,7 +14,7 @@ router.get('/', checkToken, (req, res) => {
 })
 
 router.put('/:uid', checkToken, (req, res, next) => {
-	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ success: false, message: 'User authorization failed' })
+	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType === 'admin')) return res.status(403).send({ success: false, message: 'User authorization failed' })
 
 	const { uid } = req.params
 	const { name, userType } = req.body
@@ -25,7 +25,7 @@ router.put('/:uid', checkToken, (req, res, next) => {
 })
 
 router.delete('/', checkToken, (req, res, next) => {
-	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ success: false, message: 'User authorization failed' })
+	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType === 'admin')) return res.status(403).send({ success: false, message: 'User authorization failed' })
 	
 	const { body } = req
 	
@@ -35,7 +35,7 @@ router.delete('/', checkToken, (req, res, next) => {
 })
 
 router.delete('/inactive', checkToken, (req, res, next) => {
-	if (!(req.token && verifyToken(req.token))) return res.status(403).send({ success: false, message: 'User authorization failed' })
+	if (!(req.token && verifyToken(req.token) && verifyToken(req.token).userType === 'admin')) return res.status(403).send({ success: false, message: 'User authorization failed' })
 
 	return users.deleteInactiveUsers()
 	.then(() => res.send({ success: true, message: 'Users(s) deleted successfully' }))

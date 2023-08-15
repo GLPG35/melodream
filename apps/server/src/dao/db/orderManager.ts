@@ -4,6 +4,7 @@ import { PopulatedCartDocument } from './models/Cart'
 import UserManager from './userManager'
 import ProductManager from './productManager'
 import { CustomError } from '../../utils'
+import MailManager from './mailManager'
 
 
 class OrderManager {
@@ -41,6 +42,13 @@ class OrderManager {
 				await carts.deleteCart(cid)
 	
 				return Order.create({ amount, products: populatedCart.products, user, userInfo })
+				.then(async order => {
+					const mails = new MailManager()
+
+					mails.successfulOrder(email, order.id)
+
+					return order
+				})
 			}
 
 			throw new CustomError('Not enough stock of selected products', 409)

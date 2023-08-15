@@ -153,6 +153,23 @@ class MailManager {
 		)
 	}
 
+	successfulOrder = async (email: string, oid: string) => {
+		const users = new UserManager()
+
+		const user = await users.getUser(email)
+
+		if (!user) throw new CustomError('User not found', 404)
+
+		const subject = 'Your order on Melodream has been successful!'
+		const content = `
+			<p style="margin: 0;">Hello ${user.name},</p>
+			<p style="margin: 0;">We wanted to tell you that your order has been completed successfully.</p>
+			<p style="margin: 0;">To view your order details please click on this link: <a href="${process.env.BASE_URL_CLIENT}/orders/${oid}">${process.env.BASE_URL_CLIENT}/orders/${oid}</a></p>
+		`
+
+		this.sendMail(email, subject, content)
+	}
+
 	checkToken = (token: string, del: boolean) => {
 		return Token.findOne({ token })
 		.then(async doc => {
